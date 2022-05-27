@@ -1,0 +1,301 @@
+
+
+<div class="content-container" *ngIf="html">
+
+  <div class="page-content-header d-flex">
+    <h2>Users</h2>
+    <div class="ms-auto c-header-btn">
+      <a class="btn btn-primary" (click)="openSm(mediaammmodel,'',0)">Add
+        New
+        User</a>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0 list-container">
+    <div class="card-header d-flex">
+      <h3>User Lists</h3>
+      <div class="ms-auto search-data">
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="table-list-container">
+        <table mat-table [dataSource]="dataSource" class="w-100">
+
+          <!-- Image Column -->
+          <ng-container matColumnDef="profilePic">
+            <th mat-header-cell *matHeaderCellDef> Image </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="user-i"><img src="{{element.profilePic}}" onError="this.src='./assets/images/avatar.png'" />
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="companyName">
+            <th mat-header-cell *matHeaderCellDef> Company Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.companyName}} </td>
+          </ng-container>
+
+          <!-- email Column -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+          </ng-container>
+
+          <!-- phone Column -->
+          <ng-container matColumnDef="mobileNo">
+            <th mat-header-cell *matHeaderCellDef> Mobile No </th>
+            <td mat-cell *matCellDef="let element"> {{element.mobileNo}} </td>
+          </ng-container>
+
+          <!-- empcode Column -->
+          <ng-container matColumnDef="employeeCode">
+            <th mat-header-cell *matHeaderCellDef> Emp. Code </th>
+            <td mat-cell *matCellDef="let element"> {{element.employeeCode}} </td>
+          </ng-container>
+
+          <!-- resion Column -->
+          <ng-container matColumnDef="region">
+            <th mat-header-cell *matHeaderCellDef> Region </th>
+            <td mat-cell *matCellDef="let element"> {{element.region}} </td>
+          </ng-container>
+
+          <!-- role Column -->
+          <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef> Role </th>
+            <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+          </ng-container>
+
+          <!-- status Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <!-- <td mat-cell *matCellDef="let element"> {{element.status}} </td> -->
+            <td mat-cell *matCellDef="let element">
+              <mat-slide-toggle (change)="changeStatus($event,element.id)" [checked]="element.status==1">
+              </mat-slide-toggle>
+            </td>
+          </ng-container>
+
+          <!-- action Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef style="width: 10%;"> Action </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="d-flex action-btn">
+                <a class="btn icons icon-pencil" (click)="openSm(mediaammmodel,element,1)"></a>
+                <!-- <a class="btn icons icon-eye"  (click)="viewUser(element)" data-bs-toggle="modal"
+                        data-bs-target="#view-user"></a> -->
+                <a class="btn icons icon-eye" (click)="openSm(mediaammmodel,element,2)" data-bs-toggle="modal"
+                  data-bs-target="#view-user"></a>
+
+                <a data-bs-toggle="modal" [hidden]="element?.roleId==2" (click)="openSm(deleteModel,element,3)" data-bs-target="#delete-user"
+                  class="btn icons icon-trash"></a>
+              </div>
+            </td>
+          </ng-container>
+         
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No Data Found!
+            </td>
+        </tr>
+        </table>
+        <app-loader3></app-loader3>
+        <mat-paginator [pageSizeOptions]="[10,20, 30,40,50,100,150]" aria-label="Select page of periodic elements">
+        </mat-paginator>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--------Add User--------->
+
+<div class="modal fade" id="add-user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <app-add-user [movie]="movieSelected" (myOutputVal)="readOutputValueEmitted($event)"></app-add-user>
+</div>
+<ng-template #deleteModel let-modal>
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Delete User
+      </h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form>
+      <div class="modal-body">
+        <div class="add-products">
+          Are You Sure ....
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" aria-label="Close"
+          (click)="modal.dismiss('Cross click')">Close</button>
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="deleteUser()">Delete</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<ng-template #mediaammmodel let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">{{headingText}}
+      </h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form [formGroup]="emplyeeForm" (ngSubmit)="onSubmit()">
+      <div class="modal-body">
+        <div class="add-products">
+          <div class="form-group">
+            <label for="name">Name <span class="text-danger">*</span>:</label>
+            <input type="text" id="name" [readonly]="editMode==2" name="name" formControlName="name"
+              placeholder="Enter Name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+              <div *ngIf="f.name.errors.required"> Name is required
+              </div>
+              <div *ngIf="f.name.errors.pattern">Enter only characters.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="name">User Name <span class="text-danger">*</span>:</label>
+            <input type="text" id="userename" (keypress)="keyDown($event)" (onpaste)="checkWhitespace($event)" [readonly]="editMode==2" name="userename" formControlName="userName"
+              placeholder="Enter UserName" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.userName.errors }" />
+            <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">
+              
+              <div *ngIf="f.userName.errors.required"> User Name is required
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="name">Email <span class="text-danger">*</span>:</label>
+            <input type="text" id="email" (keypress)="keyDown($event)" (onpaste)="checkWhitespace($event)" [readonly]="editMode==2" name="email" formControlName="email"
+              placeholder="Enter Email Id" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">Email is required</div>
+              <div *ngIf="f.email.errors.email">Email must be a valid email
+                address</div>
+            </div>
+          </div>
+
+          <div class="form-group phonenumber">
+            <label for="name">Mobile Number(No Spaces) <span class="text-danger">*</span>:</label>
+            <ngx-intl-tel-input [cssClass]="'custom'" class="form-control" [preferredCountries]="preferredCountries"
+            [enableAutoCountrySelect]="false" [enablePlaceholder]="true" [searchCountryFlag]="true"
+            [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+            [selectedCountryISO]="CountryISO.India"  (keypress)="keyDown($event)"
+            (onpaste)="checkWhitespace($event)" formControlName="mobileNo" id="mobileNumber"
+            placeholder="Enter Phone Number" [phoneValidation]="true"
+            [ngClass]="{ 'is-invalid': f.mobileNo.touched && f.mobileNo.errors }">
+          </ngx-intl-tel-input>
+           
+
+            <div *ngIf="submitted && f.mobileNo.errors" class="invalid-feedback">
+
+              <div *ngIf="f.mobileNo.errors.required"> Mobile Number is required
+              </div>
+              <div *ngIf="f.mobileNo.errors.minlength">Mobile Number must be 10
+                digit
+
+              </div>
+              <div *ngIf="f.mobileNo.errors.maxLength">Mobile Number miximum 10 digit
+              </div>
+              <div *ngIf="f.mobileNo.errors.pattern">Enter only number.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="name">Employee Id <span class="text-danger">*</span>:</label>
+            <input type="text" id="name" (keypress)="keyDown($event)" (onpaste)="checkWhitespace($event)"[readonly]="editMode==2" name="Employee" formControlName="employeeCode"
+              placeholder="Enter Employee Id" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.employeeCode.errors }" />
+            <div *ngIf="submitted && f.employeeCode.errors" class="invalid-feedback">
+              
+              <div *ngIf="f.employeeCode.errors.required">Employee Id is required</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group" [hidden]="status==false">
+                <label for="password">Password <span class="text-danger">*</span>:</label>
+                <input type="password" id="password" (keypress)="keyDown($event)" (onpaste)="checkWhitespace($event)" name="password" formControlName="password" class="form-control"
+                  placeholder="Enter Password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.password.errors.required">Password is required</div>
+                  <div *ngIf="f.password.errors.minlength">Password must be at least 6
+                    characters
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group" [hidden]="status==false">
+                <label for="name">Confirm Password <span class="text-danger">*</span>: </label>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
+                  formControlName="confirmPassword" placeholder="Enter Confirm  Password"
+                  [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
+                <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                  <div *ngIf="f.confirmPassword.errors.required">Confirm Password is
+                    required</div>
+                  <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Select Region <span class="text-danger">*</span>:</label>
+                <select class="form-select" formControlName="regionId"
+                  [ngClass]="{ 'is-invalid': submitted && f.regionId.errors }">
+                  <option disabled value="">----Select----</option>
+                  <option [disabled]="editMode==2" *ngFor="let region of regionRecord" [value]="region.id">
+                    {{region.name}}</option>
+                  regionId
+                </select>
+                <div *ngIf="submitted && f.regionId.errors" class="invalid-feedback">
+                  <div *ngIf="f.regionId.errors.required">Region Name is required</div>
+
+                </div>
+
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Assign Role <span class="text-danger">*</span>:</label>
+                <select class="form-select" formControlName="roleId"
+                  [ngClass]="{ 'is-invalid': submitted && f.roleId.errors }">
+                  <option disabled value="">----Select----</option>
+                  <option [disabled]="editMode==2" *ngFor="let role of roleRecord" [value]="role.id">{{role?.name}}
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.roleId.errors" class="invalid-feedback">
+                  <div *ngIf="f.roleId.errors.required">Role Name is required</div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" [hidden]="editMode==2" aria-label="Close"
+          (click)="modal.dismiss('Cross click')">Close</button>
+        <button type="submit" class="btn btn-success" [hidden]="editMode==2"
+          >{{buttonText}}</button>
+      </div>
+    </form>
+  </div>
+
+</ng-template>

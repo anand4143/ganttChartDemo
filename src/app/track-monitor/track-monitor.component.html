@@ -1,0 +1,79 @@
+
+
+
+<div class="content-container" *ngIf="html">
+
+  <div class="page-content-header d-flex">
+    <h2>Track & Monitor</h2>
+    <div class="ms-auto">
+      <button class="btn btn-primary" style="right: 0; margin-right: 10px;" mat-button
+      (click)="accordion.openAll()">Expand All</button>
+    <button class="btn btn-primary" style=" right: 150px; " mat-button
+      (click)="accordion.closeAll()">Collapse All</button>
+    </div>
+   
+  </div>
+
+
+
+  <app-loader3></app-loader3>
+  <div class="track-monitor">
+
+    <mat-accordion multi>
+      <mat-expansion-panel *ngFor="let panel of projectRecord">
+        <mat-expansion-panel-header (click)="getRecord(panel)">
+          <mat-panel-title>{{panel.name}}</mat-panel-title>
+          <mat-panel-description>
+            <!-- <mat-icon>delete</mat-icon> -->
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="table-list-container">
+          <table class="table mb-0" *ngFor="let element of panel.project;let i = index">
+            <tr style="background-color: #F6F7FB;">
+              <th style="width:10%; padding:15px 15px;">S. No.</th>
+              <th>Product Name</th>
+              <th style="width:10%; text-align: right; padding:15px 15px;">Action</th>
+            </tr>
+            <tr>
+              <td>{{i+1}}</td>
+              <td>{{element.projectName}}</td>
+              <td>
+                <div class="d-flex action-btn justify-content-end pe-0">
+                  <mat-icon class="btn" (click)="grandChart(element)" matTooltip="Gantt Chart"
+                    [matTooltipPosition]="'above'">stacked_bar_chart
+                  </mat-icon>
+                  <button type="button" (click)="exportAsXLSX(element.id)" class="btn" matTooltip="Export To Excel"
+                    [matTooltipPosition]="'above'"><i class="fa fa-file-excel-o"></i></button>
+                  <mat-icon class="btn" matTooltip="View" [matTooltipPosition]="'above'" (click)="ViewDetail(element)">
+                    visibility</mat-icon>
+                 
+                </div>
+              </td>
+            </tr>
+          </table>
+
+
+        </div>
+
+      </mat-expansion-panel>
+
+
+
+    </mat-accordion>
+
+  </div>
+
+</div>
+
+<ejs-treegrid style="display: none;"  #grid [dataSource]='data' childMapping='children' height='220'
+(toolbarClick)='toolbarClick($event)' [allowPaging]='true' [allowExcelExport]='true' [treeColumnIndex]='1'
+[toolbar]='toolbar'>
+<e-columns>
+  <e-column field='type' headerText='Task Type' textAlign='Right' width=90></e-column>
+  <e-column field='name' headerText='Task Name' textAlign='Left' width=250></e-column>
+  <e-column field='startDate' headerText='Start Date' textAlign='Right' format='yMd' width=120></e-column>
+  <e-column field='endDate' headerText='End Date' textAlign='Right' format='yMd' width=120></e-column>
+  <e-column field='status' headerText='Task Status' textAlign='Right' width=110></e-column>
+</e-columns>
+</ejs-treegrid>

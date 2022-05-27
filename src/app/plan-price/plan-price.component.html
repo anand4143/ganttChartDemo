@@ -1,0 +1,222 @@
+<app-header></app-header>
+<div class="innerbanner">
+    <div class="container py-0 py-md-5 text-center">
+        <h1>Flexible pricing for Flexible teams</h1>
+    </div>
+</div>
+
+<section class="py-4">
+    <div class="container">
+
+        <div class="py-5">
+            <img src="../../assets/images/price.jpg" class="img-fluid price-img"/>
+        </div>
+
+        <div class="plan-table mt-0">
+            <div class="d-flex justify-content-center align-items-center changetoggle mb-5">
+                <span class="me-2">Monthly</span>
+                <div class="form-check form-switch text-center btn-t mb-0">
+                    <input class="form-check-input text-center input-t" (change)="changePackage($event,'1')"
+                        type="checkbox" id="flexSwitchCheckChecked" [checked]="checked">
+                    <label class="form-check-label" for="flexSwitchCheckChecked"></label>
+                </div>
+                <span class="ms-2">Yearly</span>
+            </div>
+            <div class="plansdesktop">
+                <table class="table mb-4">
+                    <tr>
+                        <td class="plan-top" *ngFor="let package of planList" style="width: 20%; position: relative;">
+                            <div class="pland-box">
+                                <h3>{{package.packageName}}</h3>
+                                <div class="pricep" *ngIf="showAnuual==false">
+                                    <div *ngIf="package.id==5" style="font-size: 18px;">
+                                         Request a Quote
+                                    </div>
+                                    <div *ngIf="package.id!=5">
+                                        $ {{package.userMonthlyPrice}}
+                                    </div>
+
+                                    <span>Per Month</span>
+                                </div>
+                                <div class="pricep" *ngIf="showAnuual==true">
+                                    <div *ngIf="package.id==5" style="font-size: 18px;">
+                                         Request a Quote
+                                    </div>
+                                    <div *ngIf="package.id!=5">
+                                        $ {{package.annualPrice}}
+                                    </div>
+                                    <span>Annual Price</span>
+                                </div>
+                                <p class="plandes" *ngIf="package.id==1">Ideal for users who want to assess goodness of
+                                    fit prior to purchase.</p>
+                                <p class="plandes" *ngIf="package.id==2">Ideal for small teams of up to 5 people.</p>
+                                <p class="plandes" *ngIf="package.id==3">Ideal for teams of up to 10 people.</p>
+                                <p class="plandes" *ngIf="package.id==4">Ideal for teams of up to 25 people.</p>
+                                <p class="plandes" *ngIf="package.id==5">Ideal for teams of 25+ people.</p>
+                                <div class="plan-btn" *ngIf="package.id==1">
+                                    <a (click)="purchasePlan(package)" class="btn btn-success rounded-pill">Start Trial
+                                        Now</a>
+                                    <label class="text-center text-primary">No credit card required</label>
+                                </div>
+                                <div class="plan-btn" *ngIf="package.id==2">
+                                    <a (click)="purchasePlan(package)" class="btn btn-primary">Signup Now</a>
+                                </div>
+                                <div class="plan-btn" *ngIf="package.id==3">
+                                    <a (click)="purchasePlan(package)" class="btn btn-primary">Signup Now</a>
+                                </div>
+                                <div class="plan-btn" *ngIf="package.id==4">
+                                    <a (click)="purchasePlan(package)" class="btn btn-primary">Signup Now</a>
+                                </div>
+                                <div class="plan-btn" *ngIf="package.id==5">
+                                    <a routerLink="/contact" class="btn btn-secondary rounded-pill">Contact
+                                        Us</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="compareplan text-center">
+                    <a class="btn" data-bs-toggle="collapse" href="#comparePlan" role="button" aria-expanded="false"
+                        aria-controls="comparePlan">
+                        Compare plan features
+                    </a>
+                </div>
+
+                <div class="collapse show plan-table" id="comparePlan">
+                    <table class="table">
+                        <tr>
+                            <td *ngFor="let package of planList"
+                                style="width: 20%;  position: relative; padding-bottom: 55px;">
+                                <h3>{{package.packageName}}</h3>
+                                <ul class="list-unstyled plan-benifits">
+                                    <li *ngIf="package.id==1">Unlimited Users</li>
+                                    <!-- <li *ngIf="package.id==1">Unlimited Products</li> -->
+                                    <li *ngIf="package.id==5">Unlimited Users</li>
+                                    <!-- <li *ngIf="package.id==5">Unlimited Products</li> -->
+
+                                    <li *ngIf="package.id!=1 && package.id!=5">{{package.userCount}} Users</li>
+                                    
+                                    <div *ngFor="let record of package.permissionRecord">
+                                        <div *ngIf="record.event==true">
+
+                                            <ul class="list-unstyled plan-benifits">
+                                                <li>{{record.Description}}</li>
+                                            </ul>
+
+                                        </div>
+
+
+
+                                    </div>
+                                    <div>
+                                        <div *ngIf="package.botSupport==true">
+
+                                            <ul class="list-unstyled plan-benifits">
+                                                <li>{{package.botSupportDescription}}</li>
+                                            </ul>
+
+                                        </div>
+                                        <div *ngIf="package.emailSupport==true">
+
+                                            <ul class="list-unstyled plan-benifits">
+                                                <li>{{package.emailSupportDescription}}</li>
+                                            </ul>
+
+                                        </div>
+                                        <div *ngIf="package.accountMaanagerSupport==true">
+
+                                            <ul class="list-unstyled plan-benifits">
+                                                <li>{{package.accountMaanagerSupportDescription}}</li>
+                                            </ul>
+
+                                        </div>
+                                        <div *ngIf="package.liveChatSupport==true">
+
+                                            <ul class="list-unstyled plan-benifits">
+                                                <li>{{package.liveChatSupportDescription}}</li>
+                                            </ul>
+
+                                        </div>
+                                        
+
+
+                 
+                                    </div>
+
+                                </ul>
+                                <div class="planaction-btn">
+                                    <div class="plan-btn" *ngIf="package.id==1">
+                                        <a (click)="purchasePlan(package)" style="padding:10px 30px;"
+                                            class="btn btn-success rounded-pill">Start Trial Now</a>
+                                    </div>
+                                    <div class="plan-btn" *ngIf="package.id==2">
+                                        <a (click)="purchasePlan(package)" class="btn btn-primary">Signup Now</a>
+                                    </div>
+                                    <div class="plan-btn" *ngIf="package.id==3">
+                                        <a (click)="purchasePlan(package)" class="btn btn-primary">Signup Now</a>
+                                    </div>
+                                    <div class="plan-btn" *ngIf="package.id==4">
+                                        <a (click)="purchasePlan(package)" class="btn btn-primary">Signup Now</a>
+                                    </div>
+                                    <div class="plan-btn" *ngIf="package.id==5">
+                                        <a routerLink="/contact" style="padding:10px 30px;"
+                                            class="btn btn-secondary rounded-pill">Contact Us</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="row mobile-show-plan">
+                <!-- Start Free-Trial Now -->
+                <!-- Contact Us -->
+                <div class="col-lg-4" *ngFor="let package of planList ">
+                    <div class="plan-box">
+                        <h3>{{package.packageName}}</h3>
+                        <div class="pricep" *ngIf="showAnuual==false">
+                            $ {{package.userMonthlyPrice}}<span>Per Month</span>
+                        </div>
+                        <div class="pricep" *ngIf="showAnuual==true">
+                            $ {{package.annualPrice}}<span>Annual Price</span>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lorem nunc, semper sed metus
+                            at, lacinia
+                            viverra leo.</p>
+
+                        <ul class="list-unstyled plan-benifits">
+                            <li>{{package.userCount}} User Per Month</li>
+                            <li>Price Per User Per Month Billed Annually</li>
+                            <li>Annual Fee for Team (Billed Annually)</li>
+                            <li>Price Per Additional User Per Month Billed Annually</li>
+                            <li>Price Per Additional User Per Month Billed Monthly</li>
+                        </ul>
+                        <div class="plan-btn" *ngIf="package.id==1">
+                            <a (click)="purchasePlan(package)" style="padding:10px 30px;"
+                                class="btn btn-success rounded-pill">Start Trial Now</a>
+                            <label>No credit card required</label>
+                        </div>
+                        <div class="plan-btn" *ngIf="package.id==2">
+                            <a (click)="purchasePlan(package)" class="btn btn-primary">Signup Now</a>
+                        </div>
+                        <div class="plan-btn" *ngIf="package.id==3">
+                            <a (click)="purchasePlan(package)" class="btn btn-primary">Signup Now</a>
+                        </div>
+                        <div class="plan-btn" *ngIf="package.id==4">
+                            <a (click)="purchasePlan(package)" class="btn btn-primary">Signup Now</a>
+                        </div>
+                        <div class="plan-btn" *ngIf="package.id==5">
+                            <a routerLink="/contact" style="padding:10px 30px;"
+                                class="btn btn-secondary rounded-pill">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<app-footer></app-footer>

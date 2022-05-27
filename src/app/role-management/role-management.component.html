@@ -1,0 +1,110 @@
+<div class="content-container" *ngIf='html'>
+
+  <div class="page-content-header d-flex">
+    <h2>Role Management</h2>
+    <div class="ms-auto c-header-btn">
+      <a href="#" class="btn btn-primary" (click)="openSm(addRole,'',0)" data-bs-toggle="modal"
+        data-bs-target="#add-role">Add New Role</a>
+      <a class="btn btn-success" (click)="rolePermissionLocat()">Role
+        Permission Management</a>
+    </div>
+  </div>
+
+
+  <div *ngIf="dataSource" cdkDrop class="workstream-managemnt" cdkDropList (cdkDropListDropped)="drop($event)"
+    [id]="dataSource[0]?.id || 0" [cdkDropListData]="dataSource" [cdkDropListConnectedTo]="['dataSource']">
+
+    <div class="card shadow-sm border-0" *ngFor="let role of dataSource; let i = index" cdkDrag>
+      <div class="card-body">
+        <span class="text-danger">{{errMessage}}</span>
+        <div class="d-flex">
+          <div class="showlist-name box-handler d-flex align-items-center" cdkDragHandle>
+            <mat-icon>grid_view</mat-icon>{{role.name}}
+          </div>
+
+          <div class="showlist-action ms-auto action-btn">
+            <mat-icon class="btn" data-bs-toggle="modal" (click)="openSm(addRole,role,1)">edit</mat-icon>
+            <mat-icon class="btn" (click)="openSm(addRole,role,2)">visibility</mat-icon>
+            <mat-icon class="btn" (click)="openSm(deletes,role,4)">delete</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <ng-template #addRole let-modal>
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{headingText}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')"
+          aria-label="Close"></button>
+      </div>
+      <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <div class="add-products">
+            <div class="form-group">
+              <div class="form-group">
+                <label>Role Name</label>
+                <input class="form-control" [readonly]='editMode==2' type="text" placeholder="Enter Name"
+                  formControlName="name" class="form-control" placeholder="Enter Name"
+                  [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                  <div *ngIf="f.name.errors.required"> Name is required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer" [hidden]="editMode==2">
+            <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-secondary"
+              data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success">{{buttonText}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- </div> -->
+  </ng-template>
+  <!-- </div> -->
+
+  <!--------Add role--------->
+
+  <ng-template #deletes let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><strong>Delete Role</strong></h5>
+        <button type="button" (click)="modal.dismiss('Cross click')" class="btn-close" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+
+      <form [formGroup]="deleteForm" (ngSubmit)="delete()">
+        <div class="modal-body">
+          <div class="form-group">
+            <span style="">
+              <h5><strong>are you sure you want to delete this item?</strong> </h5>
+            </span>
+
+          </div>
+          <div class="add-products create-goal">
+            <div class="form-group">
+              <label>To confirm deletion, please type <span class="text-danger ">DELETE</span> below!</label>
+              <input type="text" (input)="changeStatus($event)" pattern="DELETE" formControlName="name"
+                placeholder="DELETE" class="form-control">
+            </div>
+            <div *ngIf="deleteFromStatus && f5.name.errors" class="invalid-feedback">
+              <div *ngIf="f5.name.errors.required">required
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="modal-footer">
+        <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-secondary"
+          data-bs-dismiss="modal">Close</button>
+        <button type="button" [disabled]="deleteForm.invalid" (click)="delete()" data-bs-dismiss="modal"
+          class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </ng-template>

@@ -1,0 +1,182 @@
+
+  
+.cdk-drag-placeholder {
+    //   display: none;
+    //   opacity: 0;
+  }
+  
+  .cdk-drag-preview {
+      box-sizing: border-box;
+      box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.2),
+          0 8px 10px 1px rgba(0, 0, 0, 0.14),
+          0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  
+      background: #fff;
+      opacity: 0.3;
+  }
+  
+  .drop-inside {
+      border: 1px solid #00f;
+  }
+  
+  .drop-before {
+      border-top: 1px solid #00f;
+  }
+  
+  .drop-after {
+      border-bottom: 1px solid #00f;
+  }
+  
+  .node-title {
+    padding:10px 15px;
+    margin: 5px;
+    background: #F6F7FB;
+    border-radius: 2px;
+    .expand-icon {
+        cursor: pointer;
+        font-size: 25px;
+        width: 20px;
+        text-align: center;
+        color: #C5C5C5;
+        &::before {
+            content: "\f107";
+            font-family: FontAwesome;
+        }
+    }
+    .closed-icon {
+        cursor: pointer;
+        font-size: 25px;
+        width: 20px;
+        text-align: center;
+        color: #C5C5C5;
+        &::before {
+            content: "\f106";
+            font-family: FontAwesome;
+        }
+    }
+  }
+  
+  .node-children {
+      position: relative;
+      transition: height 0.2s;
+      margin-left: 40px;
+  }
+  .item-notes { 
+    margin-left:20px;
+    color:#aaa;
+   }
+
+   .product-list-view {
+       .cdk-drag {
+           background-color: #fff;
+           padding: 10px 15px;
+           box-shadow: 0 3px 9px rgb(0 0 0 / 8%);
+           margin-bottom: 15px;
+           .box-handler {
+               float: left;
+               margin-right: 5px;
+               margin-top: 4px;
+                height: 20px;
+           }
+           .node-children {
+            .cdk-drag {
+                background-color: transparent;
+                padding: 0;
+                box-shadow: none;
+                margin-bottom: 0;
+            }
+           }
+       }
+       
+   }
+
+   .goalsstatus {
+       span {
+           display: inline-block;
+           border-radius: 2px;
+           font-size: 12px;
+           color: #fff;
+           margin: 0 5px 0 10px;
+           padding: 0px 5px;
+       }
+   }
+   .duedate {
+       span {
+        display: inline-block;
+        border-radius: 2px;
+        font-size: 12px;
+        color: #000;
+        margin: 0 5px;
+        background-color: #fff;
+        padding: 0px 5px;
+       }
+       input {
+        background: #fff;
+        padding: 0px 10px;
+        border-radius: 2px;
+        width: 67px;
+        font-size: 12px;
+        color: #999;
+       }
+   }
+
+   .title-right {
+       button.btn{
+           padding: 0px;
+           height: 26px;
+            width: 32px;
+            mat-icon {
+                font-size: 22px;
+                color: #C5C5C5;
+            }
+            &:hover mat-icon{
+                color: #00B0F0;
+            }
+       }
+   }
+
+   .goals-title {
+       .btn {
+           padding: 0;
+           &:hover {color: #1941DF;}
+       }
+   }
+  
+.switch-wrap {
+    cursor: pointer;
+    background: #e4e4e4;
+    padding: 3px 4px;
+    width: 65px;
+    height: 22px;
+    border-radius: 20px;
+    margin: 0 10px 0px 10px;
+  }
+  .switch-wrap input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .switch {
+    height: 15px;
+    display: grid;
+    grid-template-columns: 0fr 1fr 1fr;
+    transition: 0.2s;
+  }
+  .switch::after {
+    content: "";
+    border-radius: 50%;
+    background: #09174e;
+    grid-column: 2;
+    transition: background 0.2s;
+    width: 20px;
+  }
+  
+  input:checked + .switch {
+    grid-template-columns: 2fr 1fr 0fr;
+  }
+  input:checked + .switch::after {
+    background-color: #1941df;
+  }
+ 

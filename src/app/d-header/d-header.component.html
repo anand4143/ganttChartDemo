@@ -1,0 +1,96 @@
+<div class="headerCompo">
+<div class="d-flex justify-content-end align-self-center">
+  <div class="Statussanp font-weight-bold">Status Snapshot</div>
+  <div class="select-header">
+    <div class="resion-select">
+      <select class="form-select" [(ngModel)]="selected" (ngModelChange)="selectRegions()">
+        <option disabled selected value="undefined">Region</option>
+        <option *ngFor="let region of regionRecord; let i = index" [value]="region.id">{{region?.name}}</option>
+      </select>
+    </div>
+
+    <!--<mat-form-field appearance="fill" class="resion-select">
+      <mat-label></mat-label>
+      <mat-select [(value)]="selectedResion">
+        <mat-option disabled>
+          Select Region
+        </mat-option>
+        <mat-option value="region.name" *ngFor="let region of regionRecord; let i = index"
+          (click)="selectRegions($event,region)">
+          {{region?.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>-->
+    
+    <div class="resion-select">
+      <select class="form-select" [(ngModel)]="projectRecord" (ngModelChange)="selectProject($event)">
+        <option disabled selected value="undefined">Product Name</option>
+        <option *ngFor="let project of projectRecod" [value]="project.id">
+          {{project?.projectName}}</option>
+      </select>
+    </div>
+
+    <!--<mat-form-field appearance="fill">
+      <mat-label>Product Name</mat-label>
+      <mat-select>
+        <mat-option value="" [disable]>-----Select-----</mat-option>
+        <mat-option value="option1" *ngFor="let project of projectRecod" (click)="selectProject(project)">
+          {{project?.projectName}}</mat-option>
+      </mat-select>
+    </mat-form-field>-->
+
+    <div class="resion-select">
+      <select class="form-select" value='Workstream' [(ngModel)]="selectWorkStreamId"
+        (ngModelChange)="selectWorkStream($event)">
+        <option disabled selected value="undefined">Workstream</option>
+        <option value="option1" *ngFor="let data of workSteamRecord" [value]='data.id'>
+          {{data.name}}
+        </option>
+      </select>
+    </div>
+    <!--<mat-form-field appearance="fill">
+      <mat-label>Workstream</mat-label>
+      <mat-select>
+        <mat-option value="option1" *ngFor="let data of workSteamRecord" (click)="selectWorkStream(data)">
+          {{data.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>-->
+
+
+  </div>
+  <div class="header-status text-end align-self-center">
+    <div class="launch-txt">Month<br>to Launch</div>
+    <span class="monthtolaunch1" *ngIf="month=='N/A'">&nbsp;{{month}}</span>
+    <span class="monthtolaunch" *ngIf="month!='N/A'">{{month}}</span>
+  </div>
+  <div class="header-notifications align-self-center">
+    <a href="#" class="btn icons icon-bell" routerLink="/notifications"><span>{{noification?.notification?.count}}</span></a>
+  </div>
+  <div class="logged-user align-self-center">
+    <div class="btn-group">
+
+      <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+
+        <span class="userImg"><img [src]="imgUrl"onerror="this.src='./assets/images/avatar.png'" /></span>
+        <span class="userName">{{employeeRecord?.name}}</span>
+        <span class="current-time"> {{ time | date: 'hh:mm:ss a' }}</span>
+      </button>
+
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" type="button" routerLink="/my-account"><i class="icons icon-user"></i> My
+            Account</a></li>
+        <li><a class="dropdown-item" type="button" routerLink="/system-management"><i class="icons icon-settings"></i>
+            Manage System</a></li>
+        <li><a class="dropdown-item" style="display: none;" type="button" routerLink="/chat-support"><i
+              class="icons icon-settings"></i>
+            Live Support</a></li>
+        <li><a class="dropdown-item" routerLink="/FAQs"  type="button"><i class="icons icon-call-out"></i> Tutorials & Support</a></li>
+        <li><button class="dropdown-item" (click)="logOut()" type="button"><i class="icons icon-login"></i>
+            Logout</button></li>
+      </ul>
+
+    </div>
+  </div>
+</div>
+</div>

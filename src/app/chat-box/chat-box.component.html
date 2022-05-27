@@ -1,0 +1,94 @@
+<div class="chat-box" [style.display]="chatIsToggled ? 'block' : 'none'">
+
+    <div [ngClass]="clostyle">
+
+        <div class="chat-header d-flex">
+            <div class="chatuser">
+                <img [src]="imgUrl">
+                <a href="javascript:void(0);">
+                    {{empInfo?.name}}
+                </a>
+            </div>
+
+            <button class="btn ms-auto" (click)="isCollapsed = !isCollapsed" [hidden]="isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+                <mat-icon>remove</mat-icon>
+
+            </button>
+            <button class="btn ms-auto" (click)="isCollapsed = !isCollapsed" [hidden]="!isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+                <i class="fa fa-window-restore" aria-hidden="true"></i>
+            </button>
+            <button class="btn" (click)="remove_me()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <!-----------Chat Section------------>
+        <div id="collapseExample" [ngbCollapse]="isCollapsed" >
+            <div class="chat-section" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+                <div class="chat-style" *ngFor="let msg of messageLists; let i = index" >
+                    <div class="avatar-user"><img [src]="imgUrl"></div>
+
+                    <app-loader3></app-loader3>
+                    <div class="chat-text">
+
+                        <h5><a href=" #">{{msg.name}}-{{msg.roomId}}</a></h5>
+                        <p *ngIf="msg.type=='text'">{{msg.message}}</p>
+                        <p *ngIf="msg.type=='file'">
+                            <img *ngIf="msg.ext=='zip'" class="img-thumbnail attach-preview"
+                                src="./assets/images/zipLogo.png">
+                            <img *ngIf="msg.ext=='doc'" class="img-thumbnail attach-preview"
+                                src="./assets/images/logodoc.png">
+                            <img *ngIf="msg.ext=='docm'" class="img-thumbnail attach-preview"
+                                src="./assets/images/logodoc.png">
+                            <img *ngIf="msg.ext=='docx'" class="img-thumbnail attach-preview"
+                                src="./assets/images/logodoc.png">
+
+                            <img *ngIf="msg.ext=='xlsx'" class="img-thumbnail attach-preview"
+                                src="./assets/images/excelLogo.png">
+                            <img *ngIf="msg.ext=='xls'" class="img-thumbnail attach-preview"
+                                src="./assets/images/excelLogo.png">
+                            <img *ngIf="msg.ext=='pdf'" class="img-thumbnail attach-preview"
+                                src="./assets/images/pdflogo.png">
+                            <img *ngIf="msg.ext=='png'" class="img-thumbnail attach-preview" [src]="msg.message">
+                            <img *ngIf="msg.ext=='jpg'" class="img-thumbnail attach-preview" [src]="msg.message">
+                            <img *ngIf="msg.ext=='jpeg'" class="img-thumbnail attach-preview" [src]="msg.message">
+
+                            <button class="btn btn-light" matTooltip="download" (click)="downloadFile(msg.image)"
+                                [matTooltipPosition]="'above'">
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                            </button>
+                        </p>
+                        <span class="chat-date" *ngIf="msg.createdAt "> {{msg.createdAt | date}}</span>
+                        <span class="chat-date" *ngIf="msg.createdAt==null">{{msg.date | date}}</span>
+                    </div>
+
+                </div>
+                <div *ngIf="formId?.name != typingUser">
+                    <div *ngIf="typing">
+                        {{typingUser}} is typing
+                    </div>
+                </div>
+            </div>
+
+            <!---------Chat Footer------------->
+            <div class="chat-footer" [formGroup]="chatForm" (ngSubmit)="sendMessage()">
+
+                <div class="chat-input">
+                    <textarea class="form-control" type="text" placeholder="Write a message" formControlName="message"
+                        (input)="update()" (keyup.enter)="sendMessage()"></textarea>
+                </div>
+                <div class="chatf-action d-flex">
+                    <div class="uploadFIle">
+                        <input type="file" (change)="uploadFile($event)" name="file" id="file" class="inputfile" />
+                        <label for="file">
+                            <p><i class="fa fa-paperclip"></i></p>
+                        </label>
+                    </div>
+                    <button class="btn btn-csend ms-auto" (click)="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- </div> -->

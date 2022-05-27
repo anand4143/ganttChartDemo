@@ -1,0 +1,355 @@
+<div class="discussion-container">
+    <div class="projdev-info">
+        <div class="row">
+
+            <div class="col-md-4">
+                <h5>Current Status</h5>
+                <select class="form-select" [ngClass]="{
+                    'bg-task-not-started':status === 'Not Started',
+                    'bg-task-started':status === 'Started',
+                    'bg-at-high-risk':status === 'Delayed',
+                    'bg-at-risk':status === 'At Risk',
+                    'bg-task-completed':status === 'Completed'
+                   
+                    }" [(ngModel)]='status' (change)="changeStatus()">
+
+                    <option disabled value="">Select Status</option>
+                    <option *ngFor="let employee of statusList" [value]='employee.title'> {{employee.title}} </option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <div class="assigment">
+
+
+                    <h5>Assigned to</h5>
+                    <ul class="list-inline assignees">
+
+                        <li class="list-inline-item" *ngFor="let emp of projectRecord" matTooltip="{{emp.name}}"
+                            [matTooltipPosition]="'above'" [matMenuTriggerFor]="menu"><img [src]="emp.imgUrl"
+                                onError="this.src='./assets/images/avatar.png'">
+                            <mat-menu #menu="matMenu">
+                                <div class="user-drop">
+                                    <img [src]="emp.imgUrl" onError="this.src='./assets/images/avatar.png'" />
+                                    {{emp.name}}
+                                </div>
+                                <button (click)="delete(emp.id)" class="btn remove-user-btn">Remove</button>
+                            </mat-menu>
+                        </li>
+
+
+                        <li class="list-inline-item">
+                            <!-- <i class="fa fa-plus" [matMenuTriggerFor]="belowMenu"></i> -->
+                            <angular2-multiselect [data]="employeeRecord" [(ngModel)]="selectedItems"
+                                [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                                (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
+                                (onDeSelectAll)="onDeSelectAll($event)">
+                            </angular2-multiselect>
+                        </li>
+
+                        <!-- <mat-menu #belowMenu="matMenu" yPosition="below">
+                        <ul class="list-unstyled users-dropdown">
+                            <li>
+
+                                <div class="asinee-user" *ngFor="let emp of employeeRecord"
+                                    (click)="taskAssigement(emp)">
+                                    <img [src]="emp?.imgUrls" onError="this.src='./assets/images/avatar.png'">
+                                    {{emp?.name}}
+                                </div>
+                            </li>
+
+                        </ul>
+                    </mat-menu> -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <h5>Start Date</h5>
+                <div class="duedate">
+                    <input matInput [matDatepicker]="picker2" class="w-100 border-0" (dateChange)="changeDate($event,'start')"
+                        placeholder="{{startDate | date}}" (click)="picker2.open()">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <h5>Finish Date</h5>
+                <div class="duedate">
+                    <input matInput [matDatepicker]="picker3"  (dateChange)="changeDate($event,'end')"
+                        placeholder="{{endDate | date}}" (click)="picker3.open()" class="finish-date w-100 border-0">
+                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3></mat-datepicker>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="task-dependencies" *ngIf="dependacyShow">
+        <h4>Dependencies</h4>
+        <p>Dependent on {{dependecyList2?.name}}</p>
+    </div>
+
+    <div class="attchedment-info">
+        <div class="popup-heading">
+            <div class="head-icon"><i class="fa fa-paperclip"></i></div>
+            <h3>
+                <h3>Attachments</h3>
+            </h3>
+        </div>
+
+        <div class="uploadFIle">
+            <input type="file" (change)="fileChange($event)" name="file" id="file" class="inputfile" />
+
+            <label for="file">
+                <app-loader *ngIf="uploadvalue"></app-loader>
+                <p *ngIf="uploadvalue==false"><span>browse files</span></p>
+            </label>
+        </div>
+
+        <div class="d-flex flex-wrap">
+
+            <div class="attach-preview" *ngFor="let files of fileRecord">
+                <button class="btn btn-download" ng-href="files.file" target="_blank" (click)="download(files)">
+                    <mat-icon>cloud_download</mat-icon>
+                </button>
+                <div *ngIf="files.ext==='zip'">
+                    <img src="./assets/images/zipLogo.png" />
+                </div>
+                <div *ngIf="files.ext==='png'">
+                    <img [src]="files.file" />
+                </div>
+                <div *ngIf="files.ext==='jpg'">
+                    <img [src]="files.file" />
+                </div>
+                <div *ngIf="files.ext==='jpeg'">
+                    <img [src]="files.file" />
+                </div>
+                <div *ngIf="files.ext==='pdf'">
+                    <img src="./assets/images/pdflogo.png" />
+                </div>
+                <div *ngIf="files.ext==='xlsx'">
+                    <img src="./assets/images/excelLogo.png" />
+                </div>
+                <div *ngIf="files.ext==='xls'">
+                    <img src="./assets/images/excelLogo.png" />
+                </div>
+                <div *ngIf="files.ext==='xlsb'">
+                    <img src="./assets/images/excelLogo.png" />
+                </div>
+
+                <div *ngIf="files.ext==='doc'">
+                    <img src="./assets/images/logodoc.png" />
+                </div>
+                <div *ngIf="files.ext==='docm'">
+                    <img src="./assets/images/logodoc.png" />
+                </div>
+                <div *ngIf="files.ext==='docx'">
+                    <img src="./assets/images/logodoc.png" />
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <div class="comments-section">
+        <div class="popup-heading">
+            <div class="head-icon"><i class="fa fa-comments"></i></div>
+            <h3>
+                <h3>Comments</h3>
+
+            </h3>
+        </div>
+
+        <div class="discussion-section">
+
+
+            <mat-tab-group mat-align-tabs="start" (selectedTabChange)="selectedTabValue($event)">
+                <mat-tab label="Comments">
+                    <div class="py-3" [formGroup]="decisionForm">
+                        <div class="form-group">
+                            <ckeditor class="form-control" [mention]="employeeRecord" formControlName='message' cols="5"
+                                rows="4" [mentionConfig]="mentionConfig"
+                                [ngClass]="{ 'is-invalid': submitted && f.message.errors }" [editor]="editor" [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic','underline', '|',
+                            'link',
+                            'blockQuote','|',
+                            'undo',
+                            'redo' ] }" style="height: 200px !important;" [data]="data"></ckeditor>
+                            <div class="d-flex coment-send">
+                                <button class="btn btn-send ms-auto" type="submit" (click)="onSubmit()">
+                                    <mat-icon aria-label="send icon">send</mat-icon> Submit
+                                </button>
+                            </div>
+                            <div *ngIf="submitted && f.message.errors" class="invalid-feedback">
+                                <div *ngIf="f.message.errors.required">Comments is required</div>
+                            </div>
+                        </div>
+
+                        <div class="show-comments">
+
+                            <p *ngIf="commentRecord?.length==0" class="text-danger d-flex justify-content-center">
+                                {{noRecordComments}}</p>
+                            <div class="services-current" *ngFor="let data of commentRecord">
+                                <div class="activities-box">
+                                    <div class="act-user"><img [src]="data.profilePic"
+                                            onError="this.src='./assets/images/avatar.png'" /></div>
+                                    <div class="act-text">
+                                        <h6>{{data.name}}({{data.employeeCo}})</h6>
+                                        <p [innerHtml]="data?.message | sanetizeHtml">
+                                            <!-- <a href="#">@{{data.name}}({{data.employeeco}})({{data.employeeco}})</a>  -->
+                                            {{data?.message}}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="act-date">{{data.date}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <mat-tab label="Action Plan">
+                    <div class="py-3" [formGroup]="decisionForm">
+                        <div class="form-group">
+                            <ckeditor class="form-control" [mention]="employeeRecord" formControlName='message' cols="5"
+                                rows="4" [mentionConfig]="mentionConfig"
+                                [ngClass]="{ 'is-invalid': submitted && f.message.errors }" [editor]="editor" [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic','underline', '|',
+                            'link',
+                            'blockQuote','|',
+                            'undo',
+                            'redo' ] }" style="height: 200px !important;" [data]="data"></ckeditor>
+                            <!-- <textarea class="form-control" cols="5" rows="3" required [mention]="employeeRecord"
+                                [mentionConfig]="mentionConfig" formControlName='message' cols="5" rows="4"
+                                placeholder="Comments Here"
+                                [ngClass]="{ 'is-invalid': submitted && f.message.errors }"></textarea> -->
+                            <div class="d-flex coment-send">
+                                <div></div>
+                                <button class="btn btn-send ms-auto" type="submit" (click)="onSubmit()">
+                                    <mat-icon aria-label="send icon">send</mat-icon> Submit
+                                </button>
+                            </div>
+                            <div *ngIf="submitted && f.message.errors" class="invalid-feedback">
+                                <div *ngIf="f.message.errors.required">Comments is required</div>
+                            </div>
+                        </div>
+
+                        <div class="show-comments">
+                            <p *ngIf="actionRecord?.length==0" class="text-danger d-flex justify-content-center">
+                                {{noRecordActionPlan}}</p>
+                            <div class="services-current" *ngFor="let datas of actionRecord">
+                                <div class="activities-box">
+                                    <div class="act-user"><img src="{{datas.profilePic}}"
+                                            onError="this.src='./assets/images/avatar.png'" /></div>
+                                    <div class="act-text">
+                                        <h6>{{datas.name}}({{datas?.employeeCo}})</h6>
+                                        <p [innerHtml]="datas?.message | sanetizeHtml">
+                                            <!-- <a href="#">@{{data.name}}({{data.employeeco}})({{data.employeeco}})</a>  -->
+                                            {{datas?.message}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="act-date">{{datas.date}}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <mat-tab label="Attention Needed">
+                    <div class="py-3" [formGroup]="decisionForm">
+                        <div class="form-group">
+                            <ckeditor class="form-control" [mention]="employeeRecord" formControlName='message' cols="5"
+                                rows="4" [mentionConfig]="mentionConfig"
+                                [ngClass]="{ 'is-invalid': submitted && f.message.errors }" [editor]="editor" [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic','underline', '|',
+                            'link',
+                            'blockQuote','|',
+                            'undo',
+                            'redo' ] }" style="height: 200px !important;" [data]="data"></ckeditor>
+
+                            <div class="d-flex coment-send">
+                                <div></div>
+                                <button class="btn btn-send ms-auto" (click)="onSubmit()">
+                                    <mat-icon aria-label="send icon">send</mat-icon> Submit
+                                </button>
+                            </div>
+                            <div *ngIf="submitted && f.message.errors" class="invalid-feedback">
+                                <div *ngIf="f.message.errors.required">Comments is required</div>
+                            </div>
+                        </div>
+
+                        <div class="show-comments">
+                            <p *ngIf="attentionRecord?.length==0" class="text-danger d-flex justify-content-center">
+                                {{noRecordAttention}}</p>
+                            <div class="services-current" *ngFor="let data of attentionRecord">
+                                <div class="activities-box">
+                                    <div class="act-user"><img [src]="data.profilePic"
+                                            onError="this.src='./assets/images/avatar.png'" /></div>
+                                    <div class="act-text">
+                                        <h6>{{data.name}}({{data.employeeCo}})</h6>
+                                        <p [innerHtml]="data?.message | sanetizeHtml">
+                                            <!-- <a href="#">@{{data.name}}({{data.employeeco}})({{data.employeeco}})</a>  -->
+                                            {{data?.message}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="act-date">{{data.date }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <mat-tab label="URL">
+                    <div class="py-3" [formGroup]="decisionForm">
+                        <div class="form-group">
+                            <ckeditor class="form-control" [mention]="employeeRecord" formControlName='message' cols="5"
+                                rows="4" [mentionConfig]="mentionConfig"
+                                [ngClass]="{ 'is-invalid': submitted && f.message.errors }" [editor]="editor" [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic','underline', '|',
+                            'link',
+                            'blockQuote','|',
+                            'undo',
+                            'redo' ] }" style="height: 200px !important;" [data]="data"></ckeditor>
+                            <!-- <textarea class="form-control" cols="5" rows="3" required [mention]="employeeRecord"
+                                [mentionConfig]="mentionConfig" formControlName='message' placeholder="Comments Here"
+                                [ngClass]="{ 'is-invalid': submitted && f.message.errors }"></textarea> -->
+                            <div class="d-flex coment-send">
+                                <div></div>
+                                <button class="btn btn-send ms-auto" (click)="onSubmit()">
+                                    <mat-icon aria-label="send icon">send</mat-icon> Submit
+                                </button>
+                            </div>
+                            <div *ngIf="submitted && f.message.errors" class="invalid-feedback">
+                                <div *ngIf="f.message.errors.required">Comments is required</div>
+                            </div>
+                        </div>
+
+                        <div class="show-comments">
+                            <p class="text-danger d-flex justify-content-center" *ngIf="urlRecord?.length==0">
+                                {{noRecordUrl}} </p>
+                            <div class="services-current" *ngFor="let data of urlRecord">
+                                <div class="activities-box">
+                                    <div class="act-user"><img [src]="data.profilePic"
+                                            onError="this.src='./assets/images/avatar.png'" /></div>
+                                    <div class="act-text">
+                                        
+                                        <h6>{{data.name}}({{data.employeeCo}})</h6>
+                                        <p [innerHtml]="data?.message | sanetizeHtml">
+                                            <!-- <a href="#">@{{data.name}}({{data.employeeco}})({{data.employeeco}})</a>  -->
+                                            {{data?.message}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="act-date">{{data.date }}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </mat-tab>
+
+            </mat-tab-group>
+        </div>
+
+
+    </div>

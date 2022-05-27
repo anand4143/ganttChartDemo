@@ -1,0 +1,96 @@
+
+
+      <div class="content-container" *ngIf="html">
+
+        <div class="page-content-header d-flex">
+          <h2>Workstreams</h2>
+          <div class="ms-auto c-header-btn" (click)="openSm(mediaammmodel,'',0)">
+            <a class="btn btn-primary">Add New
+              Workstream</a>
+          </div>
+        </div>
+        <app-loader3></app-loader3>
+        <p  style="color: #1941DF !important;" class="text-center text-primary text-justify">
+          {{errMessage}}
+        </p>
+        <div cdkDrop class="workstream-managemnt" cdkDropList (cdkDropListDropped)="drop($event)"
+          [id]="workStreamRecord[0]?.id" [cdkDropListData]="workStreamRecord"
+          [cdkDropListConnectedTo]="['workStreamRecord']">
+          <div class="card shadow-sm border-0" *ngFor="let workstream of workStreamRecord; let i = index" cdkDrag>
+            <div class="card-body">
+              <div class="d-flex ">
+
+                <div class="showlist-name box-handler d-flex align-items-center" cdkDragHandle>
+                  <mat-icon>grid_view</mat-icon>{{workstream.name}}
+                </div>
+
+                <div class="showlist-action ms-auto action-btn">
+                  <mat-icon class="btn" (click)="openSm(mediaammmodel,workstream,1)" data-bs-toggle="modal"
+                    data-bs-target="#add-workstream">edit</mat-icon>
+                  <mat-icon class="btn" (click)="openSm(deleteModel,workstream,3)" data-bs-toggle="modal"
+                    data-bs-target="#delete-workstream">delete</mat-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+ 
+
+<!--------Add role--------->
+
+
+
+<ng-template #deleteModel let-modal>
+ 
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Delete Work Stream</h5>
+      <button type="button" (click)="modal.dismiss('Cross click')" class="btn-close" data-bs-dismiss="modal"
+        aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body">
+      Are you sure you want to delete this item?
+    </div>
+    <div class="modal-footer">
+      <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-secondary"
+        data-bs-dismiss="modal">Close</button>
+      <button type="button" (click)="delete()" class="btn btn-danger">Delete</button>
+    </div>
+
+  </div>
+  <!-- </div>
+</div> -->
+</ng-template>
+<ng-template #mediaammmodel let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">{{headingText}}</h5>
+      <button type="button" (click)="modal.dismiss('Cross click')" class="btn-close" data-bs-dismiss="modal"
+        aria-label="Close"></button>
+    </div>
+    <form [formGroup]="workSteamForm" (ngSubmit)="onSubmit()">
+      <div class="modal-body">
+        <div class="add-products">
+          <div class="form-group">
+            <div class="form-group">
+              <label>Enter Workstream Name</label>
+              <input class="form-control" formControlName="name" type="text" placeholder="Enter Name">
+              <span class="text-danger" *ngIf=" (f.name.touched || submitted) && f.name.errors?.required">
+                Work Stream Name is required
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-secondary"
+          data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success">{{buttonText}}</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

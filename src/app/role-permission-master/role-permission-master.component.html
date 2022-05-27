@@ -1,0 +1,126 @@
+<div class="content-container">
+
+  <div class="page-content-header d-flex">
+    <h2>Role Permission Master</h2>
+    <div class="ms-auto c-header-btn">
+      <a href="#" class="btn btn-link" routerLink="/role-management">
+        <mat-icon>keyboard_backspace</mat-icon> Back
+      </a>
+    </div>
+  </div>
+  <div class="card shadow-sm border-0 role-managemnt">
+    <div class="card-body">
+      <div class="role-permission-table table-responsive" [formGroup]="roleForm">
+
+        <div class="col-lg-12 ">
+
+          <!-- <div class="d-flex justify-content-start mb-3">
+
+          </div> -->
+          <div class="d-flex justify-content-end mb-3">
+            <div class="flex-wrap  align-self-start px-md-2">
+              Select Role
+            </div>
+            <div class="flex-wrap  align-self-start px-md-2">
+
+              <div class="resion-select" [formGroup]="roleForm">
+                <select class="form-select" formControlName="name" (change)="changeRole()">
+                  <option disabled selected="" value="undefined">Role List</option>
+                  <option *ngFor="let data of roleRecord" [value]="data.id"> {{data.name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="flex-wrap  align-self-start px-md-2">
+              Add (<i class="fa fa-plus text-success i-coin " aria-hidden="true"></i>)
+            </div>
+            <div class="flex-wrap  align-self-start px-md-2">
+              Update (<i class="fa fa-pencil text-secondary i-coin " aria-hidden="true"></i>)
+            </div>
+            <div class=" flex-wrap  align-self-start px-md-2">
+              Delete (<i class="far fa-trash-alt text-danger i-coin"></i>)
+            </div>
+            <div class="flex-wrap  align-self-start px-md-2">
+              View (<i class="fa fa-eye text-primary i-coin" aria-hidden="true"></i>)
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm border-0 role-managemnt" *ngIf="roleSelected">
+          <div class="card-body">
+
+            <div class="card-header">
+              <div class="d-flex justify-content-between">
+                <b>Assign Permission</b>
+                <b> Role Name : {{roleName?.name}}</b>
+                <div class="filterfields">
+
+                </div>
+              </div>
+            </div>
+            <div class="role-permission-table" [formGroup]="roleForm">
+              <table class="table table-bordered">
+
+                <thead>
+
+                  <tr>
+                    <th>S.No</th>
+                    <th>Module Name</th>
+                    <th>Add</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                    <th>View</th>
+                    <!-- <th>Download</th> -->
+                  </tr>
+                </thead>
+
+                <tbody *ngFor="let item of permissionRecord; let i = index">
+
+                  <tr>
+                    <td> {{i+1}}</td>
+                    <!-- {{item.actionUrl}} -->
+                    <td>{{item.name }}</td>
+
+                    <td class="permission-check">
+                      <mat-icon class="text-success" style="font-size: 20px;">add</mat-icon>
+                      <mat-checkbox [disabled]="inserted==false" [checked]='item.insert==true'
+                        (change)="change($event.checked,item,'Write')" class="example-margin">
+
+                      </mat-checkbox> &nbsp;
+                    </td>
+                    <td class="permission-check">
+                      <mat-icon class="text-secondary">edit</mat-icon>
+                      <mat-checkbox [disabled]="updated==false" [checked]="item.update == true"
+                        (change)="change($event.checked,item,'Edit')" class="example-margin">
+                      </mat-checkbox> &nbsp;
+                    </td>
+                    <td class="permission-check">
+
+                      <mat-icon class="text-danger">delete_outline</mat-icon>
+                      <mat-checkbox [disabled]="deleted==false" [checked]='item.delete==true'
+                        (change)="change($event.checked,item,'Delete')" class="example-margin">
+                      </mat-checkbox> &nbsp;
+                    </td>
+                    <td class="permission-check">
+                      <mat-icon class="text-primary">remove_red_eye</mat-icon>
+                      <mat-checkbox [disabled]="views==false" [checked]='item.view==true'
+                        (change)="change($event.checked,item,'Read')" class="example-margin">
+
+                      </mat-checkbox>
+                    </td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-start mt-3">
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>

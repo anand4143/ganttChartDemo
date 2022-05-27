@@ -1,0 +1,218 @@
+.offcanvas-header {
+    border-bottom: 1px solid #eee;
+    h5 {
+        font-size: 24px;
+        font-weight: 700;
+    }
+}
+
+.discussion-container {
+    h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 0px;
+        line-height: 27px;
+    }
+}
+
+.projdev-info {
+    padding:0 0 10px 0;
+    h5 {
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+    .assignees {
+        margin-bottom: 0;
+        li {
+            line-height: 30px;
+            color: #A1A1A1;
+            img {width:30px; height: 30px;border: 1px solid #ccc; border-radius: 50%;}
+        }
+    }
+
+    .start-date {color: #A8A8A8; font-size: 14px;}
+    .end-date {color: #F3AFC3; font-size: 14px;}
+}
+
+.attach-preview {
+    width: 150px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-top: 10px;
+    margin-right: 5px;
+    position: relative;
+    img {max-width: 100%;
+    }
+    button.btn-download {
+        position: absolute;
+        right: 0px;
+        top: 0;
+        background: rgb(0 0 0 / 9%);
+        padding: 0 5px;
+        height: 30px;
+        /* line-height: 20px; */
+    }
+}
+
+.comments-section {
+    .btn-send {
+        color: #16B1B7;
+        text-transform: uppercase;
+        font-weight: 600;
+        mat-icon {
+            color: #16B1B7;
+            float: left;
+            margin-right: 7px;
+        }
+    }
+    .form-control {border-bottom-left-radius: 0; border-bottom-right-radius: 0;}
+
+    .coment-send {
+        border-width: 0px 1px 1px 1px;
+        border-style: solid;
+        border-color: #cccccc;
+        border-radius: 0 0 5px 5px;
+    }
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+    + label {
+        font-size: 1.25em;
+        font-weight: 700;
+        color: #000;
+        background-color: #EEEEEE;
+        display: inline-block;
+        width: 100%;
+        height: 100px;
+        border: 1px dashed #AAAAAA;
+        border-radius: 8px;
+        margin-bottom: 0;
+        padding-top: 30px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    &:focus {
+        + label {
+            background-color: #EEEEEE;
+        }
+    }
+
+    + label {
+        &:hover {
+            background-color: #EEEEEE;
+        }
+        p {
+            font-weight: 300;
+            font-size: 16px;
+        span {
+            color: #6592F8;
+        }
+        }
+    }
+
+}
+
+.popup-heading {
+    position: relative;
+    padding-left: 37px;
+    min-height: 27px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    .head-icon {
+        position: absolute;
+        border-radius: 50%;
+        width: 27px;
+        height: 27px;
+        border: 1px solid #D5D5D5;
+        text-align: center;
+        line-height: 24px;
+        color: #16B1B7;
+        left: 0;
+        top: 0;
+    }
+}
+
+
+.activities-box {
+    position: relative;
+    .act-user {
+        position: absolute;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        overflow: hidden;
+        left: 0;
+        img {width: 35px; height: 35px;}
+    }
+    .act-text {
+        padding-left: 50px;
+        h6 {
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+        a {text-decoration: none;}
+    }
+}
+
+.show-comments {
+    .services-current {
+        padding-right: 90px;
+        margin-bottom: 20px;
+        P {font-weight: 300; font-size: 15px; color: #707070;}
+    }
+}
+
+.services-current {
+    position: relative;
+    padding-right: 150px;
+
+    .status {
+        position: absolute;
+        right: 0;
+        top: 10px;
+        text-transform: none;
+        border-radius: 10px;
+    }
+    .act-date {
+        position: absolute;
+        right: 0;
+        top: 10px;
+        font-size: 14px;
+        font-style: italic;
+        color: #AAAAAA;
+    }
+}
+
+.task-dependencies {
+    background: #F6F7FB;
+    padding: 10px 16px;
+    margin-left: -16px;
+    margin-right: -16px;
+    h4 {
+        font-size: 18px;
+        margin: 0;
+    }
+    p {
+        font-size: 14px;
+        margin-bottom: 0;
+        color: #949494;
+    }
+}
+.img-container {
+    display:flex;
+     flex-wrap: wrap;
+    align-content: space-evenly;
+    }
+    .img-container img{
+    width:50%;
+    }
+   

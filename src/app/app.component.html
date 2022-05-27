@@ -1,0 +1,19 @@
+<ng-container>
+  <mat-drawer-container class="drawwe-container " [ngClass]="{'homePage' : home==true}" autosize>
+    <mat-drawer #drawer class="drawwer-sidenav" [opened]='opened' mode="side">
+      <app-sidenav *ngIf="!login"></app-sidenav>
+    </mat-drawer>
+  
+    <div class="main-content">
+      <div *ngIf="!login" class="d-header-container" (click)="clickEvent()">
+        <button type="button" mat-button (click)="drawer.toggle()" class="sidenav-collapse"><i class="icons"
+            [ngClass]="status ? 'icon-arrow-right': 'icon-arrow-left'"> </i></button>
+        <app-d-header ></app-d-header>
+      </div>
+      <!-- {{home}} -->
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-container>
+  
+</ng-container>
+<!-- <router-outlet ></router-outlet> -->

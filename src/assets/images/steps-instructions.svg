@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1106" height="407" viewBox="0 0 1106 407">
+  <defs>
+    <filter id="Ellipse_126" x="515" y="294" width="77" height="77" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-color="#1941df" flood-opacity="0.388"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="steps-instructions" transform="translate(-272 -205)">
+    <rect id="Rectangle_308" data-name="Rectangle 308" width="1106" height="407" rx="12" transform="translate(272 205)" fill="none"/>
+    <text id="You_are_5_steps_away_from_starting_your_project:" data-name="You are 5 steps away from starting your project:" transform="translate(554 249.095)" fill="#1a3988" font-size="24" font-family="Eina01-Bold, Eina01 ☞" font-weight="700"><tspan x="0" y="0">You are 5 steps away from starting your project:</tspan></text>
+    <text id="Step_1" data-name="Step 1" transform="translate(328.213 328.032)" fill="#1a3988" font-size="20" font-family="Eina01-Bold, Eina01 ☞" font-weight="700"><tspan x="0" y="0">STEP 1</tspan></text>
+    <text id="Start_by_defining_your_region_by_clicking_region_management_on_the_left." data-name="Start by defining your region by clicking region management on the left." transform="translate(329 384)" fill="#3582c7" font-size="18" font-family="Eina01-SemiBold, Eina01 ☞" font-weight="600"><tspan x="0" y="0">Start by defining your </tspan><tspan x="0" y="24">region by clicking region </tspan><tspan x="0" y="48">management on the left.</tspan></text>
+    <line id="Line_97" data-name="Line 97" x2="1028.225" transform="translate(311.5 353.253)" fill="none" stroke="#1a3988" stroke-width="3"/>
+    <text id="Step_2" data-name="Step 2" transform="translate(579.128 328.032)" fill="#1a3988" font-size="20" font-family="Eina01-Bold, Eina01 ☞" font-weight="700"><tspan x="0" y="0">STEP 2</tspan></text>
+    <text id="Then_click_workstream_management_to_add_your_workstream_details." data-name="Then, click workstream management to add your workstream details." transform="translate(580 384)" fill="#3582c7" font-size="18" font-family="Eina01-SemiBold, Eina01 ☞" font-weight="600"><tspan x="0" y="0">Then, click workstream </tspan><tspan x="0" y="24">management to add your </tspan><tspan x="0" y="48">workstream details.</tspan></text>
+    <text id="Step_3" data-name="Step 3" transform="translate(830.043 328.032)" fill="#1a3988" font-size="20" font-family="Eina01-Bold, Eina01 ☞" font-weight="700"><tspan x="0" y="0">STEP 3</tspan></text>
+    <text id="Define_the_roles_in_your_team" data-name="Define the roles in your team" transform="translate(830 384)" fill="#3582c7" font-size="18" font-family="Eina01-SemiBold, Eina01 ☞" font-weight="600"><tspan x="0" y="0">Define the roles in </tspan><tspan x="0" y="24">your team</tspan></text>
+    <text id="Step_4" data-name="Step 4" transform="translate(1037.659 328.032)" fill="#1a3988" font-size="20" font-family="Eina01-Bold, Eina01 ☞" font-weight="700"><tspan x="0" y="0">STEP 4</tspan></text>
+    <text id="Add_Users" data-name="Add Users" transform="translate(1038 384)" fill="#3582c7" font-size="18" font-family="Eina01-SemiBold, Eina01 ☞" font-weight="600"><tspan x="0" y="0">Add Users</tspan></text>
+    <text id="Step_5" data-name="Step 5" transform="translate(1204.196 328.032)" fill="#1a3988" font-size="20" font-family="Eina01-Bold, Eina01 ☞" font-weight="700"><tspan x="0" y="0">STEP 5</tspan></text>
+    <text id="Click_Add_New_Product_button" data-name="Click Add New Product button" transform="translate(1205 384)" fill="#3582c7" font-size="18" font-family="Eina01-SemiBold, Eina01 ☞" font-weight="600"><tspan x="0" y="0">Click Add New </tspan><tspan x="0" y="24">Product button</tspan></text>
+    <ellipse id="Ellipse_121" data-name="Ellipse 121" cx="6" cy="6.5" rx="6" ry="6.5" transform="translate(565 346)" fill="#92d050"/>
+    <circle id="Ellipse_122" data-name="Ellipse 122" cx="6.5" cy="6.5" r="6.5" transform="translate(817 346)" fill="#92d050"/>
+    <ellipse id="Ellipse_123" data-name="Ellipse 123" cx="7" cy="6.5" rx="7" ry="6.5" transform="translate(1020 346)" fill="#92d050"/>
+    <ellipse id="Ellipse_124" data-name="Ellipse 124" cx="6" cy="6.5" rx="6" ry="6.5" transform="translate(1189 346)" fill="#92d050"/>
+    <ellipse id="Ellipse_125" data-name="Ellipse 125" cx="7" cy="6.5" rx="7" ry="6.5" transform="translate(1332 346)" fill="#92d050"/>
+    <g transform="matrix(1, 0, 0, 1, 272, 205)" filter="url(#Ellipse_126)">
+      <circle id="Ellipse_126-2" data-name="Ellipse 126" cx="29.5" cy="29.5" r="29.5" transform="translate(524 300)" fill="#1941df"/>
+    </g>
+    <text id="OR" transform="translate(810 542)" fill="#fff" font-size="20" font-family="Eina01-SemiBold, Eina01 ☞" font-weight="600"><tspan x="0" y="0">OR</tspan></text>
+  </g>
+</svg>

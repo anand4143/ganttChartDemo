@@ -1,0 +1,88 @@
+
+    <!-- <button (click)="onExport()"> ok</button> -->
+
+
+
+<div class="content-container" id="mainContainer">
+  <div *ngIf="showSpinner" >
+    <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+      <p style="font-size: 20px; color: white">Please wait...</p>
+    </ngx-spinner>
+  </div>
+  <div class="page-content-header d-flex">
+    <h2>Grantt Chart <b> - {{projectRecord?.projectName}}</b> </h2>
+
+    <div class="ms-auto c-header-btn">
+      <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-goal">Add New Goal</a>
+    </div>
+    <div class="pro-btns">
+      <div class="btn-group" role="group" aria-label="view list">
+        <button type="button" class="btn" routerLink="/product-detail">
+          <mat-icon>sort</mat-icon>
+        </button>
+        <button type="button" class="btn" routerLink="/product-kanban">
+          <mat-icon>view_column</mat-icon>
+        </button>
+      </div>
+      <button type="button" class="btn active" routerLink="/gantt-chart">
+        <mat-icon>stacked_bar_chart</mat-icon>
+      </button>
+      <button type="button" class="btn export-btn" >
+      <!-- <button type="button" class="btn export-btn" (click)="downloadImage()"> -->
+        <i class="fa fa-download"></i>
+      </button>
+    </div>
+  </div>
+  <app-loader1></app-loader1>
+        <div class="d-flex justify-content-end mb-3">
+            <div class=" flex-wrap  align-self-start px-md-2"> <span class="dot-bg-task-not-started"></span>Not Started
+            </div>
+            <div class=" flex-wrap  align-self-start px-md-2"> <span class="dot-bg-task-started"></span> Started</div>
+            <div class=" flex-wrap  align-self-start px-md-2"> <span class="dot-bg-at-high-risk"></span>Delayed</div>
+            <div class="flex-wrap  align-self-start px-md-2"><span class="dot-bg-at-risk"></span>At Risk</div>
+            <div class=" flex-wrap  align-self-start px-md-2"> <span class="dot-bg-task-completed"> </span> Completed
+            </div>
+    
+    
+    
+    
+          </div>
+  <div #screen class="overflow-auto" id="printchart">
+    <!-- <div >
+      <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+        <p style="font-size: 20px; color: white">Please wait...</p>
+      </ngx-spinner> 
+    </div>-->
+    <ng-gantt [options]="editorOptions" [data]="dataDev" #editor id="editor" ></ng-gantt>
+
+    <!-- <button ejs-button id='filterRecord' (click)='filter()'>Filter</button> -->
+    
+    <!-- <button ejs-button (click)='downloadAsPDF()'>Filter</button> -->
+   
+    <!-- <ejs-gantt *ngIf="dataEjs"
+#gantt 
+id="ganttDefault" 
+height="430px"  [columns]="columns"
+[dataSource]="dataEjsGantt" 
+[taskFields]="taskSettings" 
+[toolbar]="toolbar"
+(toolbarClick)="toolbarClick($event)" 
+allowExcelExport='true' allowPdfExport="true"></ejs-gantt> -->
+
+
+<ejs-gantt 
+#gantt 
+id="ganttDefault" 
+height="430px" 
+[dataSource]="dataEjsGantt" 
+[taskFields]="taskSettings" 
+[toolbar]="toolbar"
+(toolbarClick)="toolbarClick($event)" 
+allowExcelExport='true' allowPdfExport='true'></ejs-gantt>
+
+  </div>
+
+  
+</div>
+
+ 

@@ -1,0 +1,31 @@
+.contact-container {
+    position:relative;
+    padding: 100px 0;
+    background-color: #f9f9f9;
+    .container {max-width: 991px;}
+    .contactform {
+        background: #fff;
+        padding: 30px 40px;
+        border-radius: 10px;
+        box-shadow:0 0 15px rgb(177 177 177 / 30%);
+        .form-control, .form-select {
+            border-radius: 0;
+            padding: 10px 15px;
+            background-color: #f9f9f9;
+        }
+    }
+    h2 {font-size: 34px; margin-bottom: 30px;}
+}
+
+.con-box {
+    background: #fff;
+    padding: 20px 20px 30px 20px;
+    border-radius: 4px;
+    box-shadow:0 0 15px rgb(177 177 177 / 30%);
+}
+
+.h5-head {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 20px 0 10px;
+}

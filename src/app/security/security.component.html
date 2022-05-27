@@ -1,0 +1,318 @@
+<app-header></app-header>
+
+<div class="security-container">
+    <div class="secuBanner bg-container">
+        <div class="container text-center" style="max-width: 800px;">
+            <h2>Security & Privacy</h2>
+            <h5>We take security seriously. Lylli Launch Tools meets ISO 9001 and SOC2 standards and we conduct comprehensive audits of our applications, systems, and networks to ensure that your data is always protected.</h5>
+        </div>
+    </div>
+
+    <div class="container py-5" style="max-width: 1024px;">
+        <div class="secuimg"><img src="/assets/images/Data_security.svg"/></div>
+
+        <div class="security-content">
+            <div class="points-btn py-3">
+                <button class="btn" (click)="scrollPoint1()">Product security & reliability</button>
+                <button class="btn" (click)="scrollPoint2()">Cloud Security</button>
+                <button class="btn" (click)="scrollPoint3()">Application Security</button>
+                <button class="btn" (click)="scrollPoint4()">HR Security</button>
+                <button class="btn" (click)="scrollPoint5()">Compliance</button>
+              </div>
+              
+              <div class="p-2" id="point_1">
+                <h4>Product security & reliability</h4>
+                <p>Lylli Launch Tools offers many security features, including SAML SSO, IP Whitelisting, audit and changelogs, private views, RBAC, and manage access across multiple workspaces to ensure best-in-class protection.</p>
+
+                <div class="collapsiblePanel">
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>SSO</mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <p>Lylli Launch Tools offers <a href="#">SAML Single Sign-on (SSO)</a> to allow admins to determine who has access to Lylli Launch Tools from your existing identity provider/SSO solution — <a href="#">Azure Active Directory, OneLogin, Okta,</a> G Suite, and more. Lylli Launch Tools also supports <a href="#">Google SSO</a> based on OAuth2.0.</p>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>Role-Based Access Controls</mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <p>Access to data within the Lylli Launch Tools application is governed by role-based access controls (RBAC). Lylli Launch Tools has <a href="#">various permission levels</a> for users (maker with admin access, maker, contributor, viewer).</p>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Password and Credential Storage</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>Lylli Launch Tools enforces a password complexity standard, and stores credentials using a PBKDF function (bcrypt).</p>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Uptime</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>Lylli Launch Tools has <a href="#">99% or higher uptime.</a></p>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>IP Whitelisting</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>Lylli Launch Tools can be configured to only allow access from designated IP address ranges. These restrictions can be applied to all users.</p>
+                        </mat-expansion-panel>
+
+                      </mat-accordion>
+                </div>
+
+              </div>
+              
+              <div class="p-2 mt-5" id="point_2">
+                <h4>Cloud Security</h4>
+                <p>Lylli Launch Tool's security and availability architecture is built on top of ISO 27002:2013 controls and SOC 2 Focus Points to enable best practice protection controls, implemented based on industry standards.</p>
+
+                <div class="collapsiblePanel">
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>Physical Security & Data Hosting</mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <p>Lylli Launch Tools uses AWS data centers in the United States. The services and data are hosted in Amazon Web Services (AWS) facilities (us-east-1) in the USA.</p>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>Dedicated Security Team</mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <p>Lylli Launch Tool's Security Team is on call 24/7 to respond to security alerts and events for our Enterprise customers</p>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Intrusion Detection and Prevention</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>Lylli Launch Tools has designed multiple layers of security monitoring to detect anomalous behavior. When incidents and security events exceed predetermined thresholds, our 24/7 on-duty security team acts upon it.</p>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>DDoS Mitigation</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>Lylli Launch Tools has designed a multi-layer approach to DDoS mitigation. A core technology partnership with Cloudflare provides network edge defenses, while the use of AWS scaling and protection tools provide deeper protection along with our use of third party DDoS/WAF/RASP application tools.</p>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Logical Access</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>Access to the Lylli Launch Tools Production Network is restricted by an explicit need-to-know basis, utilizes least privilege, is frequently audited and monitored, and is controlled by our Operations Team. Employees accessing the Lylli Launch Tools Production Network are required to use multiple factors of authentication and complete extensive background checks along with many technical and administrative controls.</p>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Failover and DR</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>Lylli Launch Tools was built with disaster recovery in mind. All of our infrastructure and data are spread across 3 AWS availability zones and will continue to work should any one of those data centers fail. </p>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Virtual Private Cloud</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>All Lylli Launch Tools servers are within our own virtual private cloud (VPC) with network access control lists (ACLs) that prevent unauthorized requests getting to our internal network.</p>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Back Ups and Monitoring</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>On an application level, Lylli Launch Tools produces audit logs for all activity, ships logs to Datadog for analysis, and uses S3 for archival purposes. All actions taken on production consoles or in the Lylli Launch Tools application are logged.</p>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Permissions and Authentication</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>Access to customer data is limited to authorized privileged employees who require it for their job responsibilities. Lylli Launch Tools runs a zero-trust corporate network. We have SAML Single Sign-on (SSO), 2-factor authentication (2FA), and strong password policies on OKTA, GitHub, Google, AWS, and Lylli Launch Tools to ensure access to cloud services is protected.</p>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Encryption</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>All data sent to or from Lylli Launch Tools is encrypted in transit using 256 bit encryption. Our API and application endpoints are TLS/SSL only and score an “A+” rating on Qualys SSL Lab's tests. This proves we only use strong cipher suites and have features such as HSTS and Perfect Forward Secrecy fully enabled. We also encrypt data at rest using an industry-standard AES-256 encryption algorithm.</p>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Pentests & Vulnerability Scanning</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>Lylli Launch Tools uses third party security tools to continuously scan for vulnerabilities. Our dedicated security team responds to issues raised. Annually we engage independent third-party security experts to perform detailed penetration tests on the Lylli Launch Tools application and network.</p>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Security Incident Response</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>In case of a system alert, events are escalated to Lylli Launch Tool’s 24/7 teams providing Operations, Network Engineering, and Security coverage. Employees are trained on security incident response processes, including communication channels and escalation paths.</p>
+                        </mat-expansion-panel>
+
+                      </mat-accordion>
+                </div>
+
+              </div>
+              
+              <div class="p-2 mt-5" id="point_3">
+                <h4>Application Security</h4>
+                <p>Lylli Launch Tools practices extensive processes and controls to ensure application security. All Lylli Launch Tools engineers utilize common best practices defined by standards like OWASP, NIST and CIS Benchmark.</p>
+
+                <div class="collapsiblePanel">
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>Secure Code Development (SDLC)</mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <p>At least annually, engineers participate in secure code training covering OWASP Top 10 security risks, common attack vectors, and Lylli Launch Tools security controls.</p>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Framework Security Controls</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>Lylli Launch Tools leverages modern and secure open-source frameworks with security controls to limit exposure to OWASP Top 10 security risks. These inherent controls reduce our exposure to SQL Injection (SQLi), Cross Site Scripting (XSS), and Cross Site Request Forgery (CSRF), among others.</p>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Quality Assurance</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>Our Quality Assurance (QA) department reviews and tests our code base. Dedicated application security engineers on staff identify, test, and triage security vulnerabilities in code.</p>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Separate Environments</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>Testing and staging environments are logically separated from the Production environment. No Service Data is used in our development or test environments.</p>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Bug Bounty program</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>We care deeply about keeping our users safe. If you believe you have discovered a vulnerability, we ask that you disclose it in a responsible manner. The Lylli Launch Tools Security Team will work with you to investigate, resolve the issue promptly and reward the first reporter of a vulnerability.</p>
+                            <h5>Out-of-scope Vulnerabilities.</h5>
+                            <p>We are interested in critical vulnerabilities in our infrastructure and product, not in an output of automated scanners</p>
+                            <p>These vulnerabilities are out-of-scope and not subject to any reward:</p>
+
+                            <ul>
+                                <li>Denial of service or Distributed Denial of service attacks</li>
+                                <li>Presence/absence/misconfiguration of SPF/DKIM/DMARC records or any email misconfiguration in general</li>
+                                <li>Lack of CSRF tokens</li>
+                                <li>Clickjacking issues</li>
+                                <li>Missing security headers which do not lead directly to a vulnerability</li>
+                                <li>Missing best practices (we require exploitable evidence of a security vulnerability)</li>
+                                <li>Reports from automated tools or scans</li>
+                                <li>Reports of insecure SSL/TLS ciphers (unless you have a working proof of concept, and not just a report from a scanner)</li>
+                                <li>Absence of rate limiting</li>
+                                <li>Outdated software without any noteworthy vulnerability</li>
+                            </ul>
+
+                            <h5>Responsible Disclosure Policy</h5>
+                            <p>While we welcome ethical and responsible identification and investigation of potential vulnerabilities, we ask that all security researchers stick to the following principles:</p>
+
+                            <ul>
+                                <li>Do not engage in testing that:
+                                    <ul>
+                                        <li>Degrades Lylli Launch Tool's information systems and products.</li>
+                                        <li>Results in you, or any third party, accessing, modifying, storing, sharing or destroying Lylli Launch Tool's customer data.</li>
+                                        <li>Includes Denial of Service or brute-force attack mechanisms</li>
+                                        <li>Involves social engineering techniques</li>
+                                        <li>Directly addresses Lylli Launch Tools customers or end users.</li>
+                                        <li>Includes usage of automated tools and scanners.</li>
+                                    </ul>
+                                </li>
+                                <li>When your investigation requires authorized access (e.g. you suspect potential privilege escalation or multi-tenancy issue), create a dedicated trial account for that purpose. Never attempt to bypass our security measures under a commercial account.</li>
+                                <li>Do not exploit identified or known vulnerabilities on our infrastructure further than necessary to reasonably determine its presence. The Bounty Program is about improving security for Lylli Launch Tools users, not deliberately trying to put the community at risk.</li>
+                                <li>In case you encounter customer data or other information that is not your own, please stop and report this activity to our team so we can investigate. Please report to us what information was accessed and delete the data. Do not save, copy, transfer, or otherwise use this data. Continuing to access such data may demonstrate a lack of good faith.</li>
+                            </ul>
+
+                            <h5>Submission Process</h5>
+                            <p>Submission reports should include a detailed description of your discovery with clear, concise steps allowing us to reproduce the issue, or a working proof-of-concept.</p>
+                            <p>All communications between you and Lylli Launch Tools should go through <code>vuln-disc -at- Lylli Launch Tools.com</code>.</p>
+                            <p>Please only submit one report per issue.</p>
+                            <p>When submitting a vulnerability report you agree that you may not publicly disclose your findings or the contents of your submission to any third parties in any way without Lylli Launch Tools's prior written approval.</p>
+
+                            <h5>Reward</h5>
+                            <p>You may be eligible to receive a reward if:</p>
+                            <ul>
+                                <li>(i) you are the first person to submit a given vulnerability;</li>
+                                <li>(ii) that vulnerability is determined to be a valid security issue by the Lylli Launch Tools Security Team</li>
+                                <li>(iii) you have complied with the Lylli Launch Tools's Bug Bounty program policy and guidelines.</li>
+                            </ul>
+                            <p>The decision to grant a reward for the discovery of a valid security issue is at Lylli Launch Tools's sole discretion. The amount of each bounty is based on the classification and sensitivity of the data impacted, the completeness of your report, ease of exploit and overall risk for Lylli Launch Tools's users and brand.</p>
+
+                            <h5>Legal Safe Harbor</h5>
+                            <p>Any activities conducted in a good faith and in a manner consistent with this policy will be considered authorized conduct and we will not initiate legal action against you. If legal action is initiated by a third party against you in connection with activities conducted under this policy, we will take steps to make it known that your actions were conducted in compliance with this policy.</p>
+
+                          </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+
+              </div>
+
+              <div class="p-2 mt-5" id="point_4">
+                <h4>HR Security</h4>
+                <p>At Lylli Launch Tools we ensure that our employees adhere to the highest security standards by implementing extensive employee background checks and multiple administrative controls.</p>
+
+                <div class="collapsiblePanel">
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>Training</mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <p>All employees complete Security and Awareness training annually and during onboarding.</p>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Policies</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>Lylli Launch Tools has developed a comprehensive set of security policies based on ISO 27002:2013 ISMS framework and SOC 2 Trust Criteria Focus Points. These policies are updated frequently and communicated to all employees.</p>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Employee Screening</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>Lylli Launch Tools performs background checks on all new employees in accordance with local, federal and state laws applicable to our business. The background check includes employment verification, criminal checks, credit checks, deeper historical references and education verification.</p>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>Confidentiality</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>All employee contracts include a confidentiality agreement.</p>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+              </div>
+
+              <div class="p-2 mt-5" id="point_5">
+                <h4>Compliance</h4>
+                <p>Lylli Launch Tools has built its Information Security Management System on top of ISO 27002:2013 controls and SOC 2 Focus Points to ensure the best practice protection controls are implemented based on industry standards and we are compliant with applicable local, federal and state regulations, as well as industry standards.</p>
+                
+                <div class="collapsiblePanel">
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>SOC 2</mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <p>Lylli Launch Tools is SOC2 Type II certified. If you are interested about the report, please reach out to us or your account manager to provide it to you, under NDA or visit <a href="#">this link.</a></p>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>PCI-DSS</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>All payments made to Lylli Launch Tools go through Paypal (<a href="#">Paypal security setup</a>).  Lylli Launch Tools has completed PCI-DSS Self-Assessment Questionnaire (SAQ-A) to ensure Compliance with this industry standard.</p>
+                          </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<app-footer></app-footer>

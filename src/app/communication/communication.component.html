@@ -1,0 +1,104 @@
+
+<div class="content-container" *ngIf=html>
+
+    <div class="page-content-header d-flex">
+        <h2>Communication</h2>
+    </div>
+
+    <div class="workstream-managemnt">
+        <div class="card shadow-sm border-0">
+            <div class="card-header d-flex">
+                <h3>User Lists</h3>
+                <div class="ms-auto search-data">
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-list-container">
+
+                    <table mat-table [dataSource]="dataSource" class="w-100">
+
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef style="width: 9%;"> S. No. </th>
+                            <td mat-cell *matCellDef="let element let i = index"> {{i+1}} </td>
+                        </ng-container>
+
+                        <!-- Status Column -->
+                        <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef> Status </th>
+                            <td mat-cell *matCellDef="let element; let i = index">
+                                <span class="online-user" *ngIf="element.loginStatus === 1"></span>
+                                <span class="offline-user" *ngIf="element.loginStatus === 0"></span>
+                                <!-- <span class="online-user" *ngIf="i === 2"></span>
+                                <span class="online-user" *ngIf="i === 3"></span>
+                                <span class="offline-user" *ngIf="i === 4"></span>
+                                <span class="online-user" *ngIf="i === 5"></span>
+                                <span class="offline-user" *ngIf="i === 6"></span>
+                                <span class="online-user" *ngIf="i === 7"></span> -->
+                            </td>
+                        </ng-container>
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef> Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
+
+                        <!-- Email Column -->
+                        <ng-container matColumnDef="email">
+                            <th mat-header-cell *matHeaderCellDef> Email </th>
+                            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                        </ng-container>
+
+                        <!-- Phone Column -->
+                        <ng-container matColumnDef="mobileNo">
+                            <th mat-header-cell *matHeaderCellDef> Phone </th>
+                            <td mat-cell *matCellDef="let element"> {{element.mobileNo}} </td>
+                        </ng-container>
+
+                        <!-- User Type Column -->
+                        <ng-container matColumnDef="userType">
+                            <th mat-header-cell *matHeaderCellDef> User Type </th>
+                            <td mat-cell *matCellDef="let element"> {{element.userType}} </td>
+                        </ng-container>
+
+                        <!-- Symbol Column -->
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef style="width: 10%;"> Action </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="d-flex action-btn">
+
+                                    <mat-icon class="btn" matTooltip="Chat" [matTooltipPosition]="'above'"
+                                        (click)="createComponent(element)">question_answer</mat-icon>
+                                    <mat-icon class="btn" matTooltip="Notification" (click)="sendEmail(element.id)"
+                                        [matTooltipPosition]="'above'">
+                                        forward_to_inbox</mat-icon>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                        <!-- Row shown when there is no matching data. -->
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No Data Found!
+                            </td>
+                        </tr>
+                    </table>
+                    <app-loader3></app-loader3>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" aria-label="Select page of periodic elements">
+                    </mat-paginator>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="chat-container align-items-end">
+    <ng-template #viewContainerRef></ng-template>
+</div>

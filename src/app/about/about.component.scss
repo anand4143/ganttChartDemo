@@ -1,0 +1,135 @@
+.ourStory {
+    padding: 60px 0;
+    background-color: #F6F7FB;
+    .container {
+        max-width: 1024px;
+    }
+}
+
+.partnerBIo {
+    padding: 60px 0;
+    .container {
+        max-width: 1024px;
+    }
+}
+
+.ourstcolmn {column-count: 2;}
+.abBanner {background-color: #fff;padding: 50px 0;text-align: left;}
+.abba-txt {padding: 20px 60px;}
+
+@mixin white-gradient {
+	background: linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+}
+
+$animationSpeed: 40s;
+
+// Animation
+@keyframes scroll {
+	0% { transform: translateX(0); }
+	100% { transform: translateX(calc(-250px * 9))}
+}
+
+
+// Styling
+.slider {
+	background: white;
+	margin: 40px 0 50px 0;
+	overflow:hidden;
+	position: relative;
+	
+	&::before,
+	&::after {
+		@include white-gradient;
+		content: "";
+		height: 100px;
+		position: absolute;
+		width: 200px;
+		z-index: 2;
+	}
+	
+	&::after {
+		right: 0;
+		top: 0;
+		transform: rotateZ(180deg);
+	}
+
+	&::before {
+		left: 0;
+		top: 0;
+	}
+	
+	.slide-track {
+		animation: scroll $animationSpeed linear infinite;
+		display: flex;
+		width: calc(250px * 14);
+	}
+	
+	.slide {
+		height: 100px;
+		width: 250px;
+        text-align: center;
+        img {height: 60px;}
+	}
+}
+
+.faq-cta {
+    .container {max-width: 991px;}
+    background: #1a3988 url(../../assets/images/ctabg.png) no-repeat;
+    background-size: 100%;
+    padding: 80px 0 60px 0;
+    .btn-secondary {
+        margin: 0 10px 20px 10px;
+        border-radius: 60px;
+        height: 45px;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    h3 {color: #fff;}
+    p {color: #fff;
+    a {color:#6AB811;}
+    }
+}
+
+.faqcontainer {
+    padding: 60px 0;
+    &.container {max-width: 680px;}
+}
+
+.orvaluebox {
+    h3 {font-size: 26px; margin-top: 15px;}
+}
+ul.list-unstyled li {
+    margin: 12px 0;
+}
+
+.map-world {
+    padding: 60px 50px;
+    background: #edf6ff;
+    margin-bottom: 60px;
+}
+@media (min-width:1280px) {
+	.svgheight {
+		min-height: 550px;
+	}
+}
+
+@media (min-width:1600px) {
+	.svgheight {
+		min-height: 800px;
+	}
+}
+
+@media (min-width:2200px) {
+	.svgheight {
+		min-height: 1000px;
+	}
+}
+
+@media (max-width:767px) {
+	.abBanner, .partnerBIo {
+		img {max-width: 100%;}
+	}
+	.abba-txt {
+		padding: 20px 20px;
+	}
+}

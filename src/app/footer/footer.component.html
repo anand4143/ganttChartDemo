@@ -1,0 +1,70 @@
+
+<footer>
+  <div class="container px-4 px-md-0">
+    <div class="row">
+      <div class="col-6 col-md-3">
+        <h3>About</h3>
+        <ul class="list-unstyled footer-link">
+          <li><a routerLink="/pricing">Pricing</a></li>
+          <li><a routerLink="/about">Team</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a routerLink="/contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md-3">
+        <h3>RESOURCES</h3>
+        <ul class="list-unstyled footer-link">
+          <li><a routerLink="/FAQs">FAQs</a></li>
+          <li><a href="https://www.linkedin.com/groups/9130303/" target="_blank">Community</a></li>
+          <li><a href="#">eBook</a></li>
+          <li><a href="#">Webinar</a></li>
+          <li><a routerLink="/live-demo">Live Demo</a></li>
+          <li><a routerLink="/security">Security</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md-3">
+        <h3>CUSTOMERS</h3>
+        <ul class="list-unstyled footer-link">
+          <li><a routerLink="/customer-satisfaction">Satisfaction Survey</a></li>
+          <li><a routerLink="/intake-form">Intake Form</a></li>
+          <li><a routerLink="/login">Login</a></li>
+          <li><a routerLink="/signup">Free Trial</a></li>
+          <li><a routerLink="/signup">My Account</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md-3">
+        <!-- <div class="footer-signup">
+          <a href="#" class="btn btn-primary" routerLink="/signup">SIGNUP NOW</a>
+          <h4>to get started?</h4>
+        </div> -->
+        <div class="footer-logo"><img [src]="imgUrl" onerror="this.src='./assets/images/logo.png'" class="img-fluid"></div>
+
+        <h3>Follow Us</h3>
+        <ul class="list-inline social-links">
+          <li class="list-inline-item"><a href="{{footerSetting?.linkedinLink}}" target="_blank"
+            class="icon-social-linkedin icons"></a></li>
+            <li class="list-inline-item"><a href="{{footerSetting?.youTubeLink}}" target="_blank"
+              class="icon-social-youtube icons"></a></li>
+          <li class="list-inline-item"><a href="{{footerSetting?.faceBookLink}}" target="_blank"
+              class="icon-social-facebook icons"></a></li>
+          <li class="list-inline-item"><a href="{{footerSetting?.twitterLink}}" target="_blank"
+              class="icon-social-instagram icons"></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">
+      <div class="d-lg-flex align-items-center">
+        <!-- <div class="footer-logo"><img [src]="imgUrl" onerror="this.src='./assets/images/logo.png'"></div> -->
+        <div class="copyright">{{footerSetting?.footerCopyRight}} </div>
+        <div class="terms">
+          <a routerLink="/privacy-policy">Privacy Policy</a>
+          <a routerLink="/msa">Master Subscription Agreement</a>
+          <a routerLink="/terms-conditions">Website Terms of Use</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</footer>

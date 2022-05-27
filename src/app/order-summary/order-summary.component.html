@@ -1,0 +1,126 @@
+<div class="ordersummarycontainer">
+    <div class="container">
+        <h2>Order Summary</h2>
+        <div class="row m-0">
+            <div class="col-lg-8">
+                <div class="card-summary">
+                    <div class="row">
+                        <div class="row m-0">
+                            <div class="col-md-4 col-6 ps-30 pe-0 my-4" *ngIf="showAnuual==true">
+                                <p class="text-muted">Annual Price</p>
+                                <p class="h5"><span class="ps-1">$</span>{{orderPackage?.annualPrice}}</p>
+                            </div>
+                            <div class="col-md-4 col-6 ps-30 pe-0 my-4" *ngIf="showAnuual==false">
+                                <p class="text-muted">Monthly Price</p>
+                                <p class="h5"><span class="ps-1">$</span>{{orderPackage?.userMonthlyPrice}}</p>
+                            </div>
+                            <div class="col-md-4 col-6 ps-30 my-4" *ngIf="planExits?.transactionAmount >0">
+                                <p class="text-muted">One Time Setup Fees</p>
+                                <p class="h5 m-0"><span class="ps-1">$</span>0</p>
+                            </div>
+                            <div class="col-md-4 col-6 ps-30 my-4" *ngIf="planExits?.transactionAmount == 0">
+                                <p class="text-muted">One Time Setup Fees</p>
+                                <p class="h5 m-0"><span class="ps-1">$</span>{{orderPackage?.ontimeSetupFees}}</p>
+                            </div>
+                            <div class="col-md-4 col-6 ps-30 my-4" *ngIf="!planExits?.transactionAmount">
+                                <p class="text-muted">One Time Setup Fees</p>
+                                <p class="h5 m-0"><span class="ps-1">$</span>{{orderPackage?.ontimeSetupFees}}</p>
+                            </div>
+                            <div class="col-md-4 col-6 ps-30 my-4">
+                                <p class="text-muted">Per User Price</p>
+                                <p class="h5 m-0"><span class="ps-1">$</span>{{orderPackage?.perUserPrice}}</p>
+                            </div>
+                            <div class="col-md-4 col-6 ps-30 my-4">
+                                <p class="text-muted">No Of User</p>
+                                <p class="h5 m-0">{{orderPackage?.userCount}}</p>
+                            </div>
+                            <div class="col-md-4 col-6 ps-30 my-4">
+                                <p class="text-muted">No Of Project</p>
+                                <p class="h5 m-0">{{orderPackage?.projectCount}}</p>
+                            </div>
+                            <!-- <div class="col-md-4 col-6 ps-30 my-4">
+                                <p class="text-muted">Package Duration</p>
+                                <p class="h5 m-0">{{orderPackage?.packageDuration}} Days</p>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4">
+
+                <div class="card-summary">
+                    <div class="row m-0">
+                        <div class="col-12 px-4">
+                            <div class="d-flex align-items-end mt-4 mb-2">
+
+                                <p class="h4 m-0"><span class="pe-1">{{orderPackage?.packageName}}</span></p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                                <p class="textmuted">Qty</p>
+                                <p class="fs-14 fw-bold">1</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                                <p class="textmuted">Subtotal</p>
+                                <p class="fs-14 fw-bold"><span class="fas fa-dollar-sign pe-1"></span>
+                                    {{totalPrice}}
+                                </p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                                <p class="textmuted">Processing Fees</p>
+                                <p class="fs-14 fw-bold"><span class="fas fa-dollar-sign pe-1"></span> {{feesProcessing | number:'1.2-2'}} </p>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                                <p class="textmuted">Discount Amount</p>
+                                <p class="fs-14 fw-bold"><span class="fas fa-dollar-sign pe-1"></span> {{discountCoin | number:'1.2-2'}} </p>
+                            </div>
+                            
+                            <div [formGroup]="coupenForm">
+                                <div class="couponcode">
+                                <div class="coupon-check">
+                                    <input type="checkbox" (click)="coupenBox($event)">&nbsp;
+                                    <label>Promo Code</label>
+                                </div>
+                                <span class="text-success" *ngIf='successMessage'>
+                                    {{successMessage}}
+                                </span>
+                                <span class="text-danger" *ngIf='failMessage'>
+                                    {{failMessage}}
+                                </span>
+
+                                <div class="d-flex justify-content-between mt-2" *ngIf="openCheckBox">
+                                    <input type="text" class="form-control" [readonly]='editMode==1'
+                                        formControlName="coupen" placeholder="Enter Promo Code">
+
+                                    <p class="fs-14 fw-bold"><button type="button" class="btn btn-success btn-sm"
+                                            [disabled]='!coupenForm.valid' [hidden]='editMode==1'
+                                            (click)="onFocusOutEvent($event)">apply</button>
+                                        <button *ngIf="openCheckBox" [hidden]='editMode==0' class="btn btn-warning btn-sm"
+                                            type="button" (click)="reset()">reset</button>
+                                    </p>
+
+                                    <div *ngIf="submitted && f.coupen.errors" class="invalid-feedback">
+                                        <div *ngIf="f.coupen.errors.required"> Coupon is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <p class="textmuted fw-bold">Total </p>
+                                    <div class="d-flex align-text-top"> <span
+                                            class="fas fa-dollar-sign mt-1 pe-1 fs-14 "></span><span class="h4">
+                                            {{coupenForm.value.totalAmount|json}}</span> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 px-3">
+                            <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+.abBanner {background-color: #fff;padding: 50px 0;text-align: left;}
+.abba-txt {padding: 20px 60px;}
+.abBanner {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+.featuresblocks {
+    padding: 60px 0;
+    .container {max-width: 1024px;}
+    h4 {font-size: 28px;}
+    p {font-size: 20px; line-height: 1.4;}
+}
+
+@media (max-width:767px) {
+    .abba-txt {
+        padding: 20px 20px;
+    }
+    .abheroimg {
+        img {max-width: 100%;}
+    }
+}

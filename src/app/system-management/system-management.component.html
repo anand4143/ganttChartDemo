@@ -1,0 +1,77 @@
+<div class="content-container" *ngIf="html">
+  <div class="system-managemnt">
+    <div class="page-content-header d-flex">
+      <h2>System Settings</h2>
+    </div>
+    <div class="card shadow-sm border-0" [formGroup]="systemForm" (ngSubmit)="onSubmit()">
+      <div class="card-body">
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-4"><label>Administrator Email</label></div>
+            <div class="col-md-8">
+              <input class="form-control" readonly formControlName="email" type="text" />
+              <span class="text-danger" *ngIf=" (f.email.touched || submitted) && f.email.errors?.required">
+                Email is required
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-4"><label>Work Domain</label></div>
+            <div class="col-md-8">
+              <div class="work-domain">
+                <input class="form-control" readonly formControlName="domain" type="text" />
+                <span class="p-domain">.lyllilaunchtools.com</span>
+                <span class="text-danger" *ngIf=" (f.domain.touched || submitted) && f.domain.errors?.required">
+                  Domain Name is required
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-4"><label>Time Zone</label></div>
+            <div class="col-md-8">
+              <mat-form-field class="w-100 timezone-s">
+                <mat-select formControlName="timeZone">
+                  <mat-select-filter [placeholder]="'Filter'" class="form-control" [displayMember]="'zoneName'"
+                    [array]="zoneRecord" (filteredReturn)="filteredList5 =$event"></mat-select-filter>
+                  <mat-option *ngFor="let item of filteredList5" [value]="item">
+                    {{item.zoneName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <!-- <div class="col-md-8">
+              <select class="form-select" formControlName="timeZone">
+                <option>----Select----</option>
+                <option *ngFor="let zone of zoneRecord" [value]="zone.id">{{zone.zoneName}}</option>
+              </select>
+            </div> -->
+            <!-- <timezone-selector
+                  ng-model="timezone"
+                  display-utc="true"
+                  sort-by="offset"
+                  show-local="true"
+                  set-local="true"
+                  primary-choices="UTC GB WET GMT Asia/Macau"
+                  width="400px"
+              ></timezone-selector> -->
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-8 offset-md-4 mt-4"><button type="submit" (click)="onSubmit()" class="btn btn-primary">Save
+              Changes</button></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

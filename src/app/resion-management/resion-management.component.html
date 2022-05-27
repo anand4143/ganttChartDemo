@@ -1,0 +1,85 @@
+<div class="content-container" *ngIf='html'>
+
+  <div class="page-content-header d-flex">
+    <h2>Regions</h2>
+    <div class="ms-auto c-header-btn">
+      <a class="btn btn-primary" (click)="openSm(mediaammmodel,'',0)" data-bs-toggle="modal"
+        data-bs-target="#add-region">Add New Region</a>
+    </div>
+  </div>
+  <p style="color: #1941DF !important;" class="text-center text-primary text-justify">
+    {{errMessage}}
+  </p>
+  <app-loader3></app-loader3>
+  <div cdkDrop class="workstream-managemnt" cdkDropList (cdkDropListDropped)="drop($event)" [id]="regionRecord[0]?.id"
+    [cdkDropListData]="regionRecord" [cdkDropListConnectedTo]="['regionRecord']">
+
+    <div class="card shadow-sm border-0" *ngFor="let region of regionRecord; let i = index" cdkDrag>
+      <div class="card-body">
+        <span class="text-danger">{{errMessage}}</span>
+        <div class="d-flex">
+          <div class="showlist-name box-handler d-flex align-items-center" cdkDragHandle>
+            <mat-icon>grid_view</mat-icon>{{region.name}}
+          </div>
+
+          <div class="showlist-action ms-auto action-btn">
+            <mat-icon class="btn" (click)="openSm(mediaammmodel,region,1)">
+              edit</mat-icon>
+            <mat-icon class="btn" (click)="openSm(deletes,region,4)">delete</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<ng-template #deletes let-modal>
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Delete Region</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      Are you sure you want to delete this item?
+    </div>
+    <div class="modal-footer">
+      <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-secondary"
+        data-bs-dismiss="modal">Close</button>
+      <button type="button" (click)="delete()" data-bs-dismiss="modal" class="btn btn-danger">Delete</button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #mediaammmodel let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">{{headingText}}</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form [formGroup]="regionForm" (ngSubmit)="onSubmit()">
+      <div class="modal-body">
+        <div class="add-products">
+          <div class="form-group">
+            <div class="form-group">
+              <label>Enter New Region * </label>
+              <input class="form-control" [readonly]="editMode==2" formControlName="name" type="text"
+                placeholder="Enter Name">
+              <span class="text-danger" *ngIf=" (f.name.touched || submitted) && f.name.errors?.required">
+                Region Name is required
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" aria-label="Close" (click)="modal.dismiss('Cross click')"
+          data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success">{{buttonText}}</button>
+      </div>
+    </form>
+  </div>
+
+</ng-template>

@@ -1,0 +1,185 @@
+<div class="login-container">
+  <div class="h-100">
+
+    <div class="bg-box order-1">
+      <div class="bg-txt">
+        <img src="./assets/images/login-image.svg" class="img-fluid" />
+      </div>
+    </div>
+    <div class="login-box h-100">
+      <div class="d-flex h-100">
+        <div class="align-self-center login-content">
+          <div class="login-logo"><img src="./assets/images/logo.png" /></div>
+          <h2>Welcome<span>Please enter below details.</span></h2>
+          <div class="login-f">
+            <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label for="userName">User Name (No spaces)<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="userName" id="userName"
+                  placeholder="Enter Username" (focusout)="check()" (keypress)="keyDown($event)"
+                  (onpaste)="checkWhitespace($event)" [ngClass]="{ 'is-invalid': submitted && f.userName.errors }"
+                  required>
+
+                <div *ngIf="(f.userName.touched || submitted) && f.userName.errors?.required" class="invalid-feedback">
+                  <div class="text-danger" *ngIf="f.userName.errors.cannotContainSpace">Username cannot contain space.
+                  </div>
+                  <div *ngIf="f.userName.errors.required">User Name is required</div>
+                </div>
+                <div *ngIf="userNameExitsError" class="text-danger">
+                  {{userNameExitsError}}
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="companyName">Company Name<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" (focusout)="check()" formControlName="companyName" id="company"
+                  placeholder="Enter Company Name" [ngClass]="{ 'is-invalid': submitted && f.companyName.errors }"
+                  required>
+                <div *ngIf="submitted && f.companyName.errors" class="invalid-feedback">
+                  <div *ngIf="f.companyName.errors.required">Company Name is required</div>
+                </div>
+                <div *ngIf="companyNameExitsError" class="text-danger">
+                  {{companyNameExitsError}}
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <label>Workspace Name (No spaces)<span class="text-danger">*</span></label>
+
+                  <div class="work-domain">
+                    <input class="form-control" (focusout)="check()" (keypress)="keyDown($event)"
+                      (onpaste)="checkWhitespace($event)" formControlName="domainName" type="text"
+                      placeholder="Enter Workspace Name" required />
+                    <span class="p-domain">.lyllilaunchtools.com</span>
+                    <span class="text-danger"
+                      *ngIf=" (f.domainName.touched || submitted) && f.domainName.errors?.required">
+                      Workspace Name is required
+                    </span>
+
+                    <div *ngIf="domainNameExitsError" class="text-danger">
+                      {{domainNameExitsError}}
+                    </div>
+                  </div>
+                  <!-- </div> -->
+                </div>
+              </div>
+
+              <div class="form-group phonenumber">
+                <label for="mobileNumber">Phone (Numbers only)<span class="text-danger">*</span></label>
+                <ngx-intl-tel-input [cssClass]="'custom'" class="form-control" [preferredCountries]="preferredCountries"
+                  [enableAutoCountrySelect]="false" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                  [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+                  [selectedCountryISO]="CountryISO.India" (focusout)="check()" (keypress)="keyDown($event)"
+                  (onpaste)="checkWhitespace($event)" formControlName="mobileNumber" id="mobileNumber"
+                  placeholder="Enter Phone Number" [phoneValidation]="true"
+                  [ngClass]="{ 'is-invalid': f.mobileNumber.touched && f.mobileNumber.errors }">
+                </ngx-intl-tel-input>
+                <div *ngIf="f.mobileNumber.touched && f.mobileNumber.errors" class="invalid-feedback">
+                  <div *ngIf="f.mobileNumber.touched && f.mobileNumber.errors.required"> Mobile Number is required
+                  </div>
+                  <div *ngIf="f.mobileNumber.touched && f.mobileNumber.errors.minlength">Mobile Number must be 10
+                    digit
+                  </div>
+                  <div *ngIf="f.mobileNumber.touched && f.mobileNumber.errors.maxLength">Mobile Number can be 10 digits
+                    miximum
+                  </div>
+                  <div *ngIf="f.mobileNumber.touched && f.mobileNumber.errors.pattern">Enter only number.</div>
+
+                </div>
+                <div *ngIf="mobileNumberExitsError" class="text-danger">
+                  {{mobileNumberExitsError}}
+                </div>
+                </div>
+                <div class="form-group">
+                  <label>Email<span class="text-danger">*</span></label>
+                  <input type="text" formControlName="email" class="form-control" (keypress)="keyDown($event)"
+                    (onpaste)="checkWhitespace($event)" (focusout)="check()"
+                    [ngClass]="{ 'is-invalid': f.email.touched && f.email.errors }" placeholder="Enter Email Address" />
+                  <div *ngIf="f.email.touched && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors.required">Email is required</div>
+                    <div *ngIf="f.email.errors.email">Please enter a valid email address</div>
+                  </div>
+                  <div *ngIf="emailExitsError" class="text-danger">
+                    {{emailExitsError}}
+                  </div>
+                </div>
+              
+            
+
+              <!-- <div class="form-group">
+                <label for="timeZone">Time Zone<span class="text-danger">*</span></label>
+                <select class="form-select" formControlName="timeZone">
+                  <option selected disabled>Select Now</option>
+                  <option *ngFor='let item of timeZone' [value]="item.id">{{item.zoneName}}</option>
+                </select>
+
+                <div *ngIf="submitted && f.timeZone.errors" class="invalid-feedback">
+                  <div *ngIf="f.timeZone.errors.required">Time Zone is required</div>
+
+                </div>
+               
+              </div> -->
+              
+              <mat-form-field class="w-100 timezone-s">
+                <label for="timeZone"><b>Time Zone</b><span class="text-danger">*</span>
+                  <br><span style="font-size: 12px;">
+
+                  (For EST or Eastern Time, enter New_York<br>
+                   For CST or Central Time, enter Chicago<br> For PST or Pacific Time, enter Los_Angeles)</span></label>
+                <mat-select formControlName="timeZone" >
+                  <mat-select-filter [placeholder]="'Filter'" class="form-control"  [displayMember]="'zoneName'" [array]="timeZone" (filteredReturn)="filteredList5 =$event"></mat-select-filter>
+                  <mat-option *ngFor="let item of filteredList5" [value]="item">
+                    {{item.zoneName}}
+                  </mat-option>
+                </mat-select>
+                <div *ngIf="submitted && f.timeZone.errors" class="invalid-feedback">
+                  <div *ngIf="f.timeZone.errors.required">Time Zone is required</div>
+
+                </div>
+              </mat-form-field>
+              <div class="form-group">
+                <label for="passwordf">Password<span class="text-danger">*</span></label>
+                <input type="password" (keypress)="keyDown($event)" (onpaste)="checkWhitespace($event)"
+                  class="form-control" formControlName="password" id="password" placeholder="********"
+                  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" required>
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.password.errors.required">Password is required</div>
+                  <div *ngIf="f.password.errors.minlength">Password must be at least 6
+                    characters
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="passwordf">Confim Password<span class="text-danger">*</span></label>
+                <input type="password" class="form-control" formControlName="confirmPassword" id="passwordf"
+                  placeholder="********" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" required>
+                <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                  <div *ngIf="f.confirmPassword.errors.required">Confirm Password is
+                    required</div>
+                  <div *ngIf="f.confirmPassword.errors.mustMatch">Confirm password didn't match
+                  </div>
+                </div>
+              </div>
+              <div class="form-group d-flex">
+                <input type="checkbox" style="margin-top: 6px;" formControlName="termCondition" id="passwordf"
+                  [ngClass]="{ 'is-invalid': submitted && f.termCondition.errors }" required>
+
+                <label class="term-link">&nbsp;  <span class="text-dark">I accept the product </span><a routerLink="/terms-conditions" style="text-decoration: neno;"
+                  target="_blank">terms & conditions</a> <span
+                      class="text-dark"> and </span><a target="_blank" routerLink="/privacy-policy"> privacy policy</a><span class="text-danger">*</span></label>
+
+                <div *ngIf="submitted && f.termCondition.errors" class="invalid-feedback">
+                  <div *ngIf="f.termCondition.errors.required">Term & Condition is
+                    required</div>
+
+                </div>
+              </div>
+              <button type="submit" [disabled]='!signUpForm.valid' class="btn btn-primary">Signup</button>
+              <div class="forgot-pass">Have an Account <a href="#" routerLink="/login">Login Here</a></div>
+            </form>
+          </div>
+          <div class="footer-con">{{footerSetting?.footerCopyRight}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

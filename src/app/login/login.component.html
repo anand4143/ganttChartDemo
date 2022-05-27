@@ -1,0 +1,53 @@
+<div class="login-container">
+    <div class="d-lg-flex h-100">
+
+        <div class="bg-box order-1">
+            <div class="bg-txt">
+                <img src="./assets/images/login-image.svg" class="img-fluid" />
+            </div>
+        </div>
+
+        <div class="login-box">
+            <div class="d-flex h-100">
+                <div class="align-self-center login-content">
+                    <div class="login-logo" routerLink=""><img [src]="imgUrl"
+                            onerror="this.src='./assets/images/logo.png'" /></div>
+                    <h2>Welcome<span>Please enter your credentials to login.</span></h2>
+                    <div class="login-f">
+                        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                            <div class="form-group">
+                                <label for="username">User Name <span class="text-danger">*</span> </label>
+                                <i class="icon-user icons"></i>
+                                <input type="email" class="form-control" id="username" formControlName="userName"
+                                    placeholder="Enter Username" required>
+
+                            </div><span class="text-danger"
+                                *ngIf=" (f.userName.touched || submitted) && f.userName.errors?.required">
+                                UserName is required
+                            </span>
+                            <div class="form-group">
+                                <label for="passwordf">Password <span class="text-danger">*</span></label>
+                                <i class="icon-lock icons"></i>
+                                <input type="password" class="form-control" formControlName="password" id="passwordf"
+                                    placeholder="********" required>
+
+                            </div>
+                            <span class="text-danger"
+                                *ngIf=" (f.password.touched || submitted) && f.password.errors?.required">
+                                Password is required
+                            </span>
+                            <button type="submit" [disabled]='!loginForm.valid' class="btn btn-primary">Login</button>
+                            <div class="forgot-pass"><a routerLink="/forgot-password" class="btn">Forgot Password</a>
+                            </div>
+                            <div *ngIf="signUp" class="forgot-pass">Don't have an Account <a href="#"
+                                    routerLink="/signup">Signup
+                                    Here</a></div>
+                        </form>
+                    </div>
+
+                    <div class="footer-con">{{footerSetting?.footerCopyRight}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

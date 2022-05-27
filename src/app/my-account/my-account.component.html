@@ -1,0 +1,294 @@
+
+
+<div class="content-container">
+  <div class="page-content-header d-flex">
+    <h2>Profile Details</h2>
+  </div>
+  <div class="myaccount-managemnt">
+    <div class="row">
+      <div class="col-lg-8" [formGroup]="updateProfileForm" (ngSubmit)="onSubmit()">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+
+            <div class="profile-pic">
+              <img [src]="imgUrl" onerror="this.src='./assets/images/avatar.png'">{{employeeRecord?.name}}
+              <div class="uploadFIle">
+                <input type="file" name="file" id="file" class="inputfile" (change)="profileUplaod($event)" />
+                <label for="file">
+                  <p><i class="fa fa-pencil"></i></p>
+                </label>
+              </div>
+            </div>
+ 
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Your Name</label>
+                  <input type="text" class="form-control" formControlName="name" placeholder="Jhone Doe"
+                    [ngClass]="{ 'is-invalid': submit && f1.name.errors }">
+                  <div *ngIf="submit && f1.name.errors" class="invalid-feedback">
+                    <div *ngIf="f1.name.errors.required">Name is
+                      required</div>
+
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label>Company Name</label>
+                  <input type="text" class="form-control" formControlName="companyName" readonly
+                    [ngClass]="{ 'is-invalid': submit && f1.companyName.errors }" placeholder="XYZ Software Ltd.">
+                  <div *ngIf="submit && f1.companyName.errors" class="invalid-feedback">
+                    <div *ngIf="f1.companyName.errors.required">Company Name is
+                      required</div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Email Id</label>
+                  <input type="text" class="form-control" readonly formControlName="email" placeholder="xyz@gmail.com"
+                    [ngClass]="{ 'is-invalid': submit && f1.email.errors }">
+                  <div *ngIf="submit && f1.email.errors" class="invalid-feedback">
+                    <div *ngIf="f1.email.errors.required">Email is
+                      required</div>
+
+                  </div>
+                </div>
+                <div class="col-md-6 phonenumber">
+                  <label>Phone Number</label>
+                  <ngx-intl-tel-input [cssClass]="'custom'" class="form-control" [preferredCountries]="preferredCountries"
+                  [enableAutoCountrySelect]="false" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                  [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+                  [selectedCountryISO]="CountryISO.India"   formControlName="mobileNo" id="mobileNumber"
+                  placeholder="Enter Phone Number" [phoneValidation]="true"
+                  [ngClass]="{ 'is-invalid': f1.mobileNo.touched && f.mobileNo.errors }">
+                </ngx-intl-tel-input>
+                  
+                  <div *ngIf="submit && f1.mobileNo.errors" class="invalid-feedback">
+                    <div *ngIf="f1.mobileNo.errors.required">Company Name is
+                      required</div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Country</label>
+                  <input type="text" class="form-control" formControlName="country" placeholder="USA"
+                    [ngClass]="{ 'is-invalid': submit && f1.country.errors }">
+                  <div *ngIf="submit && f1.country.errors" class="invalid-feedback">
+                    <div *ngIf="f1.country.errors.required">Country Name is
+                      required</div>
+
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label>Location</label>
+                  <input type="text" class="form-control" formControlName="location" placeholder="XYZ"
+                    [ngClass]="{ 'is-invalid': submit && f1.location.errors }">
+                  <div *ngIf="submit && f1.location.errors" class="invalid-feedback">
+                    <div *ngIf="f1.location.errors.required">location is
+                      required</div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center mt-4"><button type="submit" (click)="onSubmit()" class="btn btn-primary">Save
+                Changes</button></div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4" [formGroup]="changePasswordForm" (ngSubmit)="changePassword()">
+        <div class="card shadow-sm border-0">
+          <div class="card-body change-password">
+            <h4>Change Password</h4>
+            <div class="form-group">
+              <label>Old Password</label>
+              <input type="password" class="form-control" formControlName="currentPassword" placeholder="Enter Old Password"
+                [ngClass]="{ 'is-invalid': submitted && f.currentPassword.errors }">
+              <div *ngIf="submitted && f.currentPassword.errors" class="invalid-feedback">
+                <div *ngIf="f.currentPassword.errors.required">Current Password is
+                  required</div>
+
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>New Password</label>
+              <input type="password" class="form-control" formControlName="newPassword" placeholder="Enter New Password"
+                [ngClass]="{ 'is-invalid': submitted && f.newPassword.errors }">
+              <div *ngIf="submitted && f.newPassword.errors" class="invalid-feedback">
+                <div *ngIf="f.newPassword.errors.required">New Password is required
+                </div>
+                <div *ngIf="f.newPassword.errors.minlength">Password must be at
+                  least 6
+                  characters
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Confirm New Password</label>
+              <input type="password" class="form-control" formControlName="confirmPassword"
+                placeholder="Enter Confirm Password"
+                [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }">
+              <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                <div *ngIf="f.confirmPassword.errors.required">Confirm Password is
+                  required</div>
+                <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center mt-4"><button (click)="changePassword()" class="btn btn-primary">Change
+                Password</button></div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mt-2" *ngIf="this.roleId==2">
+      <div class="card-body">
+        <div class="d-flex ex-paln-head">
+          <h3>Plan Subscription</h3>
+          <span class="h-ex-plan">Expires on {{planExpired?.expiryDate | date}} </span>
+
+          <span><label class="btn  text-underline text-primary" style="position: absolute; right: 0;  text-decoration: underline;"
+              (click)="transaction()">Transaction Hitsory</label> </span>
+        </div>
+
+        <div class="row plan-dec">
+          <div class="col-md-6 col-lg-3">
+
+            <span>Plan Type</span>
+            <p> {{packageDetail?.package.packageName}}</p>
+          </div>
+          <div class="col-md-6 col-lg-3">
+
+            <span>Total Users</span>
+
+            <p> {{emolyeeCount}} Users</p>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <span>Plan Expiry Date</span>
+
+            <p>{{planExpired?.expiryDate | date}}</p>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <span>Upgrade your plan to get more </span>
+            <button (click)="upGreadPlan()" class="btn btn-success mt-2">Upgrade your Plan</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card shadow-sm border-0 mt-2" *ngIf="this.roleId==2">
+      <div class="card-body" [formGroup]="companyBranding" (ngSubmit)="updateBradning()">
+        <div class="d-flex ex-paln-head">
+          <h3>Company Branding</h3>
+          
+
+        </div>
+    
+        <div class="row plan-dec">
+          <div class="col-md-6 col-lg-3">
+
+            <span>Title</span>
+            <input class="form-control" formControlName="title" type="text" />
+            <span class="text-danger" *ngIf=" (f4.title.touched || submiting) && f4.title.errors?.required">
+              Title is required
+            </span>
+
+          </div>
+          <div class="col-md-6 col-lg-3">
+
+            <span>Upload Logo</span>
+            <input class="form-control" type="file" (change)="UploadLogo($event)" />
+            <span class="text-danger" *ngIf=" (f4.siteLogo.touched || submiting) && f4.siteLogo.errors?.required">
+              Logo is required
+            </span>
+            <div class="col-md-6 col-lg-3">
+              <div class="logo-display">
+                <img style="height: 100px; width: 152px;" [src]="brandLogo" style="width: 230px;" onerror="this.src='./assets/images/logo.png';" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <span>Favicon Icon</span>
+            <input class="form-control"  type="file" (change)="UploadFavicon($event)" />
+            <span class="text-danger" *ngIf=" (f4.faviIcon.touched || submiting) && f4.faviIcon.errors?.required">
+              Icon is required
+            </span>
+            <div class="col-md-6 col-lg-3">
+              <div class="logo-display">
+                <img style="width: 32px;" [src]="faviConIcon" onerror="this.src='./assets/images/logo.png';" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <span>Update</span>
+            <button type="submit" (click)="updateBradning()" class="btn btn-success ">Update Setting</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <p *ngIf="this.roleId==2" class="delete-acc">Permanently delete your account and all data associated with it. If you experienced an issue with your account and need help, please contact us so we can assist you. <a class="text-danger" style="cursor: pointer"
+        (click)="openDelete(deletes,employeeRecord)">Delete My Account</a></p>
+
+  </div>
+
+</div>
+<!-- </div>
+  </mat-drawer-container>
+</ng-container> -->
+
+<ng-template #deletes let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel"><strong>Delete Account</strong></h5>
+      <button type="button" (click)="modal.dismiss('Cross click')" class="btn-close" data-bs-dismiss="modal"
+        aria-label="Close"></button>
+    </div>
+
+    <form [formGroup]="deleteForm" (ngSubmit)="delete()">
+      <div class="modal-body">
+        <div class="form-group">
+          <span>
+            <h5><strong>Are you sure you want to delete this account?</strong> </h5>
+          </span>
+
+        </div>
+        <div class="add-products create-goal">
+          <div class="form-group">
+         
+            <label>All the information will be lost and unrecoverable, to confirm deletion, please type <span class="text-danger ">DELETE</span> below.</label>
+            <input type="text" (input)="changeStatus($event)" pattern="DELETE" formControlName="name"
+              placeholder="DELETE" class="form-control">
+          </div>
+          <div *ngIf="deleteFromStatus && f5.name.errors" class="invalid-feedback">
+            <div *ngIf="f5.name.errors.required">required
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-secondary"
+        data-bs-dismiss="modal">Close</button>
+      <button type="button" [disabled]="deleteForm.invalid" (click)="delete()" data-bs-dismiss="modal"
+        class="btn btn-danger">Delete</button>
+    </div>
+  </div>
+</ng-template>

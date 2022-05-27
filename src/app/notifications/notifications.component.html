@@ -1,0 +1,89 @@
+
+<div class="content-container">
+
+  <div class="page-content-header d-flex">
+    <h2 class="float-left">Notifications</h2>
+    <button class="btn btn-primary ms-auto" (click)="readAllNotification()">Mark all as read</button>
+  </div>
+
+  <div class="workstream-managemnt">
+    <div class="card shadow-sm border-0">
+      <div class="card-body" *ngFor="let notify of notification" >
+
+        <div   >
+          <div  class="notifi-box unread-noti"  [ngClass]="{
+            'notification-read':notify.status === 1,
+            'notification-unread':notify.status === 0
+            }" >
+            <div class="usern-img"><img [src]="notify.profilePic" onerror="this.src='./assets/images/avatar.png'"></div>
+          
+            <div class="notification-txt"   >
+              <h4>{{notify.name}} : {{notify.dateTime | date:'EEEE'}}</h4>
+  
+              <p>{{notify.message}}</p>
+             
+              <div class="time-delete">
+                {{notify.dateTime | timeAgo}}  <button class="btn" (click)="openDelete(deletes,notify)"><mat-icon>delete_outline</mat-icon></button>
+              </div>
+         
+            </div>
+            <!-- <div class="notification-txt" >
+              <h4>{{notify.name}} : {{not.dateTime | date:'EEEE'}}</h4>
+  
+              <p>{{not.message}}</p>
+              <div class="time-delete">
+                {{not.dateTime | timeAgo}} <button class="btn" (click)="openDelete(deletes,not)"><i
+                    class="fa fa-trash-o"></i></button>
+              </div>
+            </div> -->
+          </div>
+         
+        </div>
+
+
+
+      </div>
+    </div>
+    <mat-paginator [pageSize]="pageLimit" [pageNo]="pageNo" [length]="totaldata ? totaldata : ''"
+     (page)="pageEvents($event)">
+  </mat-paginator>
+  </div>
+
+</div>
+<ng-template #deletes let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel"><strong>Delete Notification</strong></h5>
+      <button type="button" (click)="modal.dismiss('Cross click')" class="btn-close" data-bs-dismiss="modal"
+        aria-label="Close"></button>
+    </div>
+
+    <form [formGroup]="deleteForm" (ngSubmit)="delete()">
+      <div class="modal-body">
+        <div class="form-group">
+          <span style="">
+            <h5><strong>are you sure you want to delete this item?</strong> </h5>
+          </span>
+
+        </div>
+        <div class="add-products create-goal">
+          <div class="form-group">
+            <label>To confirm deletion, please type <span class="text-danger ">DELETE</span> below!</label>
+            <input type="text" (input)="changeStatus($event)" pattern="DELETE" formControlName="name"
+              placeholder="DELETE" class="form-control">
+          </div>
+          <div *ngIf="deleteFromStatus && f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">required
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-secondary"
+        data-bs-dismiss="modal">Close</button>
+      <button type="button" [disabled]="deleteForm.invalid" (click)="delete()" data-bs-dismiss="modal"
+        class="btn btn-danger">Delete</button>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,91 @@
+<header>
+  
+  <div class="container">
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" routerLink=""><img [src]="imgUrl" onerror="this.src='./assets/images/text-logo.png'"></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Product</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="left: 10%;">
+                  <div class="mega-menu">
+                    <div class="row">
+                      <div class="col-lg-5">
+                        <div class="meganav-links">
+                          <ul class="list-unstyled">
+                            <li>
+                              <a class="dropdown-item d-flex mt-4 mb-4" routerLink="/features">
+                                <div><img src="./assets/images/features.svg" style="width: 30px;"/></div>
+                                <div class="ms-2">
+                                  <h4>Features</h4>
+                                  <p>Pharma Product Launch Planning Simplified</p>
+                                </div>
+                              </a>
+                            </li>
+                              
+                            <li>
+                              <a class="dropdown-item d-flex" routerLink="/live-demo">
+                                <div><img src="./assets/images/live-demo.svg" style="width: 30px;"/></div>
+                                <div class="ms-2">
+                                  <h4>Live Demo</h4>
+                                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                </div>
+                            </a>
+                          </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="col-lg-7">
+                        <div class="menurighttxt">
+                          <h5>HOW IT WORKS</h5>
+                          <div class="vedioimg">
+                            <img src="./assets/images/v.png" class="img-fluid"/>
+                            <div class="playbtn">
+                              <a type="button" class="play-btn" (click)="OpenliveDemo()"></a>
+                            </div>
+                          </div>
+                          <h6 class="mt-3 text-primary">What is Lylli LaunchTools</h6>
+                            <p>Easily keep everyone aligned on priorities, centralize all your customer feedback, and always know what to build with confidence.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/pricing">Pricing</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Resources</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="mega-menu">
+                  <ul class="list-unstyled">
+                    <li><a class="dropdown-item" routerLink="/about">About</a></li>
+                    <li><a class="dropdown-item" target="_blank" href="https://blog.lyllilaunchtools.com">Blog</a></li>
+                    <li><a class="dropdown-item" routerLink="/">Ebook/Webinar</a></li>
+                    <li><a class="dropdown-item" routerLink="/live-demo">Live Demo</a></li>
+                    <li><a class="dropdown-item" routerLink="/FAQs">FAQs</a></li>
+                    <li><a class="dropdown-item" target="_blank" href="https://www.linkedin.com/groups/9130303/">Community</a></li>
+                    <li><a class="dropdown-item" routerLink="/security">Security</a></li>
+                  </ul>
+                </div>
+              </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/contact">Contact</a>
+              </li>
+            </ul>
+            <div class="navright ml-auto">
+              <a routerLink="/" class="btn btn-login" routerLink="/login"><i class="icon-user icons me-2"></i> <span>Login</span></a>
+              <a  class="btn btn-success ms-lg-2" routerLink="/signup">Start free trial</a>
+            </div>
+          </div>
+          
+        </div>
+      </nav>
+  </div>

@@ -1,0 +1,978 @@
+<ng-container>
+
+  <app-loader1></app-loader1>
+  <app-loader2></app-loader2>
+ 
+  <div class="content-container">
+
+    <div class="page-content-header d-flex">
+      <h2>{{projectRecord?.projectName}}</h2>
+      <button class="btn btn-primary" type="button" routerLink="/products">
+        < Back</button>
+          <div class="ms-auto c-header-btn" (click)="openSm(goalModel,'',0)">
+            <a class="btn btn-primary">Add New Goal</a>
+          </div>
+          <div class="pro-btns">
+            <div class="btn-group" role="group" aria-label="view list">
+              <button type="button" class="btn active" routerLink="/product-detail">
+                <mat-icon>sort</mat-icon>
+              </button>
+              <button type="button" class="btn" routerLink="/product-kanban">
+                <mat-icon>view_column</mat-icon>
+              </button>
+            </div>
+            <button type="button" class="btn" routerLink="/gantt-chart">
+              <mat-icon>stacked_bar_chart</mat-icon>
+            </button>
+            <button type="button" (click)="exportAsXLSX()" class="btn export-btn">
+              <i class='fas fa-file-export'></i>
+            </button>
+          </div>
+    </div>
+
+    <div class="product-list-view ">
+      <div class="d-flex">
+        <div aria-label="breadcrumb" class="justify-content-start align-items-start mb-1">
+          <ol class="breadcrumb mb-2">
+            <li class="breadcrumb-item"><a routerLink="/products">Products</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a routerLink="/product-detail">{{name}}</a>
+            </li>
+          </ol>
+        </div>
+        <div class="d-flex ms-auto">
+          <div class="fliled me-2">
+            <mat-form-field appearance="fill" class="resion-select ">
+              <mat-label>WorkStream Filter</mat-label>
+              <mat-select [(ngModel)]='workStreamId' [(value)]='workStreamId'
+                (selectionChange)="workStreamFilter($event)">
+
+                <mat-option disabled class="padding: 0px !important">
+                  Select WorkStream
+                </mat-option>
+                <mat-option [value]='undefined' class="padding: 0px !important">
+                  Select All
+                </mat-option>
+                <mat-option *ngFor="let work of workSteamRecord; let i = index" [value]='work.id'>
+                  {{work.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+
+          <div class="justify-content-end align-items-end mb-1">Expand All</div>
+          <label class="switch-wrap">
+            <input type="checkbox" (click)="expandNode($event,0)" />
+            <div class="switch"></div>
+          </label>
+          <div class="">Collpse All</div>
+        </div>
+      </div>
+      <!-- {{data | json}} -->
+
+      <p *ngIf="nodes.length<=0" style="color: #1941DF !important;"  class="text-center text-justify">
+        {{errMessage}}
+      </p>
+      <app-loader3></app-loader3>
+      <table id="excel-table">
+
+        <ng-template  #tmplNode let-node="node" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <div class="node-item" [attr.data-id]="node.id" [attr.id]="'node-'+node.id">
+            <div class="node-title">
+              
+              <span class="pro-subname" matTooltip="What are we trying to achieve - a desired end state and/or big picture"
+              [matTooltipPosition]="'above'" *ngIf="node.type=='Goal'">Goal > </span>
+              <span class="pro-subname"matTooltip="What needs to happen in order to achieve the goal - SMART Objectives
+              (Specific, Measurable, Achievable, Reviewable, Timebound)
+              "
+              [matTooltipPosition]="'above'" *ngIf="node.type=='Objective'">Objective > </span>
+              <span class="pro-subname" matTooltip="Methods, approach and capabilities put in place in order to achieve the objective"
+              [matTooltipPosition]="'above'"*ngIf="node.type=='Strategy'">Strategy > </span>
+              <span class="pro-subname"matTooltip="Specific activities taken to implement the strategy in order to achieve the objective"
+              [matTooltipPosition]="'above'" *ngIf="node.type=='Tactic'">Tactic > </span>
+              <span class="pro-subname"matTooltip="2nd level activities to achieve the tactics"
+              [matTooltipPosition]="'above'"*ngIf="node.type=='Key Activity'">Key Activity > </span>
+              <div class="d-flex align-items-center">
+                <div class="goals-title">
+                  <div class="box-handler" cdkDragHandle>
+                    <mat-icon>grid_view</mat-icon>
+                  </div>
+                  <button class="btn" data-bs-toggle="offcanvas" (click)="decisionAction(node,'project','project')"
+                    data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                    {{node.name}}</button>
+                </div>
+                <div>
+                  <div class="goalsstatus" *ngIf="node.status=='Not Started'"><span class="bg-task-not-started">Not
+                      Started</span></div>
+                  <div class="goalsstatus" *ngIf="node.status=='Started'"><span class="bg-task-started">Started</span>
+                  </div>
+                  <div class="goalsstatus" *ngIf="node.status=='Delayed'"><span class="bg-at-high-risk">Delayed</span>
+                  </div>
+                  <div class="goalsstatus" *ngIf="node.status=='At Risk'"><span class="bg-at-risk">At Risk</span>
+                  </div>
+                  <div class="goalsstatus" *ngIf="node.status=='Completed'"><span
+                      class="bg-task-completed">Completed</span></div>
+                </div>
+                <div class="duedate">
+
+                  <input matInput [matDatepicker]="picker" (dateChange)="handleDOBChange($event)"
+                    placeholder="{{node.endDate}}">
+                </div>
+                <div class="title-right ms-auto">
+                  <div class="d-flex align-items-center" id="buttonBox">
+                    <button class="btn" *ngIf="node.type=='Goal'" mat-raised-button matTooltip="Add Objective"
+                      [matTooltipPosition]="'above'" (click)="openObjective(objectiveModel,node,0)">
+                      <mat-icon>add_box</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Objective'" mat-raised-button matTooltip="Add Strategy"
+                      [matTooltipPosition]="'above'" (click)="openStratagy(stratrgyModel,node,0)">
+                      <mat-icon>add_box</mat-icon>
+                    </button>
+
+                    <button class="btn" *ngIf="node.type=='Strategy'" mat-raised-button matTooltip="Add Tactic"
+                      [matTooltipPosition]="'above'" (click)="openTactic(tacticModel,node,0)">
+                      <mat-icon>add_box</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Tactic'" mat-raised-button matTooltip="Add KeyActivity"
+                      [matTooltipPosition]="'above'" (click)="openActivity(keyActivityModel,node,0)">
+                      <mat-icon>add_box</mat-icon>
+                    </button>
+
+                    <button class="btn" *ngIf="node.type=='Goal'" (click)="openSm(goalModel,node,1)" mat-raised-button
+                      matTooltip="Edit" [matTooltipPosition]="'above'">
+                      <mat-icon>edit</mat-icon>
+                    </button> <button class="btn" *ngIf="node.type=='Objective'"
+                      (click)="openObjective(objectiveModel,node,1)" mat-raised-button matTooltip="Edit"
+                      [matTooltipPosition]="'above'">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Strategy'" (click)="openStratagy(stratrgyModel,node,1)"
+                      mat-raised-button matTooltip="Edit" [matTooltipPosition]="'above'">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Tactic'" (click)="openTactic(tacticModel,node,1)"
+                      mat-raised-button matTooltip="Edit" [matTooltipPosition]="'above'">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Key Activity'"
+                      (click)="openActivity(keyActivityModel,node,1)" mat-raised-button matTooltip="Edit"
+                      [matTooltipPosition]="'above'">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+
+
+                    <button class="btn" *ngIf="node.type=='Goal'" mat-raised-button matTooltip="Update Status"
+                      (click)="changeDate($event,node,'goalStatus')" [matTooltipPosition]="'above'"
+                      [matMenuTriggerFor]="menu">
+                      <mat-icon>task_alt</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Objective'" mat-raised-button matTooltip="Update Status"
+                      (click)="changeDate($event,node,'objectiveStatus')" [matTooltipPosition]="'above'"
+                      [matMenuTriggerFor]="menu">
+                      <mat-icon>task_alt</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Strategy'" mat-raised-button matTooltip="Update Status"
+                      (click)="changeDate($event,node,'startagyStatus')" [matTooltipPosition]="'above'"
+                      [matMenuTriggerFor]="menu">
+                      <mat-icon>task_alt</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Tactic'" mat-raised-button matTooltip="Update Status"
+                      (click)="changeDate($event,node,'tacticStatus')" [matTooltipPosition]="'above'"
+                      [matMenuTriggerFor]="menu">
+                      <mat-icon>task_alt</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Key Activity'" mat-raised-button matTooltip="Update Status"
+                      (click)="changeDate($event,node,'keyStatus')" [matTooltipPosition]="'above'"
+                      [matMenuTriggerFor]="menu">
+                      <mat-icon>task_alt</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu" xPosition="before">
+                      <button mat-menu-item (click)="changeProductStatus($event,'Not Started')"><span
+                          class="pro-status bg-task-not-started"></span>Not Started</button>
+                      <button mat-menu-item (click)="changeProductStatus($event,'Started')"><span
+                          class="pro-status bg-task-started"></span>Started</button>
+                      <button mat-menu-item (click)="changeProductStatus($event,'Delayed')"><span
+                          class="pro-status bg-at-high-risk"></span>Delayed</button>
+                      <button mat-menu-item (click)="changeProductStatus($event,'At Risk')"><span
+                          class="pro-status bg-at-risk"></span>At Risk</button>
+                      <button mat-menu-item (click)="changeProductStatus($event,'Completed')"><span
+                          class="pro-status bg-task-completed"></span>Completed</button>
+                    </mat-menu>
+                    <ng-container>
+
+
+                    </ng-container>
+
+                    <button class="btn" *ngIf="node.type=='Goal'" [disabled]="goalPermission?.update==false" (click)="changeDate($event,node,'goal')"
+                      mat-raised-button matTooltip="Finish Date" [matTooltipPosition]="'above'" (click)="picker.open()">
+                      <mat-icon>date_range</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Objective'"[disabled]="objectivePermission?.update==false"(click)="changeDate($event,node,'objective')"
+                      mat-raised-button matTooltip="Finish Date" [matTooltipPosition]="'above'" (click)="picker.open()">
+                      <mat-icon>date_range</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Strategy'"[disabled]="startgyPermission?.update==false" (click)="changeDate($event,node,'startagy')"
+                      mat-raised-button matTooltip="Finish Date" [matTooltipPosition]="'above'" (click)="picker.open()">
+                      <mat-icon>date_range</mat-icon>
+                    </button>
+
+                    <button class="btn" *ngIf="node.type=='Tactic'" [disabled]="tacticPermission?.update==false"(click)="changeDate($event,node,'tactic')"
+                      mat-raised-button matTooltip="Finish Date" [matTooltipPosition]="'above'" (click)="picker.open()">
+                      <mat-icon>date_range</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Key Activity'"[disabled]="activityPermission?.update==false" (click)="changeDate($event,node,'key')"
+                      mat-raised-button matTooltip="Finish Date" [matTooltipPosition]="'above'" (click)="picker.open()">
+                      <mat-icon>date_range</mat-icon>
+                    </button>
+                    <mat-datepicker #picker></mat-datepicker>
+
+                    <button class="btn" *ngIf="node.type=='Goal'" mat-raised-button mat-button
+                      [matMenuTriggerFor]="menu1" matTooltip="Duplicate" [matTooltipPosition]="'above'">
+                      <mat-icon>file_copy</mat-icon>
+                    </button>
+                    <mat-menu #menu1="matMenu">
+                      <button mat-menu-item (click)="createCopy(node,5)">Duplicate</button>
+                      <button mat-menu-item (click)="createCopyAll(node,5)">Duplicate All</button>
+                    </mat-menu>
+
+                    <button class="btn" *ngIf="node.type=='Objective'" mat-raised-button mat-button
+                      [matMenuTriggerFor]="menu2" matTooltip="Duplicate" [matTooltipPosition]="'above'">
+                      <mat-icon>file_copy</mat-icon>
+                    </button>
+                    <mat-menu #menu2="matMenu">
+                      <button mat-menu-item (click)="createCopy(node,6)">Duplicate</button>
+                      <button mat-menu-item (click)="createCopyAll(node,6)">Duplicate All</button>
+                    </mat-menu>
+
+                    <button class="btn" *ngIf="node.type=='Strategy'" mat-raised-button mat-button
+                      [matMenuTriggerFor]="menu3" matTooltip="Duplicate" [matTooltipPosition]="'above'">
+                      <mat-icon>file_copy</mat-icon>
+                    </button>
+                    <mat-menu #menu3="matMenu">
+                      <button mat-menu-item (click)="createCopy(node,7)">Duplicate</button>
+                      <button mat-menu-item (click)="createCopyAll(node,7)">Duplicate All</button>
+                    </mat-menu>
+
+                    <button class="btn" *ngIf="node.type=='Tactic'" mat-raised-button mat-button
+                      [matMenuTriggerFor]="menu4" matTooltip="Duplicate tactic" [matTooltipPosition]="'above'">
+                      <mat-icon>file_copy</mat-icon>
+                    </button>
+                    <mat-menu #menu4="matMenu">
+                      <button mat-menu-item (click)="createCopy(node,8)">Duplicate</button>
+                      <button mat-menu-item (click)="createCopyAll(node,8)">Duplicate All</button>
+                    </mat-menu>
+
+                    <button class="btn" *ngIf="node.type=='Key Activity'" mat-raised-button mat-button
+                      [matMenuTriggerFor]="menu5" matTooltip="Duplicate" [matTooltipPosition]="'above'">
+                      <mat-icon>file_copy</mat-icon>
+                    </button>
+                    <mat-menu #menu5="matMenu">
+                      <button mat-menu-item (click)="createCopy(node,9)">Duplicate</button>
+                      <button mat-menu-item (click)="createCopyAll(node,9)">Duplicate All</button>
+                    </mat-menu>
+
+
+                    <button class="btn" *ngIf="node.type=='Goal'" (click)="openDelete(deletes,node,5)" mat-raised-button
+                      matTooltip="Delete" [matTooltipPosition]="'above'">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Objective'" (click)="openDelete(deletes,node,6)"
+                      mat-raised-button matTooltip="Delete" [matTooltipPosition]="'above'">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Strategy'" (click)="openDelete(deletes,node,7)"
+                      mat-raised-button matTooltip="Delete" [matTooltipPosition]="'above'">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Tactic'" (click)="openDelete(deletes,node,8)"
+                      mat-raised-button matTooltip="Delete" [matTooltipPosition]="'above'">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                    <button class="btn" *ngIf="node.type=='Key Activity'" (click)="openDelete(deletes,node,9)"
+                      mat-raised-button matTooltip="Delete" [matTooltipPosition]="'above'">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                    <div (click)="expended(node,node.ids)">
+                      <span class="" (click)="node.isExpanded=!node.isExpanded"
+                        [ngClass]="node.isExpanded ? 'closed-icon' : 'expand-icon'">
+                        {{node.children.length ? (node.isExpanded?'':'') : ''}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+             
+            </div>
+            <div  *ngIf="node.isExpanded && node.children.length" class="node-children" cdkDropList cdkDropListOrientation="vertical"
+              [cdkDropListData]="node.children" [id]="node.id" [cdkDropListConnectedTo]="dropTargetIds"
+              (cdkDropListDropped)="drop($event)"  [cdkDropListSortingDisabled]="true">
+
+
+              <div *ngFor="let child of node.children;"  cdkDrag [cdkDragData]="child"
+                (cdkDragMoved)="dragMoved($event)">
+                <ng-container *ngTemplateOutlet="tmplNode,context:{node:child}"></ng-container>
+              </div>
+
+
+            </div>
+          </div>
+        </ng-template>
+      </table>
+      <ng-container *ngFor="let node of nodes;">
+
+        <div cdkDropList [cdkDropListData]="nodes" (mouseover)="mouseUp($event)" [id]="'main'" [cdkDropListConnectedTo]="dropTargetIds"
+          (cdkDropListDropped)="drop($event)" [cdkDropListSortingDisabled]="true">
+          <div cdkDrag [cdkDragData]="node" (cdkDragMoved)="dragMoved($event)">
+            <ng-container *ngTemplateOutlet="tmplNode,context:{node:node}"></ng-container>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+ 
+
+  <!-------Discusiion Forum--------->
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="discussion-forum" aria-labelledby="discussion-forumLabel">
+    <div class="offcanvas-header">
+      <h5 id="discussionHeading">
+        <div class="head-icon"><i class="fa fa-folder"></i></div> {{singleList?.name}}
+      </h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <app-discussion-forum></app-discussion-forum>
+    </div>
+  </div>
+
+  <!-- add goal  -->
+  <ng-template #goalModel let-modal>
+    <!-- <div class="modal-dialog modal-lg"> -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{headingText}}</h5>
+        <button type="button" (click)="modal.dismiss('Cross click')" class="btn-close" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <form [formGroup]="goalFrom" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <div class="add-products create-goal">
+            <div class="form-group">
+              <label for="name">Title <span class="text-danger">*</span></label>
+              <input type="text" id="name" name="name" formControlName="name" class="form-control"
+                placeholder="Enter Title" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+              <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required"> Title is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Description </label>
+              <textarea class="form-control" formControlName="description" rows="3"
+                placeholder="Enter Description"></textarea>
+
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="option-select">
+                  <label>Assigned To</label>
+
+                  <select class="form-select" formControlName="assignTo"
+                    [ngClass]="{ 'is-invalid': submitted && f.assignTo.errors }">
+                    <option  value="">Assigned To</option>
+                    <option *ngFor="let employee of employeeList" [value]='employee.id'> {{employee.name}} </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-sm-4 date-range">
+                <label>Start Date <span class="text-danger">*</span></label>
+                <mat-form-field appearance="fill">
+                  <input matInput [matDatepicker]="picker1" placeholder="Select Date" 
+                    formControlName="startDate" [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                  <div *ngIf="submitted && f.startDate.errors" class="invalid-feedback">
+                    <div *ngIf="f.startDate.errors.required"> Start Date is required
+                    </div>
+                  </div>
+                </mat-form-field>
+
+              </div>
+              <div class="col-sm-4 date-range">
+                <label>Finish Date <span class="text-danger">*</span></label>
+                <mat-form-field appearance="fill">
+                  <input matInput [matDatepicker]="picker2" placeholder="Select Date" formControlName="endDate"
+                     [ngClass]="{ 'is-invalid': submitted && f.endDate.errors }">
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker>
+                  <div *ngIf="submitted && f.endDate.errors" class="invalid-feedback">
+                    <div *ngIf="f.endDate.errors.required"> End Date is required
+                    </div>
+                  </div>
+                </mat-form-field>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="option-select">
+                  <label>Status <span class="text-danger">*</span></label>
+                  <select class="form-select" formControlName="status"
+                    [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
+                    <option disabled value="">Select Status <span class="text-danger">*</span></option>
+                    <option *ngFor="let status of statusList" [value]='status.title'>{{status.title}} </option>
+                  </select>
+                  <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
+                    <div *ngIf="f.status.errors.required">Status is required
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="option-select">
+                  <label>WorkStream <span class="text-danger">*</span></label>
+                  <select class="form-select" formControlName="workStreamId"
+                    [ngClass]="{ 'is-invalid': submitted && f.workStreamId.errors }">
+                    <option disabled value="">Select Workstream</option>
+                    <option *ngFor="let work of workSteamRecord" [value]='work.id'>{{work.name}} </option>
+                  </select>
+                  <div *ngIf="submitted && f.workStreamId.errors" class="invalid-feedback">
+                    <div *ngIf="f.workStreamId.errors.required">Workstream Name is required
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div> 
+            <div class="attached-files" *ngIf="editMode==0">
+              <input type="file" name="file3" id="file3" (change)="fileUploads($event,'goal')" class="attched-file-input">
+              <label for="file3" *ngIf="!goalFileName">Attach File</label>
+              <label for="file3" *ngIf="goalFileName">{{goalFileName}}</label>
+          
+            </div>
+           
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-secondary"
+            data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">{{buttonText}}</button>
+        </div>
+      </form>
+
+    </div>
+    <!-- </div> -->
+  </ng-template>
+  <style>
+    ::ng-deep .cdk-overlay-container {
+      z-index: 2000;
+    }
+  </style>
+  <!-- add objective  -->
+  <ng-template #objectiveModel let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{objectiveHeading}}</h5>
+        <button type="button" (click)="modal.dismiss('Cross click')" class="btn-close" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <form [formGroup]="objecativeForm" (ngSubmit)="addObjective()">
+        <div class="modal-body">
+          <div class="add-products create-goal">
+            <div class="form-group">
+              <label for="name">Title <span class="text-danger">*</span></label>
+              <input type="text" id="name" name="name" formControlName="name" class="form-control"
+                placeholder="Enter Title" [ngClass]="{ 'is-invalid': submitted && f1.name.errors }">
+              <div *ngIf="submitted && f1.name.errors" class="invalid-feedback">
+                <div *ngIf="f1.name.errors.required"> Title is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Description </label>
+              <textarea class="form-control" formControlName="description" rows="3"
+                placeholder="Enter Description"></textarea>
+
+            </div>
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="option-select">
+                  <label>Assigned To</label>
+                  <select class="form-select" formControlName="assignTo"
+                    [ngClass]="{ 'is-invalid': submitted && f1.assignTo.errors }">
+                    <option  value="">Assigned To</option>
+                    <option *ngFor="let employee of employeeList" [value]='employee.id'> {{employee.name}} </option>
+                  </select>
+                  <div *ngIf="submitted && f1.assignTo.errors" class="invalid-feedback">
+                    <div *ngIf="f1.assignTo.errors.required"> Dependency is required
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+              <div class="col-sm-3 date-range">
+                <label>Start Date <span class="text-danger">*</span></label>
+                <mat-form-field appearance="fill">
+                  <input matInput [matDatepicker]="picker1" placeholder="Select Date" formControlName="startDate"
+                    [ngClass]="{ 'is-invalid': submitted && f1.startDate.errors }">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                  <div *ngIf="submitted && f1.startDate.errors" class="invalid-feedback">
+                    <div *ngIf="f1.startDate.errors.required"> Start Date is required
+                    </div>
+                  </div>
+                </mat-form-field>
+
+              </div>
+              <div class="col-sm-3 date-range">
+                <label>Finish Date <span class="text-danger">*</span></label>
+                <mat-form-field appearance="fill">
+                  <input matInput [matDatepicker]="picker2" placeholder="Select Date" formControlName="endDate"
+                    [ngClass]="{ 'is-invalid': submitted && f1.endDate.errors }">
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker>
+                  <div *ngIf="submitted && f1.endDate.errors" class="invalid-feedback">
+                    <div *ngIf="f1.endDate.errors.required"> End Date is required
+                    </div>
+                  </div>
+                </mat-form-field>
+
+              </div>
+              <div class="col-sm-3">
+                <div class="option-select">
+                  <label>Status <span class="text-danger">*</span></label>
+                  <select class="form-select" formControlName="status"
+                    [ngClass]="{ 'is-invalid': submitted && f1.status.errors }">
+                    <option disabled value="">Select Status</option>
+                    <option *ngFor="let status of statusList" [value]='status.title'>{{status.title}} </option>
+                  </select>
+                  <div *ngIf="submitted && f1.status.errors" class="invalid-feedback">
+                    <div *ngIf="f1.status.errors.required">Status is required
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="attached-files" *ngIf="editMode==0">
+              <input type="file" name="file4" id="file4" (change)="fileUploads($event,'objective')"
+                class="attched-file-input">
+              <label for="file4" *ngIf="!objectiveFileName">Attach File</label>
+              <label for="file4" *ngIf="objectiveFileName">{{objectiveFileName}}</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-secondary"
+            data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">{{objectiveButton}}</button>
+        </div>
+      </form>
+
+    </div>
+    <!-- </div> -->
+
+    <style>
+      ::ng-deep .cdk-overlay-container {
+        z-index: 2000;
+      }
+    </style>
+    <!-- </div> -->
+  </ng-template>
+  <!-- <div class="offcanvas-body">
+  <div class="modal-dialog modal-lg"> -->
+  <ng-template #stratrgyModel let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{startagyHeading}}</h5>
+        <button type="button" (click)="modal.dismiss('Cross click')" class="btn-close" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <form [formGroup]="strategyForm" (ngSubmit)="addStratagy()">
+        <div class="modal-body">
+          <div class="add-products create-goal">
+            <div class="form-group">
+              <label for="name">Title <span class="text-danger">*</span></label>
+              <input type="text" id="name" name="name" formControlName="name" class="form-control"
+                placeholder="Enter Title" [ngClass]="{ 'is-invalid': submitted && f2.name.errors }">
+              <div *ngIf="submitted && f2.name.errors" class="invalid-feedback">
+                <div *ngIf="f2.name.errors.required"> Title is required
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="name">Dependency </label>
+              <select class="form-select" formControlName="dependency">
+                <option disabled value="">Select Dependency</option>
+                <option  [value]="">Remove Dependency</option>
+                <option *ngFor="let dep of dependecyList" [value]='dep.id' selected>{{dep.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Description </label>
+              <textarea class="form-control" formControlName="description" rows="3"
+                placeholder="Enter Description"></textarea>
+
+            </div>
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="option-select">
+                  <label>Assigned To</label>
+                  <select class="form-select" formControlName="assignTo"
+                    [ngClass]="{ 'is-invalid': submitted && f2.assignTo.errors }">
+                    <option  value="">Assigned To</option>
+                    <option *ngFor="let employee of employeeList" [value]='employee.id'> {{employee.name}} </option>
+                  </select>
+                  <div *ngIf="submitted && f2.assignTo.errors" class="invalid-feedback">
+                    <div *ngIf="f2.assignTo.errors.required"> Dependency is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3 date-range">
+                <label>Start Date <span class="text-danger">*</span></label>
+                <mat-form-field appearance="fill">
+                  <input matInput [matDatepicker]="picker1" placeholder="Select Date" formControlName="startDate"
+                    [ngClass]="{ 'is-invalid': submitted && f2.startDate.errors }">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                  <div *ngIf="submitted && f2.startDate.errors" class="invalid-feedback">
+                    <div *ngIf="f2.startDate.errors.required"> Start Date is required
+                    </div>
+                  </div>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-3 date-range">
+                <label>Finish Date <span class="text-danger">*</span></label>
+                <mat-form-field appearance="fill">
+                  <input matInput [matDatepicker]="picker2" placeholder="Select Date" formControlName="endDate"
+                    [ngClass]="{ 'is-invalid': submitted && f2.endDate.errors }">
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker>
+                  <div *ngIf="submitted && f2.endDate.errors" class="invalid-feedback">
+                    <div *ngIf="f2.endDate.errors.required"> End Date is required
+                    </div>
+                  </div>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-3">
+                <div class="option-select">
+                  <label>Status <span class="text-danger">*</span></label>
+                  <select class="form-select" formControlName="status"
+                    [ngClass]="{ 'is-invalid': submitted && f2.status.errors }">
+                    <option disabled value="">Select Status</option>
+                    <option *ngFor="let status of statusList" [value]='status.title'>{{status.title}} </option>
+                  </select>
+                  <div *ngIf="submitted && f2.status.errors" class="invalid-feedback">
+                    <div *ngIf="f2.status.errors.required">Status is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="attached-files" *ngIf="editMode==0">
+              <input type="file" name="file" id="file5" (change)="fileUploads($event,'strategy')"
+                class="attched-file-input">
+              <label for="file5" *ngIf="!strategyFileName">Attach File</label>
+              <label for="file5" *ngIf="strategyFileName">{{strategyFileName}}</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')"
+            data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">{{startagyButton}}</button>
+        </div>
+      </form>
+
+    </div>
+  </ng-template>
+  <!-- </div> -->
+
+  <style>
+    ::ng-deep .cdk-overlay-container {
+      z-index: 2000;
+    }
+  </style>
+  <!-- </div> -->
+
+
+  <!-- add tactic -->
+
+  <ng-template #tacticModel let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{taticHeading}}</h5>
+        <button type="button" (click)="modal.dismiss('Cross click')" class="btn-close" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <form [formGroup]="tacticsForm" (ngSubmit)="addTactic()">
+        <div class="modal-body">
+          <div class="add-products create-goal">
+            <div class="form-group">
+              <label for="name">Title <span class="text-danger">*</span></label>
+              <input type="text" id="name" name="name" formControlName="name" class="form-control"
+                placeholder="Enter Title" [ngClass]="{ 'is-invalid': submitted && f3.name.errors }">
+              <div *ngIf="submitted && f3.name.errors" class="invalid-feedback">
+                <div *ngIf="f3.name.errors.required"> Title is required
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="name">Dependency</label>
+              <select class="form-select" formControlName="dependency">
+                <option disabled value="">Select Dependency</option>
+                <option value="Remove Dependency">Remove Dependency</option>
+                <option *ngFor="let obj of dependecyList1" [value]="obj.id">{{obj.name}}</option>
+
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Description </label>
+              <textarea class="form-control" formControlName="description" rows="3"
+                placeholder="Enter Description"></textarea>
+            </div>
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="option-select">
+                  <label>Assigned To</label>
+                  <select class="form-select" formControlName="assignTo">
+                    <option  value="">Assigned To</option>
+                    <option *ngFor="let employee of employeeList" [value]='employee.id'> {{employee.name}} </option>
+                  </select>
+
+                </div>
+              </div>
+              <div class="col-sm-3 date-range">
+                <label>Start Date <span class="text-danger">*</span></label>
+                <mat-form-field appearance="fill">
+                  <input matInput [matDatepicker]="picker1" placeholder="Select Date" formControlName="startDate"
+                    [ngClass]="{ 'is-invalid': submitted && f3.startDate.errors }">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                  <div *ngIf="submitted && f3.startDate.errors" class="invalid-feedback">
+                    <div *ngIf="f3.startDate.errors.required"> Start Date is required
+                    </div>
+                  </div>
+                </mat-form-field>
+
+              </div>
+              <div class="col-sm-3 date-range">
+                <label>Finish Date <span class="text-danger">*</span></label>
+                <mat-form-field appearance="fill">
+                  <input matInput [matDatepicker]="picker2" placeholder="Select Date" formControlName="endDate"
+                    [ngClass]="{ 'is-invalid': submitted && f3.endDate.errors }">
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker>
+                  <div *ngIf="submitted && f3.endDate.errors" class="invalid-feedback">
+                    <div *ngIf="f3.endDate.errors.required"> End Date is required
+                    </div>
+                  </div>
+                </mat-form-field>
+
+              </div>
+              <div class="col-sm-3">
+                <div class="option-select">
+                  <label>Status <span class="text-danger">*</span></label>
+                  <select class="form-select" formControlName="status"
+                    [ngClass]="{ 'is-invalid': submitted && f3.status.errors }">
+                    <option disabled value="">Select Status</option>
+                    <option *ngFor="let status of statusList" [value]='status.title'>{{status.title}} </option>
+                  </select>
+                  <div *ngIf="submitted && f3.status.errors" class="invalid-feedback">
+                    <div *ngIf="f3.status.errors.required">Status is required
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="attached-files" *ngIf="editMode==0">
+              <input type="file" name="file" id="file6" (change)="fileUploads($event,'tactics')"
+                class="attched-file-input">
+              <label for="file6" *ngIf="!tacticsFileName">Attach File</label>
+              <label for="file6" *ngIf="tacticsFileName">{{tacticsFileName}}</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-secondary"
+            data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">{{tacticButton}}</button>
+        </div>
+      </form>
+
+    </div>
+    <!-- </div> -->
+  </ng-template>
+  <style>
+    ::ng-deep .cdk-overlay-container {
+      z-index: 2000;
+    }
+  </style>
+  <ng-template #keyActivityModel let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{activityHeading}}</h5>
+        <button type="button" (click)="modal.dismiss('Cross click')" class="btn-close" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <form [formGroup]="activityForm" (ngSubmit)="addActivity()">
+        <div class="modal-body">
+          <div class="add-products create-goal">
+            <div class="form-group">
+              <label for="name">Title <span class="text-danger">*</span></label>
+              <input type="text" id="name" name="name" formControlName="name" class="form-control"
+                placeholder="Enter Title" [ngClass]="{ 'is-invalid': submitted && f4.name.errors }">
+              <div *ngIf="submitted && f4.name.errors" class="invalid-feedback">
+                <div *ngIf="f4.name.errors.required"> Title is required
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="name">Dependency</label>
+              <select class="form-select" formControlName="dependency">
+                <option disabled value="">Select Dependency</option>
+                <option  value="Remove Dependency">Remove Dependency</option>
+                <option *ngFor="let dependecy of dependecyList2" [value]='dependecy.id'> {{dependecy.name}} </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Description </label>
+              <textarea class="form-control" formControlName="description" rows="3"
+                placeholder="Enter Description"></textarea>
+
+            </div>
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="option-select">
+                  <label>Assigned To</label>
+                  <select class="form-select" formControlName="assignTo">
+                    <option  value="">Assigned To</option>
+                    <option *ngFor="let employee of employeeList" [value]='employee.id'> {{employee.name}} </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3 date-range">
+                <label>Start Date <span class="text-danger">*</span></label>
+                <mat-form-field appearance="fill">
+                  <input matInput [matDatepicker]="picker1" placeholder="Select Date" formControlName="startDate"
+                    [ngClass]="{ 'is-invalid': submitted && f4.startDate.errors }">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                  <div *ngIf="submitted && f4.startDate.errors" class="invalid-feedback">
+                    <div *ngIf="f4.startDate.errors.required"> Start Date is required
+                    </div>
+                  </div>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-3 date-range">
+                <label>Finish Date <span class="text-danger">*</span></label>
+                <mat-form-field appearance="fill">
+                  <input matInput [matDatepicker]="picker2" placeholder="Select Date" formControlName="endDate"
+                    [ngClass]="{ 'is-invalid': submitted && f4.endDate.errors }">
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker>
+                  <div *ngIf="submitted && f4.endDate.errors" class="invalid-feedback">
+                    <div *ngIf="f4.endDate.errors.required"> End Date is required
+                    </div>
+                  </div>
+                </mat-form-field>
+
+              </div>
+              <div class="col-sm-3">
+                <div class="option-select">
+                  <label>Status <span class="text-danger">*</span></label>
+                  <select class="form-select" formControlName="status"
+                    [ngClass]="{ 'is-invalid': submitted && f4.status.errors }">
+                    <option  value="">Select Status</option>
+                    <option *ngFor="let status of statusList" [value]='status.title'>{{status.title}} </option>
+                  </select>
+                  <div *ngIf="submitted && f4.status.errors" class="invalid-feedback">
+                    <div *ngIf="f4.status.errors.required">Status is required
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="attached-files" *ngIf="editMode==0">
+              <input type="file" name="file" id="file2" (change)="fileUploads($event,'activity')"
+                class="attched-file-input">
+              <label for="file2" *ngIf="!activityFileName">Attach File</label>
+              <label for="file2" *ngIf="activityFileName">{{activityFileName}}</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-secondary"
+            data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">{{activityButton}}</button>
+        </div>
+      </form>
+
+    </div>
+    <!-- </div> -->
+
+    <style>
+      ::ng-deep .cdk-overlay-container {
+        z-index: 2000;
+      }
+    </style>
+    <!-- </div> -->
+  </ng-template>
+
+  <ng-template #deletes let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><strong>{{deleteHeading}}</strong></h5>
+        <button type="button" (click)="modal.dismiss('Cross click')" class="btn-close" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+
+      <form [formGroup]="deleteForm" (ngSubmit)="delete()">
+        <div class="modal-body">
+          <div class="form-group">
+            <span>
+              <h5><strong>are you sure you want to delete this item?</strong> </h5>
+            </span>
+
+          </div>
+          <div class="add-products create-goal">
+            <div class="form-group">
+              <label>To confirm deletion, please type <span class="text-danger ">DELETE</span> below!</label>
+              <input type="text" (input)="changeStatus($event)" pattern="DELETE" formControlName="name"
+                placeholder="DELETE" class="form-control">
+            </div>
+            <div *ngIf="deleteFromStatus && f5.name.errors" class="invalid-feedback">
+              <div *ngIf="f5.name.errors.required">required
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="modal-footer">
+        <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-secondary"
+          data-bs-dismiss="modal">Close</button>
+        <button type="button" [disabled]="deleteForm.invalid" (click)="delete()" data-bs-dismiss="modal"
+          class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ejs-treegrid style="display: none;"  #grid [dataSource]='data' childMapping='children' height='220'
+    (toolbarClick)='toolbarClick($event)' [allowPaging]='true' [allowExcelExport]='true' [treeColumnIndex]='1'
+    [toolbar]='toolbar'>
+    <e-columns>
+      <e-column field='type' headerText='Task Type' textAlign='Right' width=90></e-column>
+      <e-column field='name' headerText='Task Name' textAlign='Left' width=250></e-column>
+      <e-column field='startDate' headerText='Start Date' textAlign='Right' format='yMd' width=120></e-column>
+      <e-column field='endDate' headerText='End Date' textAlign='Right' format='yMd' width=120></e-column>
+      <e-column field='status' headerText='Task Status' textAlign='Right' width=110></e-column>
+    </e-columns>
+  </ejs-treegrid>

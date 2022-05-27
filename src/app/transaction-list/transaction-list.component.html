@@ -1,0 +1,42 @@
+<div class="content-container">
+    <div class="page-content-header d-flex">
+        <h2>Transaction History</h2>
+        <div class="ms-auto c-header-btn">
+          <a class="btn btn-primary" routerLink="/my-account">Back</a>
+        </div>
+      </div>
+    <app-loader3></app-loader3>
+
+
+<div class="card shadow-sm border-0" *ngFor="let record of transaction; let i = index">
+    <div class="card-body">
+        <div class="d-flex trans-head">
+            <h4>{{record?.package.packageName}}</h4>
+            <div class="ms-auto">Paid Amount: <span class="trans-amount">$ {{record?.transactionAmount}}</span></div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class="trans-des">
+                <span>Order Id</span>
+                <h5>{{record?.orderId }}</h5>
+            </div>
+
+            <div class="trans-des">
+                <span>Payment Id</span>
+                <h5>{{record?.paymentId }}</h5>
+            </div>
+
+            <div class="trans-des">
+                <span>Transaction Date</span>
+                <h5>{{record?.createdAt | date}}</h5>
+            </div>
+
+            <div class="trans-des">
+                <span>Status</span>
+                <h5 class="text-success">{{record?.paymentResponse }}</h5>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</div>

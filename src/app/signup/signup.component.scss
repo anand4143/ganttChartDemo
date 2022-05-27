@@ -1,0 +1,86 @@
+.login-container {
+    min-height: 100vh;
+    .h-100 {
+        min-height: 100%!important;
+    }
+}
+
+.bg-box {
+    background: #F6F7FB url(/assets/images/star-bg.svg) no-repeat right top; 
+    height: 100%; 
+    width: 55%;
+    background-size: 100% 100%;
+    position: fixed;
+    right: 0;
+}
+.login-box {
+    width:45%;
+    h2 {
+        font-size: 20px; text-transform: uppercase; font-weight: 700; color: #1941DF; margin-top: 30px;
+        span {font-size: 16px; text-transform: none; font-weight: 400; color: #000; display: block;}
+    }
+    .btn-primary {
+        border-radius:4px;width: 100%;font-size: 20px;
+    }
+    .login-logo {
+        margin-top: 20px;
+    }
+}
+.login-content {margin-left: 20%; margin-right: 50px; width: 100%; max-width: 60%;}
+.login-f {
+    margin-top: 30px;
+    .form-control {
+        border: 0; border-bottom: 1px solid #9B9B9B; border-radius: 0; padding: 7px 0;
+        &:focus {outline: none; box-shadow: none; border-bottom: 1px solid #13B1B7;}
+    }
+
+    .form-group {
+        margin-bottom: 20px; position: relative;
+        label {font-weight: 600; color: #000;}
+        i.icons {position: absolute;right: 0;bottom: 13px;color: #C8C8C8;font-size: 21px;}
+    }
+    input.form-control{
+        &::placeholder {color: #B2B2B2; font-size: 14px; font-style: italic;}
+    }
+}
+
+.forgot-pass {
+    text-align: center;
+    margin-top: 10px;
+    a {color: #1941DF; font-weight: 700; text-decoration: none;}
+}
+.term-link {
+    text-align: left;
+    margin-top: 0px;
+    font-size: 13px;
+    a {color: #1941DF; font-weight: 700; text-decoration: none;}
+}
+
+
+.bg-txt {
+    text-align: center;
+    margin-top: auto;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    height: 100%;
+}
+.a{
+    text-decoration: none !important;
+}
+.footer-con {font-size: 14px; text-align: center; color: #999; margin-top: 20px;margin-bottom: 20px;}
+
+@media(max-width:991px) {
+    .login-box {width: 100%;}
+    .login-content {margin-left: 20px;margin-right: 20px;width: 100%;max-width: 100%;}
+    .bg-box {width: 100%; margin-bottom: 30px;background-size: 100% 100%;position: static;}
+    .login-container {height: auto;}
+    .bg-txt {
+        margin: 0; padding: 20px 20px;
+        h1 {font-size:28px;}
+        p {font-size: 16px;}
+    }
+    .login-logo {
+        margin-top: 0px !important;
+    }
+  }

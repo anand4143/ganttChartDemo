@@ -1,0 +1,118 @@
+<div class="chat-box">
+
+	<div [ngClass]="clostyle">
+
+		<div class="chat-header d-flex">
+			<div class="chatuser">
+				<!-- <img [src]="imgUrl"> -->
+
+				To: lyllilaunchtools Support
+
+			</div>
+
+
+		</div>
+		<!-----------Chat Section------------>
+		<div id="collapseExample" [ngbCollapse]="isCollapsed">
+			<div class="chat-section" #scrollBottom>
+				<div class="chat-style" *ngFor="let msg of messageLists; let i = index">
+					<!-- <div class="avatar-user"><img [src]="imgUrl"></div> -->
+
+					<app-loader3></app-loader3>
+					<div class="chat-text">
+						<!-- <h5><a href="#">{{msg.name}}</a></h5> -->
+						<div *ngIf="msg.type=='text'">
+							<div class="chat-message-right mb-4" *ngIf="msg.sender==empList.companyId">
+								<div>
+									<img [src]="imgUrl" class="rounded-circle mr-1" alt="Chris Wood" width="40"
+										height="40">
+									<div class="text-muted small text-nowrap mt-2">
+										<span class="chat-date" *ngIf="msg.createdAt "> {{msg.createdAt | date:
+											'shortTime' }}</span>
+										<span class="chat-date" *ngIf="msg.createdAt==null">{{msg.date | date:
+											'shortTime'}}</span>
+									</div>
+								</div>
+								<div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+									<div class="font-weight-bold mb-1">You</div>
+									{{msg.message}}
+								</div>
+
+							</div>
+
+							<div class="chat-message-left pb-4" *ngIf="msg.sender!=empList.companyId">
+								<div>
+									<img src="./assets/images/logo-icon.png" class="rounded-circle mr-1"
+										alt="Sharon Lessman" width="40" height="40">
+									<div class="text-muted small text-nowrap mt-2">
+										<span class="chat-date" *ngIf="msg.createdAt "> {{msg.createdAt | date:
+											'shortTime' }}</span>
+										<span class="chat-date" *ngIf="msg.createdAt==null">{{msg.date | date:
+											'shortTime'}}</span>
+									</div>
+								</div>
+								<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
+									<!-- <div class="font-weight-bold mb-1">Sharon Lessman</div> -->
+									{{msg.message}}
+
+								</div>
+
+							</div>
+						</div>
+						<p *ngIf="msg.type=='file'">
+							<img *ngIf="msg.ext=='zip'" class="img-thumbnail attach-preview"
+								src="./assets/images/zipLogo.png">
+							<img *ngIf="msg.ext=='doc'" class="img-thumbnail attach-preview"
+								src="./assets/images/logodoc.png">
+							<img *ngIf="msg.ext=='docm'" class="img-thumbnail attach-preview"
+								src="./assets/images/logodoc.png">
+							<img *ngIf="msg.ext=='docx'" class="img-thumbnail attach-preview"
+								src="./assets/images/logodoc.png">
+
+							<img *ngIf="msg.ext=='xlsx'" class="img-thumbnail attach-preview"
+								src="./assets/images/excelLogo.png">
+							<img *ngIf="msg.ext=='xls'" class="img-thumbnail attach-preview"
+								src="./assets/images/excelLogo.png">
+							<img *ngIf="msg.ext=='pdf'" class="img-thumbnail attach-preview"
+								src="./assets/images/pdflogo.png">
+							<img *ngIf="msg.ext=='png'" class="img-thumbnail attach-preview" [src]="msg.message">
+							<img *ngIf="msg.ext=='jpg'" class="img-thumbnail attach-preview" [src]="msg.message">
+							<img *ngIf="msg.ext=='jpeg'" class="img-thumbnail attach-preview" [src]="msg.message">
+
+							<button class="btn btn-light" matTooltip="download" (click)="downloadFile(msg.image)"
+								[matTooltipPosition]="'above'">
+								<i class="fa fa-download" aria-hidden="true"></i>
+							</button>
+						</p>
+
+					</div>
+				</div>
+				<div *ngIf="typingUser?.userName!=empList.name">
+					<div *ngIf="typing">
+						{{typingUser?.userName}} is typing
+					</div>
+				</div>
+
+			</div>
+
+			<!---------Chat Footer------------->
+			<div class="chat-footer" [formGroup]="chatForm" (ngSubmit)="sendMessage()">
+
+				<div class="chat-input">
+					<textarea class="form-control" type="text" placeholder="Write a message" formControlName="message"
+						(input)="update()" (keyup.enter)="sendMessage()"></textarea>
+				</div>
+				<div class="chatf-action d-flex">
+					<div class="uploadFIle">
+						<input type="file" (change)="uploadFile($event)" name="file" id="file" class="inputfile" />
+						<label for="file">
+							<p><i class="fa fa-paperclip"></i></p>
+						</label>
+					</div>
+					<button class="btn btn-csend ms-auto" (click)="sendMessage()">Send</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- </div> -->

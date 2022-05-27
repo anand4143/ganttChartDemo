@@ -1,0 +1,165 @@
+.success-card svg {
+    width: 26px;
+    display: block;
+    margin: 0px auto 0;
+  }
+  
+  .path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 0;
+    &.circle {
+      -webkit-animation: dash .9s ease-in-out;
+      animation: dash .9s ease-in-out;
+    }
+    &.line {
+      stroke-dashoffset: 1000;
+      -webkit-animation: dash .9s .35s ease-in-out forwards;
+      animation: dash .9s .35s ease-in-out forwards;
+    }
+    &.check {
+      stroke-dashoffset: -100;
+      -webkit-animation: dash-check .9s .35s ease-in-out forwards;
+      animation: dash-check .9s .35s ease-in-out forwards;
+    }
+  }
+           
+  h4 {
+    text-align: center;
+    margin: 10px 0 30px;
+    font-size:18px;
+    &.success {
+      color: #73AF55;
+    }
+    &.error {
+      color: #D06079;
+    }
+  }
+  
+  
+  @-webkit-keyframes dash {
+    0% {
+      stroke-dashoffset: 1000;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  @keyframes dash {
+    0% {
+      stroke-dashoffset: 1000;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  @-webkit-keyframes dash-check {
+    0% {
+      stroke-dashoffset: -100;
+    }
+    100% {
+      stroke-dashoffset: 900;
+    }
+  }
+  
+  @keyframes dash-check {
+    0% {
+      stroke-dashoffset: -100;
+    }
+    100% {
+      stroke-dashoffset: 900;
+    }
+  }
+
+  .stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+
+  .dot-pulse {
+    position: relative;
+    left: -9999px;
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+    background-color: #0b0526;
+    color: #0b0526;
+    box-shadow: 9999px 0 0 0px #0b0526;
+    animation: dotPulse 1.5s infinite linear;
+    animation-delay: .25s;
+    margin-left: 20px;
+  }
+  
+  .dot-pulse::before, .dot-pulse::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+    background-color: #0b0526;
+    color: #0b0526;
+  }
+  
+  .dot-pulse::before {
+    box-shadow: 9984px 0 0 -5px #0b0526;
+    animation: dotPulseBefore 1.5s infinite linear;
+    animation-delay: 0s;
+  }
+  
+  .dot-pulse::after {
+    box-shadow: 10014px 0 0 -5px #0b0526;
+    animation: dotPulseAfter 1.5s infinite linear;
+    animation-delay: .5s;
+  }
+  
+  @keyframes dotPulseBefore {
+    0% {
+      box-shadow: 9984px 0 0 -5px #0b0526;
+    }
+    30% {
+      box-shadow: 9984px 0 0 2px #0b0526;
+    }
+    60%,
+    100% {
+      box-shadow: 9984px 0 0 -5px #0b0526;
+    }
+  }
+  
+  @keyframes dotPulse {
+    0% {
+      box-shadow: 9999px 0 0 -5px #0b0526;
+    }
+    30% {
+      box-shadow: 9999px 0 0 2px #0b0526;
+    }
+    60%,
+    100% {
+      box-shadow: 9999px 0 0 -5px #0b0526;
+    }
+  }
+  
+  @keyframes dotPulseAfter {
+    0% {
+      box-shadow: 10014px 0 0 -5px #0b0526;
+    }
+    30% {
+      box-shadow: 10014px 0 0 2px #0b0526;
+    }
+    60%,
+    100% {
+      box-shadow: 10014px 0 0 -5px #0b0526;
+    }
+  }
+
+  @media (max-width:767px) {
+    .stage {display: block;}
+    .dot-pulse {display: inline-block;margin-left:0px;}
+}

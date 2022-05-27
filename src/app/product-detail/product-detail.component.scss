@@ -1,0 +1,304 @@
+
+  .cdk-drag-preview {
+      box-sizing: border-box;
+      box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.2),
+          0 8px 10px 1px rgba(0, 0, 0, 0.14),
+          0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  
+      background: #fff;
+      opacity: 0.3;
+  }
+  
+  .drop-inside {
+      border: 1px solid #00f;
+  }
+  
+  .drop-before {
+      border-top: 1px solid #00f;
+  }
+  
+  .drop-after {
+      border-bottom: 1px solid #00f;
+  }
+  
+  .node-title {
+    padding:15px 15px 10px 15px;
+    margin: 5px;
+    background: #F6F7FB;
+    border-radius: 2px;
+    position: relative;
+    .expand-icon {
+        cursor: pointer;
+        font-size: 25px;
+        width: 20px;
+        text-align: center;
+        color: #C5C5C5;
+        &::before {
+            content: "\f107";
+            font-family: FontAwesome;
+        }
+    }
+    .closed-icon {
+        cursor: pointer;
+        font-size: 25px;
+        width: 20px;
+        text-align: center;
+        color: #C5C5C5;
+        &::before {
+            content: "\f106";
+            font-family: FontAwesome;
+        }
+    }
+  }
+  
+  .node-children {
+      position: relative;
+      transition: height 0.2s;
+      margin-left: 40px;
+  }
+  .item-notes { 
+    margin-left:20px;
+    color:#aaa;
+   }
+
+   .product-list-view {
+       .cdk-drag {
+           background-color: #fff;
+           padding: 10px 15px;
+           box-shadow: 0 3px 9px rgb(0 0 0 / 8%);
+           margin-bottom: 15px;
+           .box-handler {
+               float: left;
+               margin-right: 5px;
+               margin-top: 4px;
+                height: 20px;
+           }
+           .node-children {
+            .cdk-drag {
+                background-color: transparent;
+                padding: 0;
+                box-shadow: none;
+                margin-bottom: 0;
+            }
+           }
+       }
+       
+   }
+
+   .goalsstatus {
+       span {
+           display: inline-block;
+           border-radius: 2px;
+           font-size: 12px;
+           color: #fff;
+           margin: 0 5px 0 10px;
+           padding: 0px 5px;
+       }
+   }
+   .duedate {
+       span {
+        display: inline-block;
+        border-radius: 2px;
+        font-size: 12px;
+        color: #000;
+        margin: 0 5px;
+        background-color: #fff;
+        padding: 0px 5px;
+       }
+       input {
+        background: #fff;
+        padding: 0px 10px;
+        border-radius: 2px;
+        width: 67px;
+        font-size: 12px;
+        color: #999;
+       }
+   }
+
+   .title-right {
+       button.btn{
+           padding: 0px;
+           height: 26px;
+            width: 32px;
+            mat-icon {
+                font-size: 22px;
+                color: #C5C5C5;
+            }
+            &:hover mat-icon{
+                color: #00B0F0;
+            }
+       }
+   }
+
+   .goals-title {
+       .btn {
+           padding: 0;
+           &:hover {color: #1941DF;}
+       }
+   }
+  
+.switch-wrap {
+    cursor: pointer;
+    background: #e4e4e4;
+    padding: 3px 4px;
+    width: 50px;
+    height: 22px;
+    border-radius: 20px;
+    margin: 0 10px 0px 10px;
+  }
+  .switch-wrap input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .switch {
+    height: 15px;
+    display: grid;
+    grid-template-columns: 0fr 1fr 1fr;
+    transition: 0.2s;
+  }
+  .switch::after {
+    content: "";
+    border-radius: 50%;
+    background: #09174e;
+    grid-column: 2;
+    transition: background 0.2s;
+    width: 15px;
+  }
+  
+  input:checked + .switch {
+    grid-template-columns: 2fr 1fr 0fr;
+  }
+  input:checked + .switch::after {
+    background-color: #1941df;
+  }
+  .px-2 {
+    padding-right: 25rem!important;
+    padding-left: 0rem !important
+  }
+  .fliled{
+    border-top: 0px  solid transparent !important;
+     padding: 0px !important
+  }
+
+.fliled{
+      .mat-form-field-infix {
+    border-top: 0px  solid transparent !important;
+    
+}
+.mat-form-field-appearance-fill .mat-form-field-flex{
+    padding: 0px !important
+}
+    
+  }
+  .title-right button.btn mat-icon {
+    font-size: 22px;
+    color: #6c83df;
+}
+
+.title-right button.btn:hover mat-icon {
+    font-size: 22px;
+    color: rgb(92, 230, 65);
+}
+.span-top{
+    color:#00f;
+}
+.e-image {
+    height: 13px;
+    width: 14px;
+    vertical-align: middle;
+}
+
+.statustemp {
+    position: relative;
+    height: 19px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: #C3F1D0;
+    color: #00752F;
+    width: 47px;
+}
+
+.e-bigger.tailwind .e-grid .statustemp, .e-bigger.tailwind-dark .e-grid .statustemp,
+.e-bigger.bootstrap5 .e-grid .statustemp, .e-bigger.bootstrap5-dark .e-grid .statustemp{
+    padding-top: 1px;
+}
+
+.tailwind .e-grid .statustemp, .tailwind-dark .e-grid .statustemp,
+.bootstrap5 .e-grid .statustemp, .bootstrap5-dark .e-grid .statustemp {
+    padding-top: 2px;
+}
+
+.statustemp.e-lowgdp {
+    background-color: #FFDBDB;
+    color: #BD0000;
+
+}
+
+td.e-rowcell .statustxt {
+    color: #398120;
+    position: relative;
+}
+
+td.e-rowcell .statustxt.e-lowgdp {
+    color: #e60000;
+    position: relative;
+}
+
+.rating .star {
+    font-size: 132%;
+    color: lightgrey;
+}
+
+.rating .star.checked {
+    color: #EE9E54;
+}
+
+.rating .star:before {
+    content: '★';
+}
+.negativeTimeZone {
+    transform: rotate(180deg);
+}
+#myBar {
+    position: absolute;
+    width: 10%;
+    height: 100%;
+    background-color: #00b300;
+}
+
+#myBar.progressdisable {
+    background-color: #df2222;
+}
+
+#label {
+    position: relative;
+    left: 10px;
+    line-height: 18px;
+    font-size: 10px;
+    color: white;
+}
+.highcontrast .e-grid #myProgress {
+    background-color: whitesmoke;
+}
+#myProgress {
+    position: relative;
+    height: 18px;
+    width: 10em;
+    text-align: left;
+    background-color: whitesmoke;
+}
+#myBar.progressdisable {
+    background-color: #df2222;
+}
+
+.tailwind .e-grid #coordinates.e-checkbox-wrapper .e-label, .e-css.e-checkbox-wrapper .e-label,
+.tailwind-dark .e-grid #coordinates.e-checkbox-wrapper .e-label, .e-css.e-checkbox-wrapper .e-label {
+    display: inline;
+}
+
+#coordinates .e-image {
+    filter: brightness(180%);
+}

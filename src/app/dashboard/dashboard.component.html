@@ -1,0 +1,1026 @@
+<div class="content-container">
+  <div class="page-content-header d-flex">
+    <h2>Dashboard</h2>
+    <div class="ms-auto c-header-btn">
+      <a class="btn btn-primary" (click)="openSm(mediaammmodel,'',0)">Add New Product</a>
+      <a class="btn btn-success" (click)="openWidget(widgetModel,'',0)">Add Feature</a>
+    </div>
+  </div>
+
+
+  <app-loader></app-loader>
+  <p class="text-center addingfeature">
+    {{errMessage}}
+  </p>
+  <div *ngIf="showSppiner">
+    <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+      <p style="font-size: 20px; color: white">Sample Data is being Imported...</p>
+    </ngx-spinner>
+  </div>
+
+  <div *ngIf="regionList" class="infotext">
+
+
+    <img src="../../assets/images/steps-instructions.svg" class="img-fluid" />
+
+    <div style="color: #1941DF !important;text-align: left !important" class="text-center text-primary text-justify">
+
+
+    </div>
+
+    <div class="col-lg-3">
+
+
+    </div>
+    <div class="col-12" *ngIf="regionList">
+
+      <div class="mt-4 mb-3 con-box" style="max-width: 600px; margin: 0 auto; width:100%">
+        <div class="d-flex mb-2 pb-2 ">
+
+          <p class="mb-0"><b>Do you want to import sample data into your launch product?</b></p>
+        </div>
+        <div class="d-flex mb-2 pb-2 border-bottom">
+
+          <p class="mb-0"> Sample data will help you understand the product on how to use</p>
+        </div>
+        <div class="text-center">
+
+          <button type="button" class="btn btn-success" (click)="createDummyData(1)">Import Sample Data</button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div cdkDropList #todotask="cdkDropList" class="dtaks-list" (cdkDropListDropped)="drop($event)"
+    [id]="widgetRecord?.id" [cdkDropListData]="widgetRecord" [cdkDropListConnectedTo]="['widgetRecord']">
+    <!-- {{widgetRecord | json}} -->
+
+    <div class="d-box-style" [ngClass]="{'d-box-style1':timePeriod.type === 'History'}"
+      *ngFor="let timePeriod of widgetRecord" cdkDrag>
+      <div class="box-header d-flex  ">
+        <div class="box-handler flex-wrap" cdkDragHandle>
+          <mat-icon>grid_view</mat-icon>
+        </div>
+        <h2>{{timePeriod.name}}</h2>
+        <div class="box-action ms-auto">
+          <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="icons icon-options-vertical"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" (click)="openWidget(widgetModel,timePeriod,1)">Edit</a></li>
+              <li><a class="dropdown-item" (click)="delete(timePeriod.id)">Delete</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="widgetbox-scroll">
+        <div class="product-list-container ">
+          <div class="sub-pro" *ngIf="timePeriod.type=='History'">
+            <div class="d-product-list" *ngFor="let record of timePeriod.history; let i = index">
+              <div class=" d-product" style="padding-left: -20px !important;" *ngFor="let emp of record.employee">
+                <div class="me-auto">
+
+                  <a class="d-flex padding-cls" *ngIf="record.activityOperationType=='delete'">
+                    <mat-icon class="sub-mat-icon">delete</mat-icon>
+                    <span>{{record.message}} by {{emp.name}} at {{record.dateTime | date:'dd/MM/yyyy hh:mm:ss'}}</span>
+                  </a>
+                  <a class="d-flex padding-cls" *ngIf="record.activityOperationType=='update'">
+                    <mat-icon class="sub-mat-icon">edit</mat-icon>
+                    <span>{{record.message}} by {{emp.name}} at {{record.dateTime | date:'dd/MM/yyyy hh:mm:ss'}}</span>
+                  </a>
+                  <a class="d-flex padding-cls" *ngIf="record.activityOperationType=='login'">
+                    <mat-icon class="sub-mat-icon">vpn_key</mat-icon>
+                    <span>{{record.message}} at {{record.dateTime | date:'dd/MM/yyyy hh:mm:ss'}}</span>
+                  </a>
+                  <a class="d-flex padding-cls" *ngIf="record.activityOperationType=='logout'">
+                    <i class="icons icon-login"></i>
+                    <span>{{record.message}} at {{record.dateTime | date:'dd/MM/yyyy hh:mm:ss'}}</span>
+                  </a>
+
+                  <a class="d-flex padding-cls" *ngIf="record.activityOperationType=='insert'">
+                    <mat-icon class="sub-mat-icon">add_box</mat-icon> <span>{{record.message}} by {{emp.name}} at
+                      {{record.dateTime | date:'dd/MM/yyyy hh:mm:ss'}}</span>
+                  </a>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+          <div class="sub-pro" *ngIf="timePeriod.type=='Products'">
+            <div class="d-product-list" *ngFor="let record of timePeriod.products; let i = index">
+              <div class=" d-product">
+                <div class="me-auto">
+
+                  <a class="d-flex" *ngIf="record.activityOperationType=='delete'">
+                    <mat-icon class="sub-mat-icon">delete</mat-icon>
+                    <span>{{record.projectName}}</span>
+                  </a>
+                  <a class="d-flex" *ngIf="record.activityOperationType=='update'">
+                    <mat-icon class="sub-mat-icon">edit</mat-icon>
+                    <span>{{record.message}} </span>
+                  </a>
+                  <a class="d-flex" *ngIf="record.activityOperationType=='login'">
+                    <mat-icon class="sub-mat-icon">vpn_key</mat-icon>
+                    <span>{{record.message}} </span>
+                  </a>
+                  <a class="d-flex" *ngIf="record.activityOperationType=='logout'">
+                    <i class="icons icon-login"></i>
+                    <span>{{record.message}} </span>
+                  </a>
+
+                  <a class="d-flex" *ngIf="record.activityOperationType=='insert'">
+                    <mat-icon class="sub-mat-icon">add_box</mat-icon> <span>{{record.message}} </span>
+                  </a>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="m-product-list" *ngIf="timePeriod.type=='Products'">
+          <div class="d-product-list" *ngFor="let product of timePeriod.products">
+            <div class="d-flex">
+              <div class="me-auto d-product">
+                <a (click)="productdetails(product)" *ngIf="product.status=='Completed'">
+                  <span class="prodcuts-status completed"></span>
+                  {{product.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='Started'">
+                  <span class="prodcuts-status start-track"></span>
+                  {{product?.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='Not Started'">
+                  <span class="prodcuts-status duetostart"></span>
+                  {{product?.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='At Risk'">
+                  <span class="prodcuts-status at-rist"></span>
+                  {{product?.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='Delayed'">
+                  <span class="prodcuts-status high-rist"></span>
+                  {{product?.projectName}}
+                </a>
+
+
+              </div>
+
+              <div class="gotto-chat">
+                <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(product,'project')"
+                  data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                  <mat-icon>question_answer</mat-icon>
+                </a>
+              </div>
+            </div>
+
+
+          </div>
+
+
+
+
+        </div>
+        <div class="m-product-list" *ngIf="timePeriod.type=='My Tasks'">
+          <div class="d-product-list" *ngFor="let product of timePeriod.taskAssign">
+            <div class="d-flex">
+              <div class="me-auto d-product">
+                <a (click)="productdetails(product)" *ngIf="product.status=='Completed'">
+                  <span class="prodcuts-status completed"></span>
+                  {{product.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='Started'">
+                  <span class="prodcuts-status start-track"></span>
+                  {{product?.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='Not Started'">
+                  <span class="prodcuts-status duetostart"></span>
+                  {{product?.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='At Risk'">
+                  <span class="prodcuts-status at-rist"></span>
+                  {{product?.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='Delayed'">
+                  <span class="prodcuts-status high-rist"></span>
+                  {{product?.projectName}}
+                </a>
+
+              </div>
+
+              <div class="gotto-chat">
+                <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(product,'project')"
+                  data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                  <mat-icon>question_answer</mat-icon>
+                </a>
+              </div>
+            </div>
+
+
+            <div class="sub-pro-list" *ngIf="timePeriod.type=='My Tasks'">
+              <div class="d-product-list">
+                <div class=" d-flex" *ngFor="let record of product.Completedobjective">
+                  <div class="me-auto d-product">
+                    <a *ngIf="record.status=='Completed'">
+                      <span class="prodcuts-status completed"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Delayed'">
+                      <span class="prodcuts-status high-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='At Risk'">
+                      <span class="prodcuts-status at-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Not Started'">
+                      <span class="prodcuts-status duetostart"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Started'">
+                      <span class="prodcuts-status start-track"></span>
+                      {{record.name}}
+                    </a>
+                  </div>
+                  <div class="gotto-chat">
+                    <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(record,'goal')"
+                      data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                      <mat-icon>question_answer</mat-icon>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="d-product-list">
+                <div class=" d-flex" *ngFor="let record of product.objectiveActive">
+                  <div class="me-auto d-product">
+                    <a *ngIf="record.status=='Completed'">
+                      <span class="prodcuts-status completed"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Delayed'">
+                      <span class="prodcuts-status high-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='At Risk'">
+                      <span class="prodcuts-status at-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Not Started'">
+                      <span class="prodcuts-status duetostart"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Started'">
+                      <span class="prodcuts-status start-track"></span>
+                      {{record.name}}
+                    </a>
+                  </div>
+                  <div class="gotto-chat">
+                    <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(record,'objective')"
+                      data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                      <mat-icon>question_answer</mat-icon>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="d-product-list">
+                <div class=" d-flex" *ngFor="let record of product.Completedgoal">
+                  <div class="me-auto d-product">
+                    <a *ngIf="record.status=='Completed'">
+                      <span class="prodcuts-status completed"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Delayed'">
+                      <span class="prodcuts-status high-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='At Risk'">
+                      <span class="prodcuts-status at-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Not Started'">
+                      <span class="prodcuts-status duetostart"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Started'">
+                      <span class="prodcuts-status start-track"></span>
+                      {{record.name}}
+                    </a>
+                  </div>
+                  <div class="gotto-chat">
+                    <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(record,'strategy')"
+                      data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                      <mat-icon>question_answer</mat-icon>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="d-product-list">
+                <div class="d-flex" *ngFor="let record of product.Completedactivity">
+                  <div class="me-auto d-product">
+
+                    <a *ngIf="record.status=='Completed'">
+                      <span class="prodcuts-status completed"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Delayed'">
+                      <span class="prodcuts-status high-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='At Risk'">
+                      <span class="prodcuts-status at-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Not Started'">
+                      <span class="prodcuts-status duetostart"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Started'">
+                      <span class="prodcuts-status start-track"></span>
+                      {{record.name}}
+                    </a>
+                  </div>
+                  <div class="gotto-chat">
+                    <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(record,'activity')"
+                      data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                      <mat-icon>question_answer</mat-icon>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="d-product-list">
+                <div class="d-flex" *ngFor="let record of product.Completedstrategy">
+                  <div class="me-auto d-product">
+                    <a *ngIf="record.status=='Completed'">
+                      <span class="prodcuts-status completed"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Delayed'">
+                      <span class="prodcuts-status high-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='At Risk'">
+                      <span class="prodcuts-status at-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Not Started'">
+                      <span class="prodcuts-status duetostart"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Started'">
+                      <span class="prodcuts-status start-track"></span>
+                      {{record.name}}
+                    </a>
+
+                  </div>
+                  <div class="gotto-chat">
+                    <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(record,'tactics')"
+                      data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                      <mat-icon>question_answer</mat-icon>
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+
+
+
+        </div>
+        <div class="m-product-list" *ngFor="let product of timePeriod.activityValue">
+          <div class="d-product-list">
+            <div class="d-flex">
+              <div class="me-auto d-product">
+                <a (click)="productdetails(product)" *ngIf="product.status=='Completed'">
+                  <span class="prodcuts-status completed"></span>
+                  {{product?.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='Started'">
+                  <span class="prodcuts-status start-track"></span>
+                  {{product?.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='Not Started'">
+                  <span class="prodcuts-status duetostart"></span>
+                  {{product?.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='At Risk'">
+                  <span class="prodcuts-status at-rist"></span>
+                  {{product?.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='Delayed'">
+                  <span class="prodcuts-status high-rist"></span>
+                  {{product?.projectName}}
+                </a>
+
+              </div>
+
+              <div class="gotto-chat">
+                <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(product,'project')"
+                  data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                  <mat-icon>question_answer</mat-icon>
+                </a>
+              </div>
+            </div>
+            <div class="sub-pro-list" *ngIf="timePeriod.type=='Activity'">
+              <div class="d-product-list">
+                <div class=" d-flex" *ngFor="let record of product.goalActive">
+                  <div class="me-auto d-product">
+                    <a *ngIf="record.status=='Completed'">
+                      <span class="prodcuts-status completed"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Delayed'">
+                      <span class="prodcuts-status high-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='At Risk'">
+                      <span class="prodcuts-status at-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Not Started'">
+                      <span class="prodcuts-status duetostart"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Started'">
+                      <span class="prodcuts-status start-track"></span>
+                      {{record.name}}
+                    </a>
+                  </div>
+                  <div class="gotto-chat">
+                    <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(record,'goal')"
+                      data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                      <mat-icon>question_answer</mat-icon>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="d-product-list">
+                <div class=" d-flex" *ngFor="let record of product.objectiveActive">
+                  <div class="me-auto d-product">
+                    <a *ngIf="record.status=='Completed'">
+                      <span class="prodcuts-status completed"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Delayed'">
+                      <span class="prodcuts-status high-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='At Risk'">
+                      <span class="prodcuts-status at-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Not Started'">
+                      <span class="prodcuts-status duetostart"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Started'">
+                      <span class="prodcuts-status start-track"></span>
+                      {{record.name}}
+                    </a>
+                  </div>
+                  <div class="gotto-chat">
+                    <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(record,'objective')"
+                      data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                      <mat-icon>question_answer</mat-icon>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="d-product-list">
+                <div class=" d-flex" *ngFor="let record of product.strategyActive">
+                  <div class="me-auto d-product">
+                    <a *ngIf="record.status=='Completed'">
+                      <span class="prodcuts-status completed"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Delayed'">
+                      <span class="prodcuts-status high-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='At Risk'">
+                      <span class="prodcuts-status at-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Not Started'">
+                      <span class="prodcuts-status duetostart"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Started'">
+                      <span class="prodcuts-status start-track"></span>
+                      {{record.name}}
+                    </a>
+                  </div>
+                  <div class="gotto-chat">
+                    <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(record,'strategy')"
+                      data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                      <mat-icon>question_answer</mat-icon>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="d-product-list">
+                <div class="d-flex" *ngFor="let record of product.activityActive">
+                  <div class="me-auto d-product">
+
+                    <a *ngIf="record.status=='Completed'">
+                      <span class="prodcuts-status completed"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Delayed'">
+                      <span class="prodcuts-status high-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='At Risk'">
+                      <span class="prodcuts-status at-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Not Started'">
+                      <span class="prodcuts-status duetostart"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Started'">
+                      <span class="prodcuts-status start-track"></span>
+                      {{record.name}}
+                    </a>
+                  </div>
+                  <div class="gotto-chat">
+                    <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(record,'activity')"
+                      data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                      <mat-icon>question_answer</mat-icon>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="d-product-list">
+                <div class="d-flex" *ngFor="let record of product.tacticActive">
+                  <div class="me-auto d-product">
+                    <a *ngIf="record.status=='Completed'">
+                      <span class="prodcuts-status completed"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Delayed'">
+                      <span class="prodcuts-status high-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='At Risk'">
+                      <span class="prodcuts-status at-rist"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Not Started'">
+                      <span class="prodcuts-status duetostart"></span>
+                      {{record.name}}
+                    </a>
+                    <a *ngIf="record.status=='Started'">
+                      <span class="prodcuts-status start-track"></span>
+                      {{record.name}}
+                    </a>
+
+                  </div>
+                  <div class="gotto-chat">
+                    <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(record,'tactics')"
+                      data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                      <mat-icon>question_answer</mat-icon>
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+
+        </div>
+        <div class="m-product-list" *ngFor="let product of timePeriod.project">
+          <div class="d-product-list">
+            <div class="d-flex">
+              <div class="me-auto d-product">
+                <a (click)="productdetails(product)" *ngIf="product.status=='Completed'">
+                  <span class="prodcuts-status completed"></span>
+                  {{product?.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='Started'">
+                  <span class="prodcuts-status start-track"></span>
+                  {{product?.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='Not Started'">
+                  <span class="prodcuts-status duetostart"></span>
+                  {{product?.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='At Risk'">
+                  <span class="prodcuts-status at-rist"></span>
+                  {{product?.projectName}}
+                </a>
+                <a (click)="productdetails(product)" *ngIf="product.status=='Delayed'">
+                  <span class="prodcuts-status high-rist"></span>
+                  {{product?.projectName}}
+                </a>
+                <!-- <div class="sub-pro"> -->
+
+                <!-- </div> -->
+
+              </div>
+
+              <div class="gotto-chat">
+                <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(product,'project')"
+                  data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                  <mat-icon>question_answer</mat-icon>
+                </a>
+              </div>
+            </div>
+
+
+          </div>
+
+
+          <div class="sub-pro-list">
+            <div class="d-product-list">
+              <div class=" d-flex" *ngFor="let record of product.goalStatus">
+                <div class="me-auto d-product">
+                  <a *ngIf="record.status=='Completed'">
+                    <span class="prodcuts-status completed"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='Delayed'">
+                    <span class="prodcuts-status high-rist"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='At Risk'">
+                    <span class="prodcuts-status at-rist"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='Not Started'">
+                    <span class="prodcuts-status duetostart"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='Started'">
+                    <span class="prodcuts-status start-track"></span>
+                    {{record.name}}
+                  </a>
+                </div>
+                <div class="gotto-chat">
+                  <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(record,'goal')"
+                    data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                    <mat-icon>question_answer</mat-icon>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="d-product-list">
+              <div class=" d-flex" *ngFor="let record of product.strategyStatus">
+                <div class="me-auto d-product">
+                  <a *ngIf="record.status=='Completed'">
+                    <span class="prodcuts-status completed"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='Delayed'">
+                    <span class="prodcuts-status high-rist"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='At Risk'">
+                    <span class="prodcuts-status at-rist"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='Not Started'">
+                    <span class="prodcuts-status duetostart"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='Started'">
+                    <span class="prodcuts-status start-track"></span>
+                    {{record.name}}
+                  </a>
+                </div>
+                <div class="gotto-chat">
+                  <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(record,'objective')"
+                    data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                    <mat-icon>question_answer</mat-icon>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="d-product-list">
+              <div class=" d-flex" *ngFor="let record of product.objectiveStatus">
+                <div class="me-auto d-product">
+                  <a *ngIf="record.status=='Completed'">
+                    <span class="prodcuts-status completed"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='Delayed'">
+                    <span class="prodcuts-status high-rist"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='At Risk'">
+                    <span class="prodcuts-status at-rist"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='Not Started'">
+                    <span class="prodcuts-status duetostart"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='Started'">
+                    <span class="prodcuts-status start-track"></span>
+                    {{record.name}}
+                  </a>
+                </div>
+                <div class="gotto-chat">
+                  <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(record,'strategy')"
+                    data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                    <mat-icon>question_answer</mat-icon>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="d-product-list">
+              <div class="d-flex" *ngFor="let record of product.tacticStatus">
+                <div class="me-auto d-product">
+
+                  <a *ngIf="record.status=='Completed'">
+                    <span class="prodcuts-status completed"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='Delayed'">
+                    <span class="prodcuts-status high-rist"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='At Risk'">
+                    <span class="prodcuts-status at-rist"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='Not Started'">
+                    <span class="prodcuts-status duetostart"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='Started'">
+                    <span class="prodcuts-status start-track"></span>
+                    {{record.name}}
+                  </a>
+                </div>
+                <div class="gotto-chat">
+                  <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(record,'activity')"
+                    data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                    <mat-icon>question_answer</mat-icon>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="d-product-list">
+              <div class="d-flex" *ngFor="let record of product.activityStatus">
+                <div class="me-auto d-product">
+                  <a *ngIf="record.status=='Completed'">
+                    <span class="prodcuts-status completed"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='Delayed'">
+                    <span class="prodcuts-status high-rist"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='At Risk'">
+                    <span class="prodcuts-status at-rist"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='Not Started'">
+                    <span class="prodcuts-status duetostart"></span>
+                    {{record.name}}
+                  </a>
+                  <a *ngIf="record.status=='Started'">
+                    <span class="prodcuts-status start-track"></span>
+                    {{record.name}}
+                  </a>
+
+                </div>
+                <div class="gotto-chat">
+                  <a href="#" data-bs-toggle="offcanvas" (click)="decisionAction(record,'tactics')"
+                    data-bs-target="#discussion-forum" aria-controls="discussion-forum">
+                    <mat-icon>question_answer</mat-icon>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- </div>
+  </mat-drawer-container>
+</ng-container> -->
+
+<!-------Discusiion Forum--------->
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="discussion-forum" aria-labelledby="discussion-forumLabel">
+  <div class="offcanvas-header">
+    <h5 id="discussionHeading">
+      <div class="head-icon"><i class="fa fa-folder"></i></div>{{singleList}}
+    </h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <app-discussion-forum [data]="ids"></app-discussion-forum>
+  </div>
+</div>
+
+<!--------Add Products--------->
+
+<ng-template #mediaammmodel let-modal>
+
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">{{headingText}}</h5>
+
+      <button type="button" (click)="modal.dismiss('Cross click')" class="btn-close" data-bs-dismiss="modal"
+        aria-label="Close"></button>
+    </div>
+
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <div class="modal-body">
+        <div class="add-products create-goal">
+          <div class="form-group">
+            <label for="name">Product Name:</label>
+            <input type="text" id="name" name="name" formControlName="projectName" class="form-control"
+              placeholder="Enter Product Name">
+            <span class="text-danger" *ngIf=" (f.projectName.touched || submitted) && f.projectName.errors?.required">
+              Project Name is required
+            </span>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 date-range">
+              <label>Start Date</label>
+              <mat-form-field appearance="fill">
+                <input matInput [matDatepicker]="picker1" placeholder="Select Date" formControlName="startDate">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+              <span class="text-danger" *ngIf=" (f.startDate.touched || submitted) && f.startDate.errors?.required">
+                Start Date is required
+              </span>
+            </div>
+            <div class="col-sm-6 date-range">
+              <label>Finish Date</label>
+              <mat-form-field appearance="fill">
+                <input matInput [matDatepicker]="picker2" placeholder="Select Date" formControlName="endDate">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+              <span class="text-danger" *ngIf=" (f.endDate.touched || submitted) && f.endDate.errors?.required">
+                End Date is required
+              </span>
+            </div>
+          </div>
+          <!-- <div class="row"> -->
+          <div class="form-group">
+            <label>Region Name <span class="text-danger">*</span></label>
+
+            <select class="form-select" formControlName="regionId" (change)="changeRegion($event)">
+              <option disabled value="">----Select----</option>
+              <option *ngFor="let region of regionRecord" [value]="region.id">
+                {{region.name}}</option>
+            </select>
+            <span class="text-danger" *ngIf=" (f.regionId.touched || submitted) && f.regionId.errors?.required">
+              Region Name is required
+            </span>
+          </div>
+          <div class=" form-group">
+            <label>WorkStream Name <span class="text-danger">*</span></label>
+            <angular2-multiselect [data]="workStreamRecord" formControlName="workStream" [settings]="dropdownSettings"
+              (onSelect)="onItemSelect($event)" (onDeSelect)="OnItemDeSelect($event)"
+              (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
+
+            <span class="text-danger" *ngIf=" (f.workStream.touched || submitted) && f.workStream.errors?.required">
+              Work Stream Name is required
+            </span>
+          </div>
+        </div>
+        <!-- </div> -->
+      </div>
+      <div class="modal-footer" id="myModal">
+        <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-secondary"
+          data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" (click)="onSubmit()">{{buttonText}}</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+<ng-template #widgetModel let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">{{headingText}}</h5>
+      <button type="button" (click)="modal.dismiss('Cross click')" class="btn-close" data-bs-dismiss="modal"
+        aria-label="Close"></button>
+    </div>
+    <form [formGroup]="widgetForm" (ngSubmit)="createWidget()">
+      <div class="modal-body">
+        <div class="add-products">
+
+          <div class="form-group">
+            <label>Feature Type</label>
+            <select [disabled]="editMode==1" class="form-select" formControlName='type'
+              (click)="selectTypeOfWidget($event)">
+              <option>Select Feature</option>
+              <option [disabled]="editMode==1" *ngFor='let item of statusList' [value]="item.title">{{item.title}}
+              </option>
+            </select>
+            <span class="text-danger" *ngIf=" (f1.type.touched || submitted) && f1.type.errors?.required">
+              Feature type is required
+            </span>
+          </div>
+
+          <div class="form-group" *ngIf="select">
+            <label>Select Products</label>
+            <angular2-multiselect name='widgetJson' [data]="projectRecord" formControlName="widgetJson"
+              [settings]="dropdownSettings2" (onSelect)="onItemSelect($event)" (onDeSelect)="OnItemDeSelect($event)"
+              (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
+            </angular2-multiselect>
+            <span class="text-danger" *ngIf=" (f1.widgetJson.touched || submitted) && f1.widgetJson.errors?.required">
+              Project is required
+            </span>
+          </div>
+
+          <div class="form-group" *ngIf='selectType'>
+            <label>Status</label>
+            <div>
+              <select class="form-select" formControlName='statusValue' (change)="selectStatus($event)">
+                <option>Select Status</option>
+                <option *ngFor='let item of taskStatus' [value]="item.title">{{item.title}}</option>
+              </select>
+            </div>
+          </div>
+          <div *ngIf='checked'>
+            <div *ngFor="let data of selectedItems">
+              {{data.projectName}}
+
+              <div *ngFor="let status of statusRecord">
+                <div *ngIf="status.id===data.id ">
+                  <input class="form-check-input" [checked]="status.title" (change)="SelectOne($event,status,data)"
+                    type="checkbox" [value]="status">
+                  {{status.title}}
+                </div>
+                <div *ngIf="status.id==''">
+                  <input class="form-check-input" (change)="SelectOne($event,status,data)" type="checkbox"
+                    [value]="status">
+                  {{status.title}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label>Count</label>
+            <select class="form-select" formControlName='count'>
+
+              <option *ngFor='let item of countAarray' [value]="item.title" id={{item.title}}>{{item.title}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Feature Title</label>
+            <input class="form-control" type="text" formControlName='name' placeholder="Enter Feature Title">
+            <span class="text-danger" *ngIf=" (f1.name.touched || submitted) && f1.name.errors?.required">
+              Title is required
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" id="myModal">
+        <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-secondary"
+          data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" (click)="createWidget()">{{buttonText}}</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<div class="modal fade" id="UnAFFILIATE" tabindex="-1" aria-labelledby="UnAFFILIATEModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="p-4 modal-style">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

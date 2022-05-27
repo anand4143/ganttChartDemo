@@ -1,0 +1,138 @@
+
+
+      <div class="content-container" id="mainContainer">
+        <div *ngIf="showSpinner">
+          <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+            <p style="font-size: 20px; color: white">Please wait...</p>
+          </ngx-spinner>
+        </div>
+        <div class="page-content-header d-flex">
+          <h2>{{projectRecod?.projectName}}</h2>
+          <div class="ms-auto c-header-btn">
+            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-goal">Add New Goal</a>
+          </div>
+          <div class="pro-btns">
+            <div class="btn-group" role="group" aria-label="view list">
+              <button type="button" class="btn" routerLink="/product-detail">
+                <mat-icon>sort</mat-icon>
+              </button>
+              <button type="button" class="btn active" routerLink="/product-kanban">
+                <mat-icon>view_column</mat-icon>
+              </button>
+            </div>
+            <button type="button" class="btn" routerLink="/gantt-chart">
+              <mat-icon>stacked_bar_chart</mat-icon>
+            </button>
+            <button type="button" (click)="downloadImage()" class="btn export-btn">
+              <i class="fa fa-download"></i>
+              <!-- <mat-icon>import_export</mat-icon> -->
+            </button>
+          </div>
+        </div>
+
+        <div class="kanban-view" >
+
+          <div class="root">
+            <div class="board">
+              <div class="board-wrapper">
+                <div class="board-columns" #screen >
+                  <!-- <div class="loader"> -->
+             
+                  <!-- </div> -->
+                  <div   cdkDropList cdkDropListOrientation="horizontal" class="board-columns  mt-5"
+                    (cdkDropListDropped)="dropGrid($event)">
+                   
+                    <div cdkDragLockAxis="x" class="board-column" *ngFor="let column of board.columns; let i = index"
+                      cdkDrag>
+                    
+                      <!-- {{column.name}} -->
+                      <div class="" *ngIf="column.name== 'Not Started'" (mouseup)="selectItem($event)" id="NotStarted"
+                        [ngClass]="'task-due'">
+                        <!-- <app-loader1></app-loader1> -->
+                        <div class="kanban-title" cdkDragHandle>
+                          <span class="bg-task-not-started"></span> {{ column.name }}
+                        </div>
+                     
+                      </div>
+                      <div class="" *ngIf="column.name =='Started'" (mouseup)="selectItem($event)" id="started"
+                        [ngClass]="'task-started'">
+                        <!-- <app-loader1></app-loader1> -->
+                        <div class="kanban-title" cdkDragHandle>
+                          <span class="bg-task-started"></span> {{ column.name }}
+                        </div>
+                      </div>
+                      <div class="" *ngIf="column.name == 'Delayed'" (mouseup)="selectItem($event)" id="taskhightrisk"
+                        [ngClass]="'task-hightrisk'">
+                        <!-- <app-loader1></app-loader1> -->
+                        <div class="kanban-title" cdkDragHandle>
+                          <span class="bg-at-high-risk"></span> {{ column.name }}
+                        </div>
+                      </div>
+                      <div class="" *ngIf="column.name == 'At Risk'" (mouseup)="selectItem($event)" id="taskrisk"
+                        [ngClass]="'task-risk'">
+                        <!-- <app-loader1></app-loader1> -->
+                        <div class="kanban-title" cdkDragHandle>
+                          <span class="bg-at-risk"></span> {{ column.name }}
+                        </div>
+                      </div>
+                      <div class="" *ngIf="column.name == 'Completed'" (mouseup)="selectItem($event)"
+                        id="task-completed" [ngClass]="'task-completed'">
+                        <!-- <app-loader1></app-loader1> -->
+                        <div class="kanban-title" cdkDragHandle>
+                          <span class="bg-task-completed"></span> {{ column.name }}
+                        </div>
+                      </div>
+                      <app-loader1></app-loader1>
+                      <div class="tasks-container" id="{{column.id}}"
+                        [cdkDropListConnectedTo]="['21', '32', '41', '51', '61']" cdkDropList
+                        [cdkDropListData]="column.tasks" (cdkDropListDropped)="drop($event)">
+                        <div class="task position-relative" style="padding-top: 12px;" *ngFor="let item of column.tasks" cdkDrag>
+                          
+                          <span class="pro-subname" style="top:-1px; left:35px" *ngIf="item.type=='goal'">Goals</span>
+                          <span class="pro-subname" style="top:-1px; left:35px" *ngIf="item.type=='objective'">Objective</span>
+                           <span class="pro-subname" style="top:-1px; left:35px" *ngIf="item.type=='strategy'">Strategy</span>
+                          <span class="pro-subname" style="top:-1px; left:35px" *ngIf="item.type=='tactic'">Tactic</span>
+                          <span class="pro-subname" style="top:-1px; left:35px" *ngIf="item.type=='activity'">Key Activity</span>
+                          <div class="box-handler" cdkDragHandle>
+                            <mat-icon>grid_view</mat-icon>
+                          </div>
+                          {{ item.title }}
+                       
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="download" >
+          <img #canvas>
+          <a #downloadLink></a>
+        </div>
+      </div>
+  
+
+<!-------Discusiion Forum--------->
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="discussion-forum" aria-labelledby="discussion-forumLabel">
+  <div class="offcanvas-header">
+    <h5 id="discussionHeading">
+      <div class="head-icon"><i class="fa fa-folder"></i></div> Covid Vaccine XYZ
+    </h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <app-discussion-forum></app-discussion-forum>
+  </div>
+</div>
+
+<!--------Add Goal--------->
+
+<div class="modal fade" id="add-goal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <app-add-product></app-add-product>
+</div>

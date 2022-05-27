@@ -1,0 +1,136 @@
+<app-header></app-header>
+
+<section class="contact-container bg-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <h2 class="mb-0">Get in touch</h2>
+                <p>No matter what question you have, we'll find the right person to help you solve it.</p>
+                <div class="mt-4 mb-3 con-box">
+                    <div class="d-flex mb-2 pb-2 border-bottom">
+                        <span class="pe-2"><strong>Address: </strong></span>
+                        <p class="mb-0">74 Berkeley Circle, Basking Ridge, New Jersey, 07920 USA</p>
+                    </div>
+                    <div class="d-flex mb-2 pb-2 border-bottom">
+                        <mat-icon>call</mat-icon>
+                        <p class="mb-0 ms-2"> +1 9089637747</p>
+                    </div>
+                    <h5 class="h5-head">Support</h5>
+                    <div class="d-flex">
+                        <mat-icon>email</mat-icon>
+                        <p class="mb-0 ms-2"> lylli.cares@lyllilaunchtools.com</p>
+                    </div>
+                    <h5 class="h5-head">Sales</h5>
+                    <div class="d-flex">
+                        <mat-icon>email</mat-icon>
+                        <p class="mb-0 ms-2"> lylli@lyllilaunchtools.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 offset-lg-1">
+                <div class="contactform">
+                    <h2>Submit Your Query</h2>
+                    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>First Name <span class="text-danger">*</span></label>
+                                    <input class="form-control" formControlName="firstName"
+                                        [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"
+                                        placeholder="Enter first name" required />
+                                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                                        <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Last Name<span class="text-danger">*</span></label>
+                                    <input class="form-control" formControlName="lastName" placeholder="Enter last name"
+                                        [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" required />
+                                    <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                                        <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group phonenumber">
+                            <label for="MobileNo">Cell Number</label>
+                         
+                                <ngx-intl-tel-input [cssClass]="'custom'" class="form-control" [preferredCountries]="preferredCountries"
+                                [enableAutoCountrySelect]="false" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                                [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+                                [selectedCountryISO]="CountryISO.India" 
+                                 formControlName="MobileNo" 
+                                placeholder="Enter Cell Number" [phoneValidation]="true"
+                                [ngClass]="{ 'is-invalid': submitted && f.MobileNo.errors }">
+                              </ngx-intl-tel-input>
+
+                            <div *ngIf="submitted &&  f.MobileNo.errors">
+                                <div class="text-danger" *ngIf="f.MobileNo.errors.minlength">Mobile Number must be 10
+                                    digit
+                                </div>
+                                <div class="text-danger" *ngIf="f.MobileNo.errors.maxLength">Mobile Number miximum 10
+                                    digit
+                                </div>
+                                <div class="text-danger" *ngIf="f.MobileNo.errors.pattern">Enter only number.</div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label>Email <span class="text-danger">*</span></label>
+                            <input class="form-control" formControlName="email" placeholder="Enter your email"
+                                [ngClass]="{ 'is-invalid': submitted && f.email.errors }" required />
+                            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                <div *ngIf="f.email.errors.required">Email Id is required</div>
+                                <div *ngIf="f.email.errors.email">Email must be a valid email
+                                    address</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Company Name<span class="text-danger">*</span></label>
+                            <input class="form-control" formControlName="companyName" placeholder="Enter company name"
+                                [ngClass]="{ 'is-invalid': submitted && f.companyName.errors }" required />
+                            <div *ngIf="submitted && f.companyName.errors" class="invalid-feedback">
+                                <div *ngIf="f.companyName.errors.required">company Name is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>What do you need help with? <span class="text-danger">*</span></label>
+                            <select class="form-select" formControlName="categoryType"
+                                [ngClass]="{ 'is-invalid': submitted && f.categoryType.errors }" required>
+                                <option selected value="undefine" disabled>Choose</option>
+                                <option *ngFor="let cat of categaoryList" [value]='cat.value'>{{cat.value}}</option>
+
+                            </select>
+                            <div *ngIf="submitted && f.categoryType.errors" class="invalid-feedback">
+                                <div *ngIf="f.categoryType.errors.required">Category Type is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Details <span class="text-danger">*</span></label>
+                            <textarea class="form-control" formControlName="description" rows="4"
+                                [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                            <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                <div *ngIf="f.description.errors.required">Description is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <re-captcha  (resolved)="resolved($event)" formControlName="recaptchaReactive"
+                                siteKey="6LeSAykeAAAAAOTIyhE5nHEXZ2XXPqQBNAztu5Rk">
+                            </re-captcha>
+                        </div>
+                        <div class="subbtn text-center"><button type="submit" [disabled]='!contactForm.valid'
+                                class="btn btn-primary px-5 rounded-pill">Submit</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<app-footer></app-footer>
